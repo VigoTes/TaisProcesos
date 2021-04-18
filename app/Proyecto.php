@@ -13,14 +13,14 @@ class Proyecto extends Model
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = [ 'codProyecto', 'codigoPresupuestal', 'nombre', 'codEmpleadoDirector', 'activo', 'codSedePrincipal',
+    protected $fillable = [ 'codProyecto', 'codigoPresupuestal', 'nombre', 'idEmpleadoDirector', 'activo', 'codSedePrincipal',
      'nombreLargo', 'codEntidadFinanciera', 'codPEI', 'objetivoGeneral', 'fechaInicio', 'importePresupuestoTotal', 
      'codMonedaPresupuestoTotal', 'importeContrapartidaCedepas', 'codMonedaContrapartidaCedepas', 
      'importeContrapartidaPoblacionBeneficiaria', 'codMonedaContrapartidaPoblacionBeneficiaria', 'importeContrapartidaOtros', 
      'codMonedaContrapartidaOtros', 'codTipoFinanciamiento'];
     
     public function getGerente(){
-        return Empleado::findOrFail($this->codEmpleadoDirector);
+        return Empleado::findOrFail($this->idEmpleadoDirector);
 
     }
     public function estaActivo(){
@@ -53,9 +53,9 @@ class Proyecto extends Model
         $detalles=ProyectoContador::where('codProyecto','=',$this->codProyecto)->get();
         $arr=[];
         foreach ($detalles as $itemdetalle) {
-            $arr[]=$itemdetalle->codEmpleadoContador;
+            $arr[]=$itemdetalle->idEmpleadoContador;
         }
-        return Empleado::whereIn('codEmpleado',$arr)->get();
+        return Empleado::whereIn('idEmpleado',$arr)->get();
     }
 
     public function nroContadores(){
@@ -64,7 +64,7 @@ class Proyecto extends Model
     }
 
     public function evaluador(){
-        $empleado=Empleado::find($this->codEmpleadoDirector);
+        $empleado=Empleado::find($this->idEmpleadoDirector);
         return $empleado;
     }
 

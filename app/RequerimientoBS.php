@@ -18,7 +18,7 @@ class RequerimientoBS extends Model
 
     // le indicamos los campos de la tabla 
     protected $fillable = ['codigoCedepas','fechaHoraEmision','fechaHoraRevision','fechaHoraAtendido','fechaHoraConta',
-    'codEmpleadoSolicitante','codEmpleadoEvaluador','codEmpleadoAdministrador','codEmpleadoContador',
+    'idEmpleadoSolicitante','idEmpleadoEvaluador','idEmpleadoAdministrador','idEmpleadoContador',
     'justificacion','codEstadoRequerimiento','cantArchivosEmp','terminacionesArchivosEmp','cantArchivosAdmin','terminacionesArchivosAdmin','codProyecto','observacion'];
 
     //el cuarto archivo del empleado del requerimiento 124
@@ -386,17 +386,17 @@ class RequerimientoBS extends Model
         return DetalleRequerimientoBS::where('codRequerimiento','=',$this->codRequerimiento)->get();
     }
     public function getEmpleadoSolicitante(){
-        $empleado=Empleado::find($this->codEmpleadoSolicitante);
+        $empleado=Empleado::find($this->idEmpleadoSolicitante);
         return $empleado;
     }
     public function getEmpleadoEvaluador(){
-        $empleado=Empleado::find($this->codEmpleadoEvaluador);
+        $empleado=Empleado::find($this->idEmpleadoEvaluador);
         return $empleado;
     }
 
 
     public function evaluador(){
-        $empleado=Empleado::find($this->codEmpleadoEvaluador);
+        $empleado=Empleado::find($this->idEmpleadoEvaluador);
         return $empleado;
     }
     public function getProyecto(){

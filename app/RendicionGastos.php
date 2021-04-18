@@ -21,7 +21,7 @@ class RendicionGastos extends Model
     protected $fillable = ['codSolicitud','codigoCedepas','totalImporteRecibido',
     'totalImporteRendido','saldoAFavorDeEmpleado',
     'resumenDeActividad','codEstadoRendicion','fechaHoraRendicion',
-    'cantArchivos','terminacionesArchivos','codEmpleadoEvaluador'];
+    'cantArchivos','terminacionesArchivos','idEmpleadoEvaluador'];
 
 
 
@@ -118,10 +118,10 @@ class RendicionGastos extends Model
     }
 
     public function getNombreEvaluador(){
-        if($this->codEmpleadoEvaluador == null)
+        if($this->idEmpleadoEvaluador == null)
             return "";
         
-        $ev = Empleado::findOrFail($this->codEmpleadoEvaluador);
+        $ev = Empleado::findOrFail($this->idEmpleadoEvaluador);
         return $ev->getNombreCompleto();
     }
 
@@ -415,7 +415,7 @@ class RendicionGastos extends Model
                     select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
                         from rendicion_gastos RG
                             inner join solicitud_fondos SF USING(codSolicitud)
-                            inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                            inner join empleado E on E.idEmpleado = SF.idEmpleadoSolicitante 
                             where RG.fechaHoraRendicion > "'.$fechaI.'" and RG.fechaHoraRendicion < "'.$fechaF.'" 
                             GROUP BY E.nombres;
                             ');
@@ -445,7 +445,7 @@ class RendicionGastos extends Model
         select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
             from rendicion_gastos RG
                 inner join solicitud_fondos SF USING(codSolicitud)
-                inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                inner join empleado E on E.idEmpleado = SF.idEmpleadoSolicitante 
                 where RG.fechaHoraRendicion > "'.$fechaI.'" and RG.fechaHoraRendicion < "'.$fechaF.'" 
                 and SF.codSede = "'.$sede->codSede.'"
                 GROUP BY E.nombres;

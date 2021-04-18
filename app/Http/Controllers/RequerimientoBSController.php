@@ -46,9 +46,9 @@ class RequerimientoBSController extends Controller
         $empleado = Empleado::getEmpleadoLogeado();
 
         if($codProyectoBuscar==0){
-            $requerimientos= RequerimientoBS::where('codEmpleadoSolicitante','=',$empleado->codEmpleado);
+            $requerimientos= RequerimientoBS::where('idEmpleadoSolicitante','=',$empleado->idEmpleado);
         }else
-            $requerimientos= RequerimientoBS::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)->where('codProyecto','=',$codProyectoBuscar);
+            $requerimientos= RequerimientoBS::where('idEmpleadoSolicitante','=',$empleado->idEmpleado)->where('codProyecto','=',$codProyectoBuscar);
             
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             //$fechaFin='es mayor';
@@ -119,7 +119,7 @@ class RequerimientoBSController extends Controller
             DB::beginTransaction(); 
             $requerimiento=new RequerimientoBS();
             $requerimiento->codEstadoRequerimiento=1;
-            $requerimiento->codEmpleadoSolicitante=Empleado::getEmpleadoLogeado()->codEmpleado;
+            $requerimiento->idEmpleadoSolicitante=Empleado::getEmpleadoLogeado()->idEmpleado;
         
             $requerimiento->codProyecto = $request->codProyecto;
             $requerimiento->fechaHoraEmision=Carbon::now();
@@ -256,7 +256,7 @@ class RequerimientoBSController extends Controller
             $requerimiento=RequerimientoBS::findOrFail($request->codRequerimiento);
 
             
-            if($requerimiento->codEmpleadoSolicitante != Empleado::getEmpleadoLogeado()->codEmpleado)
+            if($requerimiento->idEmpleadoSolicitante != Empleado::getEmpleadoLogeado()->idEmpleado)
             return redirect()->route('RequerimientoBS.Empleado.Listar')
                 ->with('datos','Error: la reposicion no puede ser actualizada por un empleado distinto al que la creó.');
 
@@ -386,7 +386,7 @@ class RequerimientoBSController extends Controller
     /**GERENTE DE PROYECTOS */
     public function listarOfGerente(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -411,8 +411,8 @@ class RequerimientoBSController extends Controller
             $requerimientos=RequerimientoBS::where('codProyecto','=',$codProyectoBuscar);
         }
         
-        if($codEmpleadoBuscar!=0){
-            $requerimientos=$requerimientos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        if($idEmpleadoBuscar!=0){
+            $requerimientos=$requerimientos->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
         
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
@@ -431,7 +431,7 @@ class RequerimientoBSController extends Controller
         $fechaInicio=$request->fechaInicio;
         $fechaFin=$request->fechaFin;
 
-        return view('RequerimientoBS.Gerente.ListarRequerimientos',compact('requerimientos','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados','fechaInicio','fechaFin'));
+        return view('RequerimientoBS.Gerente.ListarRequerimientos',compact('requerimientos','empleado','codProyectoBuscar','idEmpleadoBuscar','proyectos','empleados','fechaInicio','fechaFin'));
     }
 
     public function viewGeren($id){
@@ -454,7 +454,7 @@ class RequerimientoBSController extends Controller
     public function listarOfAdministrador(Request $request){
         
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -478,8 +478,8 @@ class RequerimientoBSController extends Controller
             $requerimientos=RequerimientoBS::where('codProyecto','=',$codProyectoBuscar);
         }
         
-        if($codEmpleadoBuscar!=0){
-            $requerimientos=$requerimientos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        if($idEmpleadoBuscar!=0){
+            $requerimientos=$requerimientos->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
         
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
@@ -499,7 +499,7 @@ class RequerimientoBSController extends Controller
         $fechaFin=$request->fechaFin;
 
         return view('RequerimientoBS.Administrador.ListarRequerimientos',
-            compact('requerimientos','empleado','codProyectoBuscar','codEmpleadoBuscar',
+            compact('requerimientos','empleado','codProyectoBuscar','idEmpleadoBuscar',
                     'proyectos','empleados','fechaInicio','fechaFin'));
     }
 
@@ -508,7 +508,7 @@ class RequerimientoBSController extends Controller
     /**CONTADOR */
     public function listarOfConta(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -516,11 +516,11 @@ class RequerimientoBSController extends Controller
 
         
         $empleado=Empleado::getEmpleadoLogeado();
-        $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
+        $detalles=ProyectoContador::where('idEmpleadoContador','=',$empleado->idEmpleado)->get();
         if(count($detalles)==0)
             return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
         
-        //$proyectos=Proyecto::where('codEmpleadoConta','=',$empleado->codEmpleado)->get();
+        //$proyectos=Proyecto::where('idEmpleadoConta','=',$empleado->idEmpleado)->get();
         $arr2=[];
         foreach ($detalles as $itemproyecto) {
             $arr2[]=$itemproyecto->codProyecto;
@@ -534,8 +534,8 @@ class RequerimientoBSController extends Controller
         }else{
             $requerimientos=RequerimientoBS::whereIn('codEstadoRequerimiento',$arr)->where('codProyecto','=',$codProyectoBuscar);
         }
-        if($codEmpleadoBuscar!=0){
-            $requerimientos=$requerimientos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        if($idEmpleadoBuscar!=0){
+            $requerimientos=$requerimientos->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             //$fechaFin='es mayor';
@@ -552,7 +552,7 @@ class RequerimientoBSController extends Controller
         $fechaInicio=$request->fechaInicio;
         $fechaFin=$request->fechaFin;
 
-        return view('RequerimientoBS.Contador.ListarRequerimientos',compact('requerimientos','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados','fechaInicio','fechaFin'));
+        return view('RequerimientoBS.Contador.ListarRequerimientos',compact('requerimientos','empleado','codProyectoBuscar','idEmpleadoBuscar','proyectos','empleados','fechaInicio','fechaFin'));
     }
     public function viewConta($id){
       
@@ -578,7 +578,7 @@ class RequerimientoBSController extends Controller
             
 
             $requerimiento->codEstadoRequerimiento =  RequerimientoBS::getCodEstado('Aprobada');
-            $requerimiento->codEmpleadoEvaluador = Empleado::getEmpleadoLogeado()->codEmpleado;
+            $requerimiento->idEmpleadoEvaluador = Empleado::getEmpleadoLogeado()->idEmpleado;
             $requerimiento->justificacion = $request->justificacion;
             $requerimiento->fechaHoraRevision=new DateTime();
             $requerimiento->save();
@@ -616,11 +616,11 @@ class RequerimientoBSController extends Controller
         
 
             if($empleado->esJefeAdmin()){
-                $requerimiento->codEmpleadoAdministrador=$empleado->codEmpleado;
+                $requerimiento->idEmpleadoAdministrador=$empleado->idEmpleado;
                 $requerimiento->fechaHoraAtendido=new DateTime();
             }
             if($empleado->esGerente()){
-                $requerimiento->codEmpleadoEvaluador=$empleado->codEmpleado;
+                $requerimiento->idEmpleadoEvaluador=$empleado->idEmpleado;
                 $requerimiento->fechaHoraRevision=new DateTime();
             }
 
@@ -651,11 +651,11 @@ class RequerimientoBSController extends Controller
 
             
             if($empleado->esJefeAdmin()){
-                $requerimiento->codEmpleadoAdministrador=$empleado->codEmpleado;
+                $requerimiento->idEmpleadoAdministrador=$empleado->idEmpleado;
                 $requerimiento->fechaHoraAtendido=new DateTime();
             }
             if($empleado->esGerente()){
-                $requerimiento->codEmpleadoEvaluador=$empleado->codEmpleado;
+                $requerimiento->idEmpleadoEvaluador=$empleado->idEmpleado;
                 $requerimiento->fechaHoraRevision=new DateTime();
             }
 
@@ -708,7 +708,7 @@ class RequerimientoBSController extends Controller
 
 
             $requerimiento->codEstadoRequerimiento = RequerimientoBS::getCodEstado('Atendida');
-            $requerimiento->codEmpleadoAdministrador = Empleado::getEmpleadoLogeado()->codEmpleado;
+            $requerimiento->idEmpleadoAdministrador = Empleado::getEmpleadoLogeado()->idEmpleado;
             $requerimiento->fechaHoraAtendido = Carbon::now();
 
             $requerimiento->save();
@@ -775,7 +775,7 @@ class RequerimientoBSController extends Controller
             $requerimiento->codEstadoRequerimiento = RequerimientoBS::getCodEstado('Contabilizada');
             $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-            $requerimiento->codEmpleadoContador = $empleadoLogeado->codEmpleado;
+            $requerimiento->idEmpleadoContador = $empleadoLogeado->idEmpleado;
             $requerimiento->fechaHoraConta=new DateTime();
             
             $requerimiento->save();

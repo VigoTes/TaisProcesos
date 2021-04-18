@@ -13,6 +13,6 @@ class ProyectoContador extends Model
     protected $primaryKey = 'codProyectoContador';
 
     protected $fillable = [
-        'codEmpleadoContador','codProyecto'
+        'idEmpleadoContador','codProyecto'
     ];
 }

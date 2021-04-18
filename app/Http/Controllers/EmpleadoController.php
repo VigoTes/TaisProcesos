@@ -50,7 +50,7 @@ class EmpleadoController extends Controller
         $usuario->save();
         //Empleado
         $empleado=new Empleado();
-        $empleado->codUsuario=$usuario->codUsuario;
+        $empleado->idUsuario=$usuario->idUsuario;
         $empleado->nombres=$request->nombres;
         $empleado->apellidos=$request->apellidos;
         //$empleado->direccion=$request->direccion;
@@ -105,7 +105,7 @@ class EmpleadoController extends Controller
     public function guardarEditarUsuario(Request $request){
         //Usuario
         //$usuario=new User();
-        $empleado=Empleado::find($request->codEmpleado);
+        $empleado=Empleado::find($request->idEmpleado);
         $usuario=$empleado->usuario();
         $usuario->usuario=$request->usuario;
         $usuario->password=hash::make($request->contraseña);
@@ -115,7 +115,7 @@ class EmpleadoController extends Controller
         return redirect()->route('GestionUsuarios.Listar');
     }
     public function guardarEditarEmpleado(Request $request){
-        $empleado=Empleado::find($request->codEmpleado);
+        $empleado=Empleado::find($request->idEmpleado);
 
         $empleado->nombres=$request->nombres;
         $empleado->apellidos=$request->apellidos;
@@ -162,7 +162,7 @@ class EmpleadoController extends Controller
 
 
         try {
-            $empleado=Empleado::find($request->codEmpleado);
+            $empleado=Empleado::find($request->idEmpleado);
             $hashp = $empleado->usuario()->password;
 
             if(!password_verify($request->contraseñaActual1,$hashp))
@@ -188,7 +188,7 @@ class EmpleadoController extends Controller
     }
     public function guardarDPersonales(Request $request){
 
-        $empleado=Empleado::find($request->codEmpleado);
+        $empleado=Empleado::find($request->idEmpleado);
         $empleado->nombres=$request->nombres;
         $empleado->apellidos=$request->apellidos;
         $empleado->dni=$request->DNI;

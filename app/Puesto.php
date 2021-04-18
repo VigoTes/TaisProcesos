@@ -6,30 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Puesto extends Model
 {
-    public $timestamps = false;
+    protected $table = "puesto";
+    protected $primaryKey = "idPuesto";
 
-    protected $table = 'puesto';
+    public $timestamps = false;  //para que no trabaje con los campos fecha 
 
-    protected $primaryKey = 'codPuesto';
+        // le indicamos los campos de la tabla 
+        protected $fillable = ['nroEnArea','nombre','idArea'];
 
-    protected $fillable = [
-        'nombre','estado'
-    ];
+        public function proceso(){
+            return $this->hasOne('App\Area','idArea','idArea');
+        }
 
-    public function getActivo(){
-        if($this->estado=='1')
-            return "SÍ";
+        public function nombre(){
+            return $this->nombre;
+        }
+        public function id(){
+            return $this->idPuesto;
+        }
 
-        return "NO";
-    }
-    public static function getCodigo($nombrePuesto){
-        $lista = Puesto::where('nombre','=',$nombrePuesto)->get();
-        if(count($lista)==0)
-            return "";
-        return $lista[0]->codPuesto;
-    }
-
-    public function area(){//singular pq un producto es de una cateoria
-        return $this->hasOne('App\Area','codArea','codArea');//el tercer parametro es de Producto
-    }
 }

@@ -80,12 +80,12 @@ class SolicitudFondosController extends Controller
 
         if($codProyectoBuscar==0){
             $listaSolicitudesFondos = SolicitudFondos::
-            where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+            where('idEmpleadoSolicitante','=',$empleado->idEmpleado)
             ->orderBy('fechaHoraEmision','DESC');
        
         }else
             $listaSolicitudesFondos = SolicitudFondos::
-            where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+            where('idEmpleadoSolicitante','=',$empleado->idEmpleado)
             ->orderBy('fechaHoraEmision','DESC')
             ->where('codProyecto','=',$codProyectoBuscar);
         
@@ -120,7 +120,7 @@ class SolicitudFondosController extends Controller
     /* FUNCION ACTIVADA POR UN Gerente */
     public function listarSolicitudesParaGerente(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -142,9 +142,9 @@ class SolicitudFondosController extends Controller
                 ->where('codProyecto','=',$codProyectoBuscar)
                 ->orderBy('fechaHoraEmision','DESC');
         }
-        if($codEmpleadoBuscar!=0){
+        if($idEmpleadoBuscar!=0){
             $listaSolicitudesFondos=$listaSolicitudesFondos
-                ->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar)
+                ->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar)
                 ->orderBy('fechaHoraEmision','DESC');
         }
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
@@ -163,7 +163,7 @@ class SolicitudFondosController extends Controller
         $fechaInicio=$request->fechaInicio;
         $fechaFin=$request->fechaFin;
 
-        return view('SolicitudFondos.Gerente.ListarSolicitudes',compact('codEmpleadoBuscar','codProyectoBuscar',
+        return view('SolicitudFondos.Gerente.ListarSolicitudes',compact('idEmpleadoBuscar','codProyectoBuscar',
             'listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados','fechaInicio','fechaFin'));
     }
 
@@ -175,7 +175,7 @@ class SolicitudFondosController extends Controller
 */
     public function listarSolicitudesParaJefe(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -183,7 +183,7 @@ class SolicitudFondosController extends Controller
 
         
         $empleado = Empleado::getEmpleadoLogeado();
-        /* $empleados = Empleado::where('codUsuario','=',$codUsuario)
+        /* $empleados = Empleado::where('idUsuario','=',$idUsuario)
         ->get();
         $empleado = $empleados[0]; */
         $estados =[];
@@ -196,8 +196,8 @@ class SolicitudFondosController extends Controller
         if($codProyectoBuscar!=0){
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('codProyecto','=',$codProyectoBuscar);
         }
-        if($codEmpleadoBuscar!=0){
-            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        if($idEmpleadoBuscar!=0){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('fechaHoraEmision','>',$fechaInicio)
@@ -214,12 +214,12 @@ class SolicitudFondosController extends Controller
         $fechaInicio=$request->fechaInicio;
         $fechaFin=$request->fechaFin;
 
-        return view('SolicitudFondos.Administracion.ListarSolicitudes',compact('empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado','fechaInicio','fechaFin'));
+        return view('SolicitudFondos.Administracion.ListarSolicitudes',compact('empleados','proyectos','idEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado','fechaInicio','fechaFin'));
     }
 
     public function listarSolicitudesParaContador(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -233,7 +233,7 @@ class SolicitudFondosController extends Controller
         array_push($estados,SolicitudFondos::getCodEstado('Contabilizada') );
 
         //para ver que proyectos tiene el Contador
-        $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
+        $detalles=ProyectoContador::where('idEmpleadoContador','=',$empleado->idEmpleado)->get();
         if(count($detalles)==0)
             return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
          
@@ -249,8 +249,8 @@ class SolicitudFondosController extends Controller
         }else{
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('codProyecto','=',$codProyectoBuscar);
         }
-        if($codEmpleadoBuscar!=0){
-            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        if($idEmpleadoBuscar!=0){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('fechaHoraEmision','>',$fechaInicio)
@@ -268,7 +268,7 @@ class SolicitudFondosController extends Controller
         $fechaFin=$request->fechaFin;
 
         return view('SolicitudFondos.Contador.ListarSolicitudes',
-            compact('listaSolicitudesFondos','listaBancos','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar','fechaInicio','fechaFin'));
+            compact('listaSolicitudesFondos','listaBancos','empleado','empleados','proyectos','idEmpleadoBuscar','codProyectoBuscar','fechaInicio','fechaFin'));
     
     }
 
@@ -323,7 +323,7 @@ class SolicitudFondosController extends Controller
             $solicitud->observacion = '';
             $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-            $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $solicitud->idEmpleadoEvaluador = $empleadoLogeado->idEmpleado;
             $solicitud->fechaHoraRevisado = Carbon::now();
             $solicitud->justificacion = $request->justificacion;
             $solicitud->save();
@@ -368,7 +368,7 @@ class SolicitudFondosController extends Controller
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Contabilizada');
             $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-            $solicitud->codEmpleadoContador = $empleadoLogeado->codEmpleado;
+            $solicitud->idEmpleadoContador = $empleadoLogeado->idEmpleado;
             
             $solicitud->save();
             DB::commit();
@@ -410,7 +410,7 @@ class SolicitudFondosController extends Controller
 
 
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Abonada');
-            $solicitud->codEmpleadoAbonador = Empleado::getEmpleadoLogeado()->codEmpleado;
+            $solicitud->idEmpleadoAbonador = Empleado::getEmpleadoLogeado()->idEmpleado;
             $solicitud->fechaHoraAbonado = Carbon::now();
             $solicitud->save();
             
@@ -466,7 +466,7 @@ class SolicitudFondosController extends Controller
            
             $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-            $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $solicitud->idEmpleadoEvaluador = $empleadoLogeado->idEmpleado;
             $solicitud->fechaHoraRevisado = Carbon::now();
 
 
@@ -497,7 +497,7 @@ class SolicitudFondosController extends Controller
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Rechazada');
             
             $empleadoLogeado = Empleado::getEmpleadoLogeado();
-            $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $solicitud->idEmpleadoEvaluador = $empleadoLogeado->idEmpleado;
             $solicitud->fechaHoraRevisado = Carbon::now();
 
 
@@ -606,7 +606,7 @@ class SolicitudFondosController extends Controller
             $solicitud->codProyecto = $request->ComboBoxProyecto;
             $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
-            $solicitud->codEmpleadoSolicitante = $empleadoLogeado->codEmpleado;
+            $solicitud->idEmpleadoSolicitante = $empleadoLogeado->idEmpleado;
 
             $solicitud->fechaHoraEmision =  Carbon::now();
             $solicitud->totalSolicitado = $request->total;
@@ -688,7 +688,7 @@ class SolicitudFondosController extends Controller
                 return redirect()->route('solicitudFondos.ListarSolicitudes')
                     ->with('datos','ERROR: La solicitud no puede ser actualizada.');
 
-            if(Empleado::getEmpleadoLogeado()->codEmpleado != $solicitud->codEmpleadoSolicitante)
+            if(Empleado::getEmpleadoLogeado()->idEmpleado != $solicitud->idEmpleadoSolicitante)
                 return redirect()->route('solicitudFondos.ListarSolicitudes')
                     ->with('datos','ERROR: La solicitud no puede ser actualizada por un empleado que no la creó.');
 
@@ -791,7 +791,7 @@ class SolicitudFondosController extends Controller
 
         
         $listaSolicitudesFondos = SolicitudFondos::
-        where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+        where('idEmpleadoSolicitante','=',$empleado->idEmpleado)
             ->orderBy('codEstadoSolicitud','ASC')
             ->paginate();
 

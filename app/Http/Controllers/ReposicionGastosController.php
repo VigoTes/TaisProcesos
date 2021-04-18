@@ -87,10 +87,10 @@ class ReposicionGastosController extends Controller
 
         if($codProyectoBuscar==0){
             $reposiciones= ReposicionGastos::
-            where('codEmpleadoSolicitante','=',$empleado->codEmpleado);
+            where('idEmpleadoSolicitante','=',$empleado->idEmpleado);
         }else
             $reposiciones= ReposicionGastos::
-            where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+            where('idEmpleadoSolicitante','=',$empleado->idEmpleado)
                 ->where('codProyecto','=',$codProyectoBuscar);
             
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
@@ -162,8 +162,8 @@ class ReposicionGastosController extends Controller
             DB::beginTransaction(); 
             $reposicion=new ReposicionGastos();
             $reposicion->codEstadoReposicion=1;
-            $reposicion->codEmpleadoSolicitante=Empleado::getEmpleadoLogeado()->codEmpleado;
-            //$reposicion->codEmpleadoEvaluador=Proyecto::find($request->codProyecto)->codEmpleadoDirector;
+            $reposicion->idEmpleadoSolicitante=Empleado::getEmpleadoLogeado()->idEmpleado;
+            //$reposicion->idEmpleadoEvaluador=Proyecto::find($request->codProyecto)->idEmpleadoDirector;
             $reposicion->codProyecto=$request->codProyecto;
             $reposicion->codMoneda=$request->codMoneda;
      
@@ -266,7 +266,7 @@ class ReposicionGastosController extends Controller
             $reposicion=ReposicionGastos::findOrFail($request->codReposicionGastos);
 
 
-            if($reposicion->codEmpleadoSolicitante != Empleado::getEmpleadoLogeado()->codEmpleado)
+            if($reposicion->idEmpleadoSolicitante != Empleado::getEmpleadoLogeado()->idEmpleado)
             return redirect()->route('ReposicionGastos.Listar')
                 ->with('datos','Error: la reposicion no puede ser actualizada por un empleado distinto al que la creó.');
 
@@ -399,7 +399,7 @@ class ReposicionGastosController extends Controller
     /**GERENTE DE PROYECTOS */
     public function listarOfGerente(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -424,8 +424,8 @@ class ReposicionGastosController extends Controller
             $reposiciones=ReposicionGastos::where('codProyecto','=',$codProyectoBuscar);
         }
         
-        if($codEmpleadoBuscar!=0){
-            $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        if($idEmpleadoBuscar!=0){
+            $reposiciones=$reposiciones->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
         
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
@@ -445,7 +445,7 @@ class ReposicionGastosController extends Controller
         $fechaInicio=$request->fechaInicio;
         $fechaFin=$request->fechaFin;
 
-        return view('ReposicionGastos.Gerente.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados','fechaInicio','fechaFin'));
+        return view('ReposicionGastos.Gerente.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','idEmpleadoBuscar','proyectos','empleados','fechaInicio','fechaFin'));
     }
 
 
@@ -486,7 +486,7 @@ class ReposicionGastosController extends Controller
     /**JEFE DE ADMINISTRACION */
     public function listarOfJefe(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -500,7 +500,7 @@ class ReposicionGastosController extends Controller
         /*
         $arr2=[];
         foreach ($empleados as $itemempleado) {
-            $arr2[]=$itemempleado->codEmpleado;
+            $arr2[]=$itemempleado->idEmpleado;
         }
         */
         
@@ -509,9 +509,9 @@ class ReposicionGastosController extends Controller
             $reposiciones=$reposiciones->where('codProyecto','=',$codProyectoBuscar);
         
 
-        if($codEmpleadoBuscar!=0){
+        if($idEmpleadoBuscar!=0){
            
-            $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+            $reposiciones=$reposiciones->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
 
 
@@ -529,7 +529,7 @@ class ReposicionGastosController extends Controller
         $fechaInicio=$request->fechaInicio;
         $fechaFin=$request->fechaFin;
 
-        return view('ReposicionGastos.Jefe.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','proyectos','empleados','codEmpleadoBuscar','fechaInicio','fechaFin'));
+        return view('ReposicionGastos.Jefe.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','proyectos','empleados','idEmpleadoBuscar','fechaInicio','fechaFin'));
     }
 
 
@@ -545,7 +545,7 @@ class ReposicionGastosController extends Controller
     /**CONTADOR */
     public function listarOfConta(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -553,11 +553,11 @@ class ReposicionGastosController extends Controller
 
         
         $empleado=Empleado::getEmpleadoLogeado();
-        $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
+        $detalles=ProyectoContador::where('idEmpleadoContador','=',$empleado->idEmpleado)->get();
         if(count($detalles)==0)
             return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
          
-        //$proyectos=Proyecto::where('codEmpleadoConta','=',$empleado->codEmpleado)->get();
+        //$proyectos=Proyecto::where('idEmpleadoConta','=',$empleado->idEmpleado)->get();
         $arr2=[];
         foreach ($detalles as $itemproyecto) {
             $arr2[]=$itemproyecto->codProyecto;
@@ -571,8 +571,8 @@ class ReposicionGastosController extends Controller
         }else{
             $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->where('codProyecto','=',$codProyectoBuscar);
         }
-        if($codEmpleadoBuscar!=0){
-            $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        if($idEmpleadoBuscar!=0){
+            $reposiciones=$reposiciones->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             //$fechaFin='es mayor';
@@ -589,7 +589,7 @@ class ReposicionGastosController extends Controller
         $fechaInicio=$request->fechaInicio;
         $fechaFin=$request->fechaFin;
 
-        return view('ReposicionGastos.Contador.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados','fechaInicio','fechaFin'));
+        return view('ReposicionGastos.Contador.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','idEmpleadoBuscar','proyectos','empleados','fechaInicio','fechaFin'));
     }
     public function viewConta($id){
         $reposicion=ReposicionGastos::find($id);
@@ -614,7 +614,7 @@ class ReposicionGastosController extends Controller
 
 
             $reposicion->codEstadoReposicion =  ReposicionGastos::getCodEstado('Aprobada');
-            $reposicion->codEmpleadoEvaluador=Empleado::getEmpleadoLogeado()->codEmpleado;
+            $reposicion->idEmpleadoEvaluador=Empleado::getEmpleadoLogeado()->idEmpleado;
             $reposicion->resumen = $request->resumen;
             $reposicion->fechaHoraRevisionGerente=new DateTime();
             $reposicion->save();
@@ -654,7 +654,7 @@ class ReposicionGastosController extends Controller
 
 
             $reposicion->codEstadoReposicion=ReposicionGastos::getCodEstado('Abonada');
-            $reposicion->codEmpleadoAdmin=Empleado::getEmpleadoLogeado()->codEmpleado;
+            $reposicion->idEmpleadoAdmin=Empleado::getEmpleadoLogeado()->idEmpleado;
             $reposicion->fechaHoraRevisionAdmin=new DateTime();
             $reposicion->save();
             DB::commit();
@@ -684,15 +684,15 @@ class ReposicionGastosController extends Controller
 
             
             if($empleado->esJefeAdmin()){
-                $reposicion->codEmpleadoAdmin=Empleado::getEmpleadoLogeado()->codEmpleado;
+                $reposicion->idEmpleadoAdmin=Empleado::getEmpleadoLogeado()->idEmpleado;
                 $reposicion->fechaHoraRevisionAdmin=new DateTime();
             }/*
             if($empleado->esContador()){
-                $reposicion->codEmpleadoConta=Empleado::getEmpleadoLogeado()->codEmpleado;
+                $reposicion->idEmpleadoConta=Empleado::getEmpleadoLogeado()->idEmpleado;
                 $reposicion->fechaHoraRevisionConta=new DateTime();
             }*/
             if($empleado->esGerente()){
-                $reposicion->codEmpleadoEvaluador=Empleado::getEmpleadoLogeado()->codEmpleado;
+                $reposicion->idEmpleadoEvaluador=Empleado::getEmpleadoLogeado()->idEmpleado;
                 $reposicion->fechaHoraRevisionGerente=new DateTime();
             }
             $reposicion->codEstadoReposicion=ReposicionGastos::getCodEstado('Observada');
@@ -739,11 +739,11 @@ class ReposicionGastosController extends Controller
         
 
             if($empleado->esJefeAdmin()){
-                $reposicion->codEmpleadoAdmin=$empleado->codEmpleado;
+                $reposicion->idEmpleadoAdmin=$empleado->idEmpleado;
                 $reposicion->fechaHoraRevisionAdmin=new DateTime();
             }
             if($empleado->esGerente()){
-                $reposicion->codEmpleadoEvaluador=$empleado->codEmpleado;
+                $reposicion->idEmpleadoEvaluador=$empleado->idEmpleado;
                 $reposicion->fechaHoraRevisionGerente=new DateTime();
             }
 
@@ -791,7 +791,7 @@ class ReposicionGastosController extends Controller
 
 
             $reposicion->codEstadoReposicion =  ReposicionGastos::getCodEstado('Contabilizada');
-            $reposicion->codEmpleadoConta = Empleado::getEmpleadoLogeado()->codEmpleado;
+            $reposicion->idEmpleadoConta = Empleado::getEmpleadoLogeado()->idEmpleado;
             $reposicion->fechaHoraRevisionConta=new DateTime();
             $reposicion->save();
 

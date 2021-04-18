@@ -16,7 +16,7 @@ class ReposicionGastos extends Model
     const RaizCodigoCedepas = "REP";
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['codEstadoReposicion','codEmpleadoSolicitante','codEmpleadoEvaluador','codEmpleadoAdmin','codEmpleadoConta',
+    protected $fillable = ['codEstadoReposicion','idEmpleadoSolicitante','idEmpleadoEvaluador','idEmpleadoAdmin','idEmpleadoConta',
     'codProyecto','codMoneda','totalImporte',
     'fechaHoraEmision','codigoCedepas','girarAOrdenDe','codBanco','resumen',
     'fechaHoraRevisionGerente','fechaHoraRevisionAdmin','fechaHoraRevisionConta','observacion'];
@@ -440,12 +440,12 @@ class ReposicionGastos extends Model
     }
 
     public function getEmpleadoSolicitante(){
-        $empleado=Empleado::find($this->codEmpleadoSolicitante);
+        $empleado=Empleado::find($this->idEmpleadoSolicitante);
         return $empleado;
     }
 
     public function evaluador(){
-        $empleado=Empleado::find($this->codEmpleadoEvaluador);
+        $empleado=Empleado::find($this->idEmpleadoEvaluador);
         return $empleado;
     }
     public function getProyecto(){

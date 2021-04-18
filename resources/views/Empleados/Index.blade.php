@@ -19,7 +19,7 @@
           </button>
           
         </div>
-      @ENDIF
+      @endif
 
 
     <div class="col-md-2">

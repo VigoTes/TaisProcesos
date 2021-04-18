@@ -211,11 +211,11 @@ class ProyectoController extends Controller
         $contadoresSeleccionados=$proyecto->getContadores();
         $arr=[];
         foreach ($contadoresSeleccionados as $itemcontador) {
-            $arr[]=$itemcontador->codEmpleado;
+            $arr[]=$itemcontador->idEmpleado;
         }
         $contadores=Empleado
             ::where('codPuesto','=',Puesto::getCodigo('Contador'))
-            ->whereNotIn('codEmpleado',$arr)->get();
+            ->whereNotIn('idEmpleado',$arr)->get();
             
 
         return view('Proyectos.ContadoresProyecto',compact('proyecto','contadores','contadoresSeleccionados'));
@@ -224,14 +224,14 @@ class ProyectoController extends Controller
     function agregarContador(Request $request){
         $detalle=new ProyectoContador();
         $detalle->codProyecto=$request->codProyecto;
-        $detalle->codEmpleadoContador=$request->codEmpleadoConta;
+        $detalle->idEmpleadoContador=$request->idEmpleadoConta;
         $detalle->save();
 
         return redirect()->route('GestiónProyectos.ListarContadores',$request->codProyecto);
     }
 
     function eliminarContador($id){
-        $detalle=ProyectoContador::where('codEmpleadoContador','=',$id)->get();
+        $detalle=ProyectoContador::where('idEmpleadoContador','=',$id)->get();
         $detalle[0]->delete();
 
         return redirect()->route('GestiónProyectos.ListarContadores',$detalle[0]->codProyecto);
@@ -245,9 +245,9 @@ class ProyectoController extends Controller
             $proyecto=Proyecto::findOrFail($arr[0]);
             $gerente=Empleado::findOrFail($arr[1]);
             if($arr[2]==1){
-                $proyecto->codEmpleadoDirector=$gerente->codEmpleado;
+                $proyecto->idEmpleadoDirector=$gerente->idEmpleado;
             }else{
-                $proyecto->codEmpleadoConta=$gerente->codEmpleado;
+                $proyecto->idEmpleadoConta=$gerente->idEmpleado;
             }
             $proyecto->save();
             DB::commit();
@@ -271,7 +271,7 @@ class ProyectoController extends Controller
         foreach ($proyectos as $itemproyecto) {
             foreach ($contadores as $itemcontador) {
                 $detalle=new ProyectoContador();
-                $detalle->codEmpleadoContador=$itemcontador->codEmpleado;
+                $detalle->idEmpleadoContador=$itemcontador->idEmpleado;
                 $detalle->codProyecto=$itemproyecto->codProyecto;
                 $detalle->save();
             }

@@ -74,7 +74,7 @@ class RendicionGastosController extends Controller
 
     public function listarContador(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -91,7 +91,7 @@ class RendicionGastosController extends Controller
         }
 
         //proyectos del Contador
-        $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
+        $detalles=ProyectoContador::where('idEmpleadoContador','=',$empleado->idEmpleado)->get();
         if(count($detalles)==0)
             return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
          
@@ -113,8 +113,8 @@ class RendicionGastosController extends Controller
         }else{
             $listaRendiciones=$listaRendiciones->whereIn('codSolicitud',$arr1);
         }
-        if($codEmpleadoBuscar!=0){
-            $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        if($idEmpleadoBuscar!=0){
+            $listaRendiciones=$listaRendiciones->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             //$fechaFin='es mayor';
@@ -140,14 +140,14 @@ class RendicionGastosController extends Controller
 
 
 
-        return view('RendicionGastos.Contador.ListarRendiciones',compact('listaRendiciones','empleado','codEmpleadoBuscar','codProyectoBuscar','empleados','proyectos','fechaInicio','fechaFin'));
+        return view('RendicionGastos.Contador.ListarRendiciones',compact('listaRendiciones','empleado','idEmpleadoBuscar','codProyectoBuscar','empleados','proyectos','fechaInicio','fechaFin'));
     }
 
 
     //retorna todas las rendiciones, tienen prioridad de ordenamiento las que están esperando reposicion
     public function listarJefeAdmin(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -159,7 +159,7 @@ class RendicionGastosController extends Controller
         $empleados=Empleado::where('codSede','=',$empleado->codSede)->get();
         $arr2=[];
         foreach ($empleados as $itemempleado) {
-            $arr2[]=$itemempleado->codEmpleado;
+            $arr2[]=$itemempleado->idEmpleado;
         }
 
         //solicitudes de un proyecto (filtro)
@@ -173,10 +173,10 @@ class RendicionGastosController extends Controller
         if($codProyectoBuscar!=0){
             $listaRendiciones=$listaRendiciones->whereIn('codSolicitud',$arr1);
         }
-        if($codEmpleadoBuscar==0){
-            $listaRendiciones=$listaRendiciones->whereIn('codEmpleadoSolicitante',$arr2);
+        if($idEmpleadoBuscar==0){
+            $listaRendiciones=$listaRendiciones->whereIn('idEmpleadoSolicitante',$arr2);
         }else{
-            $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+            $listaRendiciones=$listaRendiciones->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             //$fechaFin='es mayor';
@@ -194,7 +194,7 @@ class RendicionGastosController extends Controller
         $fechaInicio=$request->fechaInicio;
         $fechaFin=$request->fechaFin;
         
-        return view('RendicionGastos.Administracion.ListarRendiciones',compact('listaRendiciones','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar','fechaInicio','fechaFin'));
+        return view('RendicionGastos.Administracion.ListarRendiciones',compact('listaRendiciones','empleado','empleados','proyectos','idEmpleadoBuscar','codProyectoBuscar','fechaInicio','fechaFin'));
         
     }
 
@@ -202,7 +202,7 @@ class RendicionGastosController extends Controller
     //lista todas las rendiciones del gerente (pertenecientes a los  proyectos que este lidera)
     public function listarDelGerente(Request $request){
         //filtros
-        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $idEmpleadoBuscar=$request->idEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
         // AÑO                  MES                 DIA
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
@@ -237,8 +237,8 @@ class RendicionGastosController extends Controller
         }else{
             $listaRendiciones=RendicionGastos::whereIn('codSolicitud',$arr1);
         }
-        if($codEmpleadoBuscar!=0){
-            $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        if($idEmpleadoBuscar!=0){
+            $listaRendiciones=$listaRendiciones->where('idEmpleadoSolicitante','=',$idEmpleadoBuscar);
         }
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             //$fechaFin='es mayor';
@@ -258,7 +258,7 @@ class RendicionGastosController extends Controller
         $fechaFin=$request->fechaFin;
 
 
-        return view('RendicionGastos.Gerente.ListarRendiciones',compact('listaRendiciones','empleado','proyectos','empleados','codEmpleadoBuscar','codProyectoBuscar','fechaInicio','fechaFin'));
+        return view('RendicionGastos.Gerente.ListarRendiciones',compact('listaRendiciones','empleado','proyectos','empleados','idEmpleadoBuscar','codProyectoBuscar','fechaInicio','fechaFin'));
         
     }
 
@@ -273,7 +273,7 @@ class RendicionGastosController extends Controller
 
         $empleado = Empleado::getEmpleadoLogeado();
         //primero agarramos las solicitudes del empleado logeado
-        //$listaSolicitudes = SolicitudFondos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)->get();
+        //$listaSolicitudes = SolicitudFondos::where('idEmpleadoSolicitante','=',$empleado->idEmpleado)->get();
 
         
         $listaSolicitudesPorRendir = $empleado->getSolicitudesPorRendir();
@@ -285,15 +285,15 @@ class RendicionGastosController extends Controller
         }
          
         $listaRendiciones = RendicionGastos::
-            where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado);
+            where('idEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->idEmpleado);
             
 
         if($codProyectoBuscar==0){
             $listaRendiciones= RendicionGastos::
-                where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado);
+                where('idEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->idEmpleado);
         }else
             $listaRendiciones= RendicionGastos::
-                where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado)
+                where('idEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->idEmpleado)
                 ->whereIn('codSolicitud',$arr);
 
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
@@ -328,7 +328,7 @@ class RendicionGastosController extends Controller
     public function ver($id){ 
         $rendicion = RendicionGastos::findOrFail($id);
         $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
-        $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
+        $empleado = Empleado::findOrFail($solicitud->idEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$solicitud->codSolicitud)->get();
         
@@ -340,7 +340,7 @@ class RendicionGastosController extends Controller
         $rendicion = RendicionGastos::findOrFail($id);
 
         $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
-        $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
+        $empleado = Empleado::findOrFail($solicitud->idEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
         return view('RendicionGastos.Administracion.VerRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));     
@@ -354,7 +354,7 @@ class RendicionGastosController extends Controller
         $rendicion = RendicionGastos::findOrFail($codRend);
         
         $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
-        $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
+        $empleado = Empleado::findOrFail($solicitud->idEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
         return view('RendicionGastos.Gerente.RevisarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));        
@@ -364,7 +364,7 @@ class RendicionGastosController extends Controller
     public function verContabilizar($id){ //le pasamos la id de la rend
         $rendicion = RendicionGastos::findOrFail($id);
         $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
-        $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
+        $empleado = Empleado::findOrFail($solicitud->idEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
 
         return view('RendicionGastos.Contador.ContabilizarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));
@@ -388,7 +388,7 @@ class RendicionGastosController extends Controller
                     ->with('datos','Error: la rendicion ya fue contabilizada o no se encuentra lsita para serlo.');
 
             $rendicion->codEstadoRendicion =  RendicionGastos::getCodEstado('Contabilizada');
-            $rendicion->codEmpleadoContador = Empleado::getEmpleadoLogeado()->codEmpleado;
+            $rendicion->idEmpleadoContador = Empleado::getEmpleadoLogeado()->idEmpleado;
             $rendicion->save();
 
             if( $vector[1] != "" )
@@ -432,7 +432,7 @@ class RendicionGastosController extends Controller
         $rendicion = RendicionGastos::findOrFail($id);
 
         $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
-        $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
+        $empleado = Empleado::findOrFail($solicitud->idEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
         return view('RendicionGastos.Gerente.RevisarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));
@@ -453,7 +453,7 @@ class RendicionGastosController extends Controller
 
             $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Aprobada');
             $empleadoLogeado = Empleado::getEmpleadoLogeado();
-            $rendicion->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $rendicion->idEmpleadoEvaluador = $empleadoLogeado->idEmpleado;
             $rendicion->fechaHoraRevisado = Carbon::now();
             
             $rendicion->resumenDeActividad = $request->resumen;
@@ -517,7 +517,7 @@ class RendicionGastosController extends Controller
             
             razon request:'.$textoObs);
             $empleadoLogeado = Empleado::getEmpleadoLogeado();
-            $rendicion->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $rendicion->idEmpleadoEvaluador = $empleadoLogeado->idEmpleado;
             $rendicion->fechaHoraRevisado = Carbon::now();
             
 
@@ -582,7 +582,7 @@ class RendicionGastosController extends Controller
 
             $rendicion = new RendicionGastos();
             $rendicion-> codSolicitud = $solicitud->codSolicitud;
-            $rendicion->codEmpleadoSolicitante = Empleado::getEmpleadoLogeado()->codEmpleado;
+            $rendicion->idEmpleadoSolicitante = Empleado::getEmpleadoLogeado()->idEmpleado;
             $rendicion-> totalImporteRecibido = $solicitud->totalSolicitado; //ESTE ES EL DE LA SOLICITUD
             $rendicion-> totalImporteRendido = $request->totalRendido;
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;

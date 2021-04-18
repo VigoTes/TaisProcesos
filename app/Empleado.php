@@ -13,22 +13,35 @@ use App\User;
 class Empleado extends Model
 {
     protected $table = "empleado";
-    protected $primaryKey ="codEmpleado";
+    protected $primaryKey ="idEmpleado";
 
     public $timestamps = false;  //para que no trabaje con los campos fecha 
 
     
     // le indicamos los campos de la tabla 
-    protected $fillable = ['codUsuario','nombres','apellidos','activo','codigoCedepas','dni','codPuesto','fechaRegistro','fechaDeBaja','codSede'];
+    protected $fillable = ['idUsuario','nombres','apellidos','activo','codigoCedepas','dni','codPuesto','fechaRegistro','fechaDeBaja','codSede'];
 
 
+    public function getEmpresasDelEmpleado(){
+        //aqui haremos la union de empresas
+        $relaciones = EmpresaUsuario::where('idEmpleado','=',$this->idEmpleado)->get();
+        //aqui ya tenemos la lista de empresas de ese usuario, pero solo con sus ids
+        $listaEmpresas = new Collection();
+        foreach($relaciones as $itemEmpresa){
+            $empresa = Empresa::findOrFail($itemEmpresa->idEmpresa);
+            $listaEmpresas->push($empresa);
+        }
+        
+
+        return $listaEmpresas;
+    }
 
 
     public function getSolicitudesPorRendir(){
         $vector = [SolicitudFondos::getCodEstado('Abonada'),SolicitudFondos::getCodEstado('Contabilizada')];
 
         return SolicitudFondos::whereIn('codEstadoSolicitud',$vector)
-        ->where('codEmpleadoSolicitante','=',$this->codEmpleado)
+        ->where('idEmpleadoSolicitante','=',$this->idEmpleado)
         ->where('estaRendida','=',0)
         ->get();
 
@@ -39,7 +52,7 @@ class Empleado extends Model
     public function getSolicitudesObservadas(){
         return SolicitudFondos::
             where('codEstadoSolicitud','=',SolicitudFondos::getCodEstado('Observada'))
-            ->where('codEmpleadoSolicitante','=',$this->codEmpleado)
+            ->where('idEmpleadoSolicitante','=',$this->idEmpleado)
             ->get();
 
 
@@ -48,7 +61,7 @@ class Empleado extends Model
 
     public function getReposicionesObservadas(){
 
-        return ReposicionGastos::where('codEmpleadoSolicitante','=',$this->codEmpleado)
+        return ReposicionGastos::where('idEmpleadoSolicitante','=',$this->idEmpleado)
             ->where('codEstadoReposicion','=',ReposicionGastos::getCodEstado('Observada'))
             ->get();
 
@@ -56,7 +69,7 @@ class Empleado extends Model
     }
     public function getRequerimientosObservados(){
 
-        return RequerimientoBS::where('codEmpleadoSolicitante','=',$this->codEmpleado)
+        return RequerimientoBS::where('idEmpleadoSolicitante','=',$this->idEmpleado)
             ->where('codEstadoRequerimiento','=',RequerimientoBS::getCodEstado('Observada'))
             ->get();
 
@@ -64,7 +77,7 @@ class Empleado extends Model
     }
     public function getRendicionesObservadas(){
 
-        return RendicionGastos::where('codEmpleadoSolicitante','=',$this->codEmpleado)
+        return RendicionGastos::where('idEmpleadoSolicitante','=',$this->idEmpleado)
             ->where('codEstadoRendicion','=',RendicionGastos::getCodEstado('Observada'))
             ->get();
 
@@ -86,7 +99,7 @@ class Empleado extends Model
 
     //le pasamos la id del usuario y te retorna el codigo cedepas del empleado
     public function getNombrePorUser( $idAuth){
-        $lista = Empleado::where('codUsuario','=',$idAuth)->get();
+        $lista = Empleado::where('idUsuario','=',$idAuth)->get();
         return $lista[0]->nombres;
 
     } 
@@ -110,7 +123,7 @@ class Empleado extends Model
     }
 
     public function esAdminSistema(){
-        $usuario = User::findOrFail($this->codUsuario);
+        $usuario = User::findOrFail($this->idUsuario);
         return $usuario->isAdmin=='1';
 
     }
@@ -150,7 +163,7 @@ class Empleado extends Model
 
     //solo se aplica a los gerentes, retorna lista de proyectos que este gerente lidera
     public function getListaProyectos(){
-        $proy = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();
+        $proy = Proyecto::where('idEmpleadoDirector','=',$this->idEmpleado)->get();
         //retornamos el Collection
         return $proy;
     }
@@ -201,8 +214,8 @@ class Empleado extends Model
     
 
     public static function getEmpleadoLogeado(){
-        $codUsuario = Auth::id();         
-        $empleados = Empleado::where('codUsuario','=',$codUsuario)->get();
+        $idUsuario = Auth::id();         
+        $empleados = Empleado::where('idUsuario','=',$idUsuario)->get();
 
         if(is_null(Auth::id())){
             return false;
@@ -224,7 +237,7 @@ class Empleado extends Model
     public function usuario(){
 
         try{
-        $usuario = User::findOrFail($this->codUsuario);
+        $usuario = User::findOrFail($this->idUsuario);
         
         }catch(Throwable $th){
             Debug::mensajeError('MODELO EMPLEADO', $th);
@@ -261,7 +274,7 @@ class Empleado extends Model
 
 
     public function reposicion(){
-        $reposiciones=ReposicionGastos::where('codEmpleadoSolicitante','=',$this->codEmpleado)->get();
+        $reposiciones=ReposicionGastos::where('idEmpleadoSolicitante','=',$this->idEmpleado)->get();
         return $reposiciones;
     }
 }

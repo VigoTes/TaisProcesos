@@ -14,9 +14,9 @@ class SolicitudFondos extends Model
 
     const RaizCodigoCedepas = "SOF";
     // le indicamos los campos de la tabla 
-    protected $fillable = ['codProyecto','codigoCedepas','codEmpleadoSolicitante','fechaHoraEmision',
+    protected $fillable = ['codProyecto','codigoCedepas','idEmpleadoSolicitante','fechaHoraEmision',
     'totalSolicitado','girarAOrdenDe','numeroCuentaBanco','codBanco','justificacion',
-    'codEmpleadoEvaluador','fechaHoraRevisado','codEstadoSolicitud','observacion','codMoneda'];
+    'idEmpleadoEvaluador','fechaHoraRevisado','codEstadoSolicitud','observacion','codMoneda'];
 
 
 
@@ -176,12 +176,12 @@ class SolicitudFondos extends Model
     }
 
     public function getNombreSolicitante(){
-        $emp = Empleado::findOrFail($this->codEmpleadoSolicitante);
+        $emp = Empleado::findOrFail($this->idEmpleadoSolicitante);
         return $emp->nombres.' '.$emp->apellidos;
     }
 
     public function getEmpleadoSolicitante(){
-        return Empleado::findOrFail($this->codEmpleadoSolicitante);
+        return Empleado::findOrFail($this->idEmpleadoSolicitante);
 
     }
 
@@ -207,9 +207,9 @@ class SolicitudFondos extends Model
     //retorna el objeto empleado del que lo revisó (su director / gerente)
     public function getEvaluador(){
         
-        if($this->codEmpleadoEvaluador==null)
+        if($this->idEmpleadoEvaluador==null)
             return "";
-        $e = Empleado::findOrFail($this->codEmpleadoEvaluador);
+        $e = Empleado::findOrFail($this->idEmpleadoEvaluador);
         return $e;
     }
 
@@ -310,19 +310,19 @@ class SolicitudFondos extends Model
         return $color;
     }
     public function getNombreEvaluador(){
-        if($this->codEmpleadoEvaluador == null)
+        if($this->idEmpleadoEvaluador == null)
             return "";
         
-        $ev = Empleado::findOrFail($this->codEmpleadoEvaluador);
+        $ev = Empleado::findOrFail($this->idEmpleadoEvaluador);
         return $ev->getNombreCompleto();
     }
 
 
     
-    public static function filtrarPorEmpleadoSolicitante($coleccion, $codEmpleado ){
+    public static function filtrarPorEmpleadoSolicitante($coleccion, $idEmpleado ){
         $listaNueva = new Collection();
         foreach ($coleccion as $item) {
-            if($item->codEmpleadoSolicitante == $codEmpleado)
+            if($item->idEmpleadoSolicitante == $idEmpleado)
                 $listaNueva->push($item);
         }
         return $listaNueva;

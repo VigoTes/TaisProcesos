@@ -83,7 +83,7 @@ Listar Solicitudes
   </button>
   
 </div>
-@ENDIF
+@endif
 
 
     <table class="table" style="font-size: 10pt; margin-top:10px; ">

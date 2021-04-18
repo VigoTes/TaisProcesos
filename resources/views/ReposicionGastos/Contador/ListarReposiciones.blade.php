@@ -96,7 +96,7 @@
           </button>
           
         </div>
-      @ENDIF
+      @endif
 
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
