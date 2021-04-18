@@ -30,7 +30,7 @@
 <form method = "POST" action = "{{route('RequerimientoBS.Gerente.aprobar')}}" onsubmit=""   id="frmRepo"
     enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="codEmpleado" id="codEmpleado" value="{{$requerimiento->codEmpleadoSolicitante}}">
+    <input type="hidden" name="idEmpleado" id="idEmpleado" value="{{$requerimiento->idEmpleadoSolicitante}}">
     <input type="hidden" name="codRequerimiento" id="codRequerimiento" value="{{$requerimiento->codRequerimiento}}">
 
     @include('RequerimientoBS.Plantillas.PlantillaVerRequerimiento')

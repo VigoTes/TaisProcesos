@@ -19,7 +19,7 @@ Editar Reposición de Gastos
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepasEmpleado" id="codigoCedepasEmpleado" value="{{ $empleadoLogeado->codigoCedepas }}">
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
-    <input type="hidden" name="codEmpleado" id="codEmpleado" value="{{$empleadoLogeado->codEmpleado}}">
+    <input type="hidden" name="idEmpleado" id="idEmpleado" value="{{$empleadoLogeado->idEmpleado}}">
     
     @csrf
     <div class="container" >

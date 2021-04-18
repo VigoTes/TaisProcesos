@@ -17,6 +17,13 @@
         </a>
       </li>
       
+      <li class="nav-item">
+        <a href="{{route('GestionUsuarios.Listar')}}" class="nav-link">
+          <i class="far fa-address-card nav-icon"></i>
+          <p>Empleados</p>
+        </a>
+      </li>
+      
           
     
 

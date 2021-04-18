@@ -21,7 +21,7 @@
     
     {{-- CODIGO DEL EMPLEADO --}}
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
-    <input type="hidden" name="codEmpleado" id="codEmpleado" value="{{$reposicion->codEmpleadoSolicitante}}">
+    <input type="hidden" name="idEmpleado" id="idEmpleado" value="{{$reposicion->idEmpleadoSolicitante}}">
     
     @csrf
    

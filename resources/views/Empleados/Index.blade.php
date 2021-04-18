@@ -42,7 +42,6 @@
           <th>USUARIO</th>
           <th>NOMBRES Y APELLIDOS</th>
           <th>Fecha Registro</th>
-          <th>PUESTO</th>
           
           <th>OPCIONES</th>
         </tr>
@@ -51,16 +50,16 @@
 
         @foreach($empleados as $itemempleado)
             <tr>
-                <td>{{$itemempleado->codEmpleado}}</td>
+                <td>{{$itemempleado->idEmpleado}}</td>
                 <td>{{$itemempleado->dni}}</td>
                 
                 <td>{{$itemempleado->usuario()->usuario}}</td>
                 <td>{{$itemempleado->nombres}}, {{$itemempleado->apellidos}}</td>
                 <td>{{$itemempleado->fechaRegistro}}</td>
-                <td>{{$itemempleado->getPuestoActual()->nombre}}</td>
+              
                 <td>
-                    <a href="{{route('GestionUsuarios.editUsuario',$itemempleado->codEmpleado)}}" class="btn btn-info btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Usuario</a>
-                    <a href="{{route('GestionUsuarios.editEmpleado',$itemempleado->codEmpleado)}}" class="btn btn-info btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Empleado</a>
+                    <a href="{{route('GestionUsuarios.editUsuario',$itemempleado->idEmpleado)}}" class="btn btn-info btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Usuario</a>
+                    <a href="{{route('GestionUsuarios.editEmpleado',$itemempleado->idEmpleado)}}" class="btn btn-info btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Empleado</a>
 
                     <!--Boton eliminar -->
                     <a href="#" class="btn btn-danger btn-sm btn-icon icon-left" title="Le quita el acceso al sistema." onclick="swal({//sweetalert
@@ -77,7 +76,7 @@
                             html : true
                         },
                         function(){//se ejecuta cuando damos a aceptar
-                            window.location.href='{{route('GestionUsuarios.cesar',$itemempleado->codEmpleado)}}';
+                            window.location.href='{{route('GestionUsuarios.cesar',$itemempleado->idEmpleado)}}';
 
                         });"><i class="entypo-cancel"></i>Cesar</a>
 

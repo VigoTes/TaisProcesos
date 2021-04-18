@@ -34,10 +34,10 @@ Listar Solicitudes
       <form class="form-inline">
         
         <label for="">Empleado: </label>
-        <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codEmpleadoBuscar" name="codEmpleadoBuscar" data-live-search="true">
+        <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="idEmpleadoBuscar" name="idEmpleadoBuscar" data-live-search="true">
           <option value="0">- Seleccione Empleado -</option>          
           @foreach($empleados as $itemempleado)
-            <option value="{{$itemempleado->codEmpleado}}" {{$itemempleado->codEmpleado==$codEmpleadoBuscar ? 'selected':''}}>{{$itemempleado->getNombreCompleto()}}</option>                                 
+            <option value="{{$itemempleado->idEmpleado}}" {{$itemempleado->idEmpleado==$idEmpleadoBuscar ? 'selected':''}}>{{$itemempleado->getNombreCompleto()}}</option>                                 
           @endforeach
         </select> 
         <label for="">Fecha: </label>

@@ -124,7 +124,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     Route::get('/Empresas/eliminarComoAdmin/{id}','EmpresaController@eliminarEmpresaComoAdmin'); //se consume desde JS, retorna al listar todas de admin
 
 
-
+    
 
 
 

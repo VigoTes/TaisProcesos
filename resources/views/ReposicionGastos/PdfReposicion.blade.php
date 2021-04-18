@@ -175,7 +175,7 @@
         </div>
         <div style="width: 33%; height: 30px; float: left;">
             <p style="text-align: center; font-size: 13px;"><b>
-                {{is_null($reposicion->codEmpleadoEvaluador) ? $reposicion->getProyecto()->evaluador()->getNombreCompleto() : $reposicion->evaluador()->getNombreCompleto()}}
+                {{is_null($reposicion->idEmpleadoEvaluador) ? $reposicion->getProyecto()->evaluador()->getNombreCompleto() : $reposicion->evaluador()->getNombreCompleto()}}
                 _________________________<br>
                 AUTORIZADO POR<br>
                 

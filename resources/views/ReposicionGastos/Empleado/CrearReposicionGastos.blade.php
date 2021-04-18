@@ -19,7 +19,7 @@
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepasEmpleado" id="codigoCedepasEmpleado" value="{{ $empleadoLogeado->codigoCedepas }}">
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
-    <input type="hidden" name="codEmpleado" id="codEmpleado" value="{{$empleadoLogeado->codEmpleado}}">
+    <input type="hidden" name="idEmpleado" id="idEmpleado" value="{{$empleadoLogeado->idEmpleado}}">
     
     @csrf
     <div class="container" >
@@ -63,10 +63,10 @@
 
                       </div>
                       <div class="col">
-                        <select class="form-control"  id="codEmpleadoEvaluador" name="codEmpleadoEvaluador" >
+                        <select class="form-control"  id="idEmpleadoEvaluador" name="idEmpleadoEvaluador" >
                             <option value="-1">Seleccionar</option>
                             @foreach($empleadosEvaluadores as $itemevaluador)
-                                <option value="{{$itemevaluador->codEmpleado}}" >
+                                <option value="{{$itemevaluador->idEmpleado}}" >
                                     {{$itemevaluador->apellidos}}, {{$itemevaluador->nombres}}
                                 </option>                                 
                             @endforeach 

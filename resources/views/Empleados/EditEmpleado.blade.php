@@ -52,7 +52,7 @@
     <br>
     <form id="frmempresa" name="frmempresa" role="form" action="{{route('GestionUsuarios.updateEmpleado')}}" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
         @csrf 
-            <input type="text" class="form-control" id="codEmpleado" name="codEmpleado" placeholder="Codigo" value="{{ $empleado->codEmpleado}}" hidden>
+            <input type="text" class="form-control" id="idEmpleado" name="idEmpleado" placeholder="Codigo" value="{{ $empleado->idEmpleado}}" hidden>
            
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Codigo:</label>

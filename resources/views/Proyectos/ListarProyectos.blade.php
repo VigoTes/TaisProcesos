@@ -67,12 +67,12 @@
             </td>
             <td>  {{-- BUSCADOR DINAMICO POR NOMBRES --}}
               <select class="form-control select2 select2-hidden-accessible selectpicker" onchange="guardar({{$itemProyecto->codProyecto}})" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" id="Proyecto{{$itemProyecto->codProyecto}}" name="Proyecto{{$itemProyecto->codProyecto}}" data-live-search="true">
-                <option value="0" {{$itemProyecto->codEmpleadoDirector!=null ? 'hidden':'selected'}}>
+                <option value="0" {{$itemProyecto->idEmpleadoDirector!=null ? 'hidden':'selected'}}>
                   - Seleccione Gerente -
                 </option>          
               
                 @foreach($listaGerentes as $gerente)
-                  <option value="{{$gerente->codEmpleado}}" {{$itemProyecto->codEmpleadoDirector==$gerente->codEmpleado ? 'selected':''}}>
+                  <option value="{{$gerente->idEmpleado}}" {{$itemProyecto->idEmpleadoDirector==$gerente->idEmpleado ? 'selected':''}}>
                     {{$gerente->getNombreCompleto()}}
                   </option>                                 
                 @endforeach
@@ -83,10 +83,10 @@
             <td>  {{-- BUSCADOR DINAMICO POR NOMBRES --}}
               <!--
               <select class="form-control select2 select2-hidden-accessible selectpicker" onchange="guardar2({{$itemProyecto->codProyecto}})" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" id="Proyecto2{{$itemProyecto->codProyecto}}" name="Proyecto2{{$itemProyecto->codProyecto}}" data-live-search="true">
-                <option value="0" {{$itemProyecto->codEmpleadoConta!=null ? 'hidden':'selected'}}>- Seleccione Contador -</option>          
+                <option value="0" {{$itemProyecto->idEmpleadoConta!=null ? 'hidden':'selected'}}>- Seleccione Contador -</option>          
               
                 @foreach($listaContadores as $contador)
-                  <option value="{{$contador->codEmpleado}}" {{$itemProyecto->codEmpleadoConta==$contador->codEmpleado ? 'selected':''}}>{{$gerente->getNombreCompleto()}}</option>                                 
+                  <option value="{{$contador->idEmpleado}}" {{$itemProyecto->idEmpleadoConta==$contador->idEmpleado ? 'selected':''}}>{{$gerente->getNombreCompleto()}}</option>                                 
                 @endforeach
                 
               

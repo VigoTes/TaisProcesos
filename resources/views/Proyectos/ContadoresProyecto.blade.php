@@ -23,10 +23,10 @@
       <div class="row">
           <div class="col-md-1"><label>Contador:</label></div>
           <div class="col-md-3">
-              <select class="form-control"  id="codEmpleadoConta" name="codEmpleadoConta" >
+              <select class="form-control"  id="idEmpleadoConta" name="idEmpleadoConta" >
                   <option value="-1">Seleccionar</option>
                   @foreach($contadores as $itemcontador)
-                  <option value="{{$itemcontador->codEmpleado}}">{{$itemcontador->apellidos}}, {{$itemcontador->nombres}}</option>
+                  <option value="{{$itemcontador->idEmpleado}}">{{$itemcontador->apellidos}}, {{$itemcontador->nombres}}</option>
                   @endforeach
               </select>
           </div>
@@ -48,7 +48,7 @@
       <tbody>
         @foreach($contadoresSeleccionados as $itemcontador)
           <tr>
-            <td>{{$itemcontador->codEmpleado}}</td>
+            <td>{{$itemcontador->idEmpleado}}</td>
             <td>{{$itemcontador->apellidos}}, {{$itemcontador->nombres}}</td>
             <td>
               <a href="#" class="btn btn-danger btn-sm btn-icon icon-left" title="Eliminar registro" onclick="swal({//sweetalert
@@ -65,7 +65,7 @@
                   html : true
               },
               function(){//se ejecuta cuando damos a aceptar
-                  window.location.href='{{route('GestiónProyectos.eliminarContador',$itemcontador->codEmpleado)}}';
+                  window.location.href='{{route('GestiónProyectos.eliminarContador',$itemcontador->idEmpleado)}}';
               });">Eliminar</a>
             </td>
           </tr>
