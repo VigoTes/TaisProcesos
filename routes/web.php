@@ -120,7 +120,8 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     Route::resource('empresa', 'EmpresaController');  // es resource pq trabajamos con varias rutas
 
     Route::get('Empresa/listarTodas/','EmpresaController@listarTodas')->name('empresa.listarTodas');
-
+    Route::get('/Empresas/eliminarComoEmpleado/{id}','EmpresaController@eliminarEmpresaComoEmpleado'); //se consume desde JS, retorna al listar de empleado
+    Route::get('/Empresas/eliminarComoAdmin/{id}','EmpresaController@eliminarEmpresaComoAdmin'); //se consume desde JS, retorna al listar todas de admin
 
 
 

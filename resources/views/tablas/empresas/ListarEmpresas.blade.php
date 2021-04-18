@@ -69,7 +69,7 @@
                             Editar
                         </a>
 
-                        <a href="" class = "btn btn-danger"> 
+                        <a href="#" onclick="clickEliminar({{$itemEmpresa->idEmpresa}})" class = "btn btn-danger"> 
                             <i class="fas fa-trash-alt"> </i> 
                             Eliminar
                         </a>
@@ -81,23 +81,29 @@
                 </tr>
             @endforeach
             
-          
-
-                          
-
-
-
-
-
-
-
-
-
-
+      
             </tbody>
           </table>
         </div>
       </div>
 
+
+@endsection
+@section('script')
+
+<script>
+  idEmpresaAEliminar="";
+
+  function clickEliminar(idmpresa){
+    idEmpresaAEliminar = idmpresa;
+    confirmarConMensaje("Confirmar","¿Desea eliminar la empresa?","warning",ejecutarEliminacion);
+  }
+
+  function ejecutarEliminacion(){
+
+    location.href="/Empresas/eliminarComoAdmin/"+idEmpresaAEliminar;
+
+  }
+</script>
 
 @endsection

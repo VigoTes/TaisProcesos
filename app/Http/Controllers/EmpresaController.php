@@ -29,7 +29,7 @@ class EmpresaController extends Controller
         $empleado = Empleado::getEmpleadoLogeado();
         
         $buscarpor = $Request->buscarpor;
-        $listaEmpresas = Empresa::All();
+        $listaEmpresas = Empresa::getActivas();
         
 
         //cuando vaya al index me retorne a la vista
@@ -151,7 +151,7 @@ class EmpresaController extends Controller
             $empresa = $listaEmpresas->last();
 
             $empresaUsuario = new EmpresaUsuario();
-            $empresaUsuario->idUsuario = Auth::id();
+            $empresaUsuario->idEmpleado = Empleado::getEmpleadoLogeado()->idEmpleado;
             $empresaUsuario->idEmpresa = $empresa->idEmpresa;
             $empresaUsuario->save();
 
@@ -241,6 +241,26 @@ class EmpresaController extends Controller
         return redirect() -> route('empresa.index')->with('msjLlegada','Registro eliminado!!');
 
     }
+
+    public function eliminarEmpresaComoAdmin($idEmpresa){
+        $empresa = Empresa::findOrFail($idEmpresa);
+        $empresa->estadoAct = '0';
+        $empresa->save ();
+        return redirect()->route('empresa.listarTodas')->with('msjLlegada','Registro eliminado!!');
+
+
+    }
+
+    public function eliminarEmpresaComoEmpleado($idEmpresa){
+        $empresa = Empresa::findOrFail($idEmpresa);
+        $empresa->estadoAct = '0';
+        $empresa->save ();
+        return redirect()->route('empresa.index')->with('msjLlegada','Registro eliminado!!');
+
+
+    }
+
+
 
     public function confirmar($id){
         $empresa = Empresa::findOrFail($id); 

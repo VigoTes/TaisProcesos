@@ -24,11 +24,13 @@ class Empleado extends Model
 
     public function getEmpresasDelEmpleado(){
         //aqui haremos la union de empresas
-        $relaciones = EmpresaUsuario::where('idEmpleado','=',$this->idEmpleado)->get();
+        $relaciones = EmpresaUsuario::where('idEmpleado','=',$this->idEmpleado)
+        ->get();
         //aqui ya tenemos la lista de empresas de ese usuario, pero solo con sus ids
         $listaEmpresas = new Collection();
         foreach($relaciones as $itemEmpresa){
             $empresa = Empresa::findOrFail($itemEmpresa->idEmpresa);
+            if($empresa->estadoAct=='1')
             $listaEmpresas->push($empresa);
         }
         

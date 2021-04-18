@@ -24,13 +24,13 @@ class Empresa extends Model
         */
 
     
-        public function matricesDeLaEmpresa(){
+        public static function getActivas(){
           //aqui haremos la union de empresas
-          $listaEmpresass = Matriz::where('idEmpresa','=',$this->idEmpresa  )->get();
+          $listaEmpresass = Empresa::where('estadoAct','=','1')->get();
           //aqui ya tenemos la lista de matrices de esta empresa
-
           return $listaEmpresass;
       }
+
 
 
 }

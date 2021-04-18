@@ -48,8 +48,7 @@
               <th>RUC</th>
               <th>Direccion</th>
               <th>Opciones</th>
-              <th>Seleccion</th>
-              
+            
             </tr>
             </thead>
             <tbody>
@@ -70,25 +69,14 @@
                             Editar
                         </a>
 
-                        <a href="" class = "btn btn-danger"> 
+                        <a href="#" onclick="clickEliminar({{$itemEmpresa->idEmpresa}})" class = "btn btn-danger"> 
                             <i class="fas fa-trash-alt"> </i> 
                             Eliminar
                         </a>
 
 
                     </td>
-                    <td>
-
-                      <div class="custom-control custom-radio">
-
-                        <a href="" class = "btn-outline-primary btn-ms"> 
-                            <i class="fas fa-mouse-pointer"></i>
-                            Seleccionar
-                        </a>
-                      </div>
-
-                    </td>
-                    
+                
                 </tr>
             @endforeach
             
@@ -110,5 +98,24 @@
         </div>
       </div>
 
+
+@endsection
+
+@section('script')
+
+<script>
+  idEmpresaAEliminar="";
+
+  function clickEliminar(idmpresa){
+    idEmpresaAEliminar = idmpresa;
+    confirmarConMensaje("Confirmar","¿Desea eliminar la empresa?","warning",ejecutarEliminacion);
+  }
+
+  function ejecutarEliminacion(){
+
+    location.href="/Empresas/eliminarComoEmpleado/"+idEmpresaAEliminar;
+
+  }
+</script>
 
 @endsection
