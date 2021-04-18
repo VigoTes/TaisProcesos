@@ -39,7 +39,7 @@ class EmpresaController extends Controller
 
     }
 
-    public function index(Request $Request)
+    public function listarMisEmpresas(Request $Request)
     {
         $empleado = Empleado::getEmpleadoLogeado();
         

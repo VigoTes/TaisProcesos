@@ -81,27 +81,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="codPuesto" id="codPuesto">
-                    @foreach($puestos as $itempuesto)
-                    <option value="{{$itempuesto->codPuesto}}" {{$itempuesto->codPuesto==$empleado->codPuesto ? 'selected':''}}>{{$itempuesto->nombre}}</option>    
-                    @endforeach
-                    </select>
-                </div>  
-            </div>
 
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sede:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="codSede" id="codSede">
-                        @foreach($sedes as $itemsede)
-                        <option value="{{$itemsede->codSede}}" {{$itemsede->codSede==$empleado->codSede ? 'selected':''}}>{{$itemsede->nombre}}</option>    
-                        @endforeach
-                    </select>
-                </div>
-            </div>
                 
 
                   

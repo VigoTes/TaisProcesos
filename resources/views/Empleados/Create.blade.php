@@ -60,7 +60,7 @@
                 $("#DNI").focus();
             }
             else{
-                document.frmempresa.submit(); // enviamos el formulario	
+                document.frmEmpleado.submit(); // enviamos el formulario	
             }
         }
     
@@ -69,7 +69,7 @@
     
     <div class="well"><H3 style="text-align: center;">CREAR EMPLEADO</H3></div>
     <br>
-    <form id="frmempresa" name="frmempresa" role="form" action="{{route('GestionUsuarios.store')}}" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
+    <form id="frmEmpleado" name="frmEmpleado" role="form" action="{{route('GestionUsuarios.store')}}" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
         @csrf 
 
             <div class="form-group row">
@@ -113,111 +113,13 @@
                     <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos..." >
                 </div>
             </div>
-            <!--
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Direccion:</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Direccion..." >
-                </div>
-            </div>
             
-            <div class="form-group row">                   
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha de nacimiento:</label>
-                <div class="col-md-4">                        
-                    <div class="form-group">                            
-                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                            <input type="text"  class="form-control" name="fechaNacimiento" id="fechaNacimiento"
-                                   value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="text-align:center;">
-                            <div class="input-group-btn">                                        
-                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-            
-
-
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sexo:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="codSexo" id="codSexo">
-                    <option value="0">--Seleccionar--</option>
-                    <option value="M">Hombre</option>
-                    <option value="F">Mujer</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">¿Tiene Hijos?:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="tieneHijos" id="tieneHijos">
-                    <option value="1">SI</option>
-                    <option value="0">NO</option>
-                    </select>
-                </div>
-            </div>
-            -->
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">DNI:</label>
                 <div class="col-sm-4">
                     <input type="number" class="form-control" id="DNI" name="DNI" placeholder="DNI..." >
                 </div>
             </div>
-
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="codPuesto" id="codPuesto">
-                    @foreach($puestos as $itempuesto)
-                    <option value="{{$itempuesto->codPuesto}}">{{$itempuesto->nombre}}</option>    
-                    @endforeach
-                    </select>
-                </div>  
-            </div>
-            <!--
-            <div class="form-group row">                   
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Inicio:</label>
-                <div class="col-md-4">                        
-                    <div class="form-group">                            
-                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                            <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio"
-                                   value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="text-align:center;">
-                            <div class="input-group-btn">                                        
-                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-
-            <div class="form-group row">                   
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Fin:</label>
-                <div class="col-md-4">                        
-                    <div class="form-group">                            
-                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                            <input type="text"  class="form-control" name="fechaFin" id="fechaFin"
-                                   value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="text-align:center;">
-                            <div class="input-group-btn">                                        
-                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-            -->
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sede:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="codSede" id="codSede">
-                        @foreach($sedes as $itemsede)
-                        <option value="{{$itemsede->codSede}}">{{$itemsede->nombre}}</option>    
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
 
                 
             

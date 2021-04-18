@@ -29,9 +29,8 @@ class EmpleadoController extends Controller
     public function crearEmpleado(){
         //$areas=Area::all();
         //$proyectos = Proyecto::All();
-        $puestos=Puesto::where('estado','!=',0)->get();
-        $sedes=Sede::all();
-        return view('Empleados.Create',compact('puestos','sedes'));
+       
+        return view('Empleados.Create');
     }
     /*
     public function listarPuestos(Request $request,$id){
@@ -94,12 +93,12 @@ class EmpleadoController extends Controller
     }
 
     public function editarEmpleado($id){
-        $puestos=Puesto::where('estado','!=',0)->get();
-        $sedes=Sede::all();
+       
+       
         $empleado=Empleado::find($id);
         //$areas=Area::all();
         //$puestos=Puesto::all();
-        return view('Empleados.EditEmpleado',compact('empleado','puestos','sedes'));
+        return view('Empleados.EditEmpleado',compact('empleado'));
     }
 
     public function guardarEditarUsuario(Request $request){
