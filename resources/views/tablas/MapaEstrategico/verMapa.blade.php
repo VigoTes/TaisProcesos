@@ -23,15 +23,9 @@ padding: 10px;
 </style>
 
 
-<h1> MAPA ESTRATÉGICO
-  
-  @if($proceso=="")
-    subproceso  "{{$subproceso->nombre}}"
-  @else 
-    proceso  "{{$proceso->nombre}}"
-  @endif
-  
- </h1>
+<h3> 
+  Mapa Estratégico para el {{$mapaEstrategico->getStringTipo()}} "{{$mapaEstrategico->getNombreProSub()}}"
+ </h3>
       @if (session('datos'))
         <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
             {{session('datos')}}

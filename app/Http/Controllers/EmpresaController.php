@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\User;
 use App\Empleado;
+use App\MapaEstrategico;
+
 class EmpresaController extends Controller
 {
     const PAGINATION = 10; // PARA QUE PAGINEE DE 10 EN 10
@@ -283,15 +285,22 @@ class EmpresaController extends Controller
             $proceso = new Proceso();
             $proceso->idEmpresa = $request->idEmpresa;
             $variacionMensaje=" añadido ";
+
+            
            
         }else{//YA EXISTE Y SE ESTÁ ACTUALIZANDO
             $proceso = Proceso::findOrFail($request->idProceso);
             $variacionMensaje=" actualizado ";
             
+
         }
         $proceso->nombre = $request ->nombreNuevoProceso;
         $proceso->descripcion = $request ->descripcionNuevoProceso;
         $proceso->save();
+
+        $mapa = new MapaEstrategico();
+        $mapa->idProceso = $proceso->idProceso;
+        $mapa->save();
 
 
         return redirect()->route('empresa.edit',$proceso->idEmpresa)->with('datos','Proceso '.$proceso->nombre." ".$variacionMensaje." exitosamente.");
@@ -324,6 +333,10 @@ class EmpresaController extends Controller
         $subproceso->nombre = $request ->nombreNuevoSubproceso;
         $subproceso->idProceso = $request->ComboBoxProceso;
         $subproceso->save();
+
+        $mapa = new MapaEstrategico();
+        $mapa->idSubproceso = $subproceso->idSubproceso;
+        $mapa->save();
 
 
         return redirect()->route('empresa.edit',$subproceso->getProceso()->idEmpresa)->with('datos','Subproceso '.$subproceso->nombre." ".$variacionMensaje." exitosamente.");

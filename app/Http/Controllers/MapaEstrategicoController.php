@@ -43,7 +43,7 @@ class MapaEstrategicoController extends Controller
 
 
 
-        return view('tablas.MapaEstrategico.verMapa',compact('proceso','rutaVolverAEditar','listaNiveles',
+        return view('tablas.MapaEstrategico.verMapa',compact('mapaEstrategico','rutaVolverAEditar','listaNiveles',
         'listaFinanciera','listaClientes','listaProcesoInternos','listaAprendizaje','mapaEstrategico'
     
     ));
@@ -151,19 +151,19 @@ class MapaEstrategicoController extends Controller
         
         $elemento = ElementoMapa::findOrFail($idElemento);
 
+        //tenemos que borrar todas las relaciones en las que aparece ese elemento
+        FlechaElementoMapa::
+            where('idElementoOrigen','=',$elemento->idElemento)
+            ->orwhere('idElementoDestino','=',$elemento->idElemento)->delete();
+
+        
         $mapa = MapaEstrategico::findOrFail($elemento->idMapaEstrategico);
-        if($mapa->esDeProceso()){
-            $cad = $mapa->idProceso."*1";
-
-        }else{
-            $cad = $mapa->idSubproceso."*0";
-        }
-
-
+        $cad = $mapa->getCadenaParaVerMapa();
         $elemento->delete();
 
+
         return redirect()->route('MapaEstrategico.ver',$cad)
-            ->with('datos','Se eliminó el elemento '.$elemento->nombre.' exitosamente.');
+            ->with('datos','Se eliminó el elemento "'.$elemento->nombre.'" exitosamente.');
 
 
     }

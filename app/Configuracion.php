@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Configuracion extends Model
 {
-    const enProduccion = false;
+    const enProduccion = true;
     const pesoMaximoArchivoMB = 5;
 
     //en caracteres

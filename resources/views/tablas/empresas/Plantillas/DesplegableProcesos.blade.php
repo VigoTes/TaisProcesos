@@ -250,6 +250,7 @@
         confirmarConMensaje("Confirmación","¿Desea agregar el nuevo proceso "+nombreNuevoProceso+"?","warning",submitearAgregarProceso);
 
     }    
+
     function validarAgregarProceso(){
         nombreNuevoProceso = document.getElementById('nombreNuevoProceso').value;
         descripcionNuevoProceso = document.getElementById('descripcionNuevoProceso').value;
@@ -356,7 +357,7 @@
         subproceso = listaSubprocesos.find(elemento => elemento.idSubproceso == idSubprocesoSeleccionado);
         console.log(subproceso);
 
-        ComboBoxProceso
+        //ComboBoxProceso
         document.getElementById('ComboBoxProceso').value = subproceso.idProceso;
         document.getElementById('nombreNuevoSubproceso').value = subproceso.nombre;
         document.getElementById('idSubproceso').value = subproceso.idSubproceso;
@@ -372,7 +373,7 @@
             listaProcesos.push({
                 idProceso : "{{$itemProceso->idProceso}}",
                 nombre: "{{$itemProceso->nombre}}",
-                descripcion: "{{$itemProceso->descripcion}}"
+                descripcion: `{{$itemProceso->descripcion}}`
             }); 
 
 
