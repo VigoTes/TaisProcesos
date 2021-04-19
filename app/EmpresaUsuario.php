@@ -13,7 +13,13 @@ class EmpresaUsuario extends Model
 
         // le indicamos los campos de la tabla 
     protected $fillable = [
-            'idUsuario', 'idEmpresa'
+            'idEmpleado', 'idEmpresa','idRol'
     ];
+
+    public function getRol(){
+        
+        return Rol::findOrFail($this->idRol);
+
+    }
 
 }

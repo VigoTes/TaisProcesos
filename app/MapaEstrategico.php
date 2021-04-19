@@ -24,6 +24,7 @@ class MapaEstrategico extends Model
         return $cad;
             
     }
+    }
     public function esDeProceso(){
         if($this->idSubproceso=="" || is_null($this->idSubproceso=="") )
             return true;

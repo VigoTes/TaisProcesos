@@ -160,17 +160,40 @@ class IndicadorController extends Controller
 
 
 
-    public function agregarRegistro(Request $request){
+    public function agregarEditarRegistro(Request $request){
         
+        if($request->idRegistro=="-1") //NUEVO REGISTRO
+        {
+            
+            $registro = new RegistroIndicador();
+            $registro->idIndicador = $request->idIndicador;
+            $variacionMensaje=" añadido ";
+
+        }else{//YA EXISTE Y SE ESTÁ ACTUALIZANDO
+            $registro = RegistroIndicador::findOrFail($request->idRegistro);            
+            $variacionMensaje=" actualizado ";
+        }
         
-        $registro = new RegistroIndicador();
         $registro->valor =$request->valorNuevoRegistro;
         $registro->nombrePeriodo = $request->nombrePeriodo;
-        $registro->idIndicador = $request->idIndicador;
         $registro->save();
     
-        return redirect()->route('Indicadores.editarIndicador',$request->idIndicador)->with('datos','Registro añadido.');
+        return redirect()->route('Indicadores.editarIndicador',$request->idIndicador)->with('datos','Registro '.$variacionMensaje.'.');
     
+    }
+
+
+
+
+    public function eliminarRegistro($idRegistro){
+        $registro = RegistroIndicador::findOrFail($idRegistro);
+        $registro->delete();
+
+        return redirect()->route('Indicadores.editarIndicador',$registro->idIndicador)->with('datos','Registro eliminado.');
+    
+    
+
+
     }
 
 }

@@ -38,7 +38,7 @@
     </div>
 @endif
 
-<form method = "POST" action = "{{route('empresa.update',$empresa->idEmpresa)}}"  >
+<form id="formEditarEmpresa" name="formEditarEmpresa" method = "POST" action = "{{route('empresa.update',$empresa->idEmpresa)}}"  >
     @method('put')
     @csrf   
 
@@ -190,7 +190,18 @@
     
 
     function clickGuardarDatos(){
-        validarFormularioGuardar();
+        msjError =validarFormularioGuardar();
+        if(msjError!=""){
+            alerta(msjError);
+            return;
+        }
+
+        confirmarConMensaje("Confirmación","¿Desea actualizar la información de la empresa?",'warning',submitearFormEdicion);
+
+    }
+
+    function submitearFormEdicion(){
+        document.formEditarEmpresa.submit();
 
 
     }

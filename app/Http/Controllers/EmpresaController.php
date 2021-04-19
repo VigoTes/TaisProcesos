@@ -189,7 +189,7 @@ class EmpresaController extends Controller
                 'mision'=>'required|max:1000',
                 'vision'=>'required|max:1000',
                 'factorDif'=>'required|max:1000',
-                'propuestaV'=>'required|max:100',
+                'propuestaV'=>'required|max:1000',
                 'direccion'=>'required|max:200',
                 'RUC'=>'required|size:13'
                 
@@ -207,7 +207,7 @@ class EmpresaController extends Controller
                 'factorDif.max' => 'Maximo 1000 caracteres la descripcion',
                  
                 'propuestaV.required'=>'Ingrese la propuesta de valor',
-                'propuestaV.max' => 'Maximo 100 caracteres la descripcion',
+                'propuestaV.max' => 'Maximo 100 caracteres la propuesta de valor',
                  
                 'direccion.required'=>'Ingrese la direccion de la empresa',
                 'direccion.max' => 'Maximo 200 caracteres la descripcion',
@@ -230,7 +230,7 @@ class EmpresaController extends Controller
             $empresa->save(); /* Guardamos el nuevo registro en la BD */
                 
             /* Regresamos al index con el mensaje de nuevo registro */
-            return redirect()->route('empresa.index')->with('msjLlegada','Registro editado Exitosamente');
+            return redirect()->route('empresa.edit',$id)->with('msjLlegada','Registro editado Exitosamente');
              
     }
 

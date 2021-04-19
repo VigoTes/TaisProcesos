@@ -17,9 +17,11 @@
             <div class="row">
                 
                 <div class="col">
-                    <form id="formAgregarRegistro" name="formAgregarRegistro" action="{{route('Indicadores.agregarRegistro')}}" method="POST">
+                    <form id="formAgregarRegistro" name="formAgregarRegistro" action="{{route('Indicadores.agregarEditarRegistro')}}" method="POST">
                         @csrf
                         <input type="{{App\Configuracion::getInputTextOHidden()}}" name="idIndicador" value="{{$indicador->idIndicador}}">
+                        <input type="{{App\Configuracion::getInputTextOHidden()}}" id="idRegistro" name="idRegistro" value="-1"> {{-- Este solo se activa al editar --}}
+                        
                         <br>
                         <div class="row">
                             <div class="col">
@@ -74,7 +76,7 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
 
-                                    <a href="#" class=" btn-primary" onclick="clickEditarProceso({{$itemRegistro->idRegistro}})">
+                                    <a href="#" class=" btn-primary" onclick="clickEditarRegistro({{$itemRegistro->idRegistro}})">
                                         <i class="fas fa-pen"></i>
                                     </a>
                                 </td>
@@ -133,7 +135,22 @@
       giradoRegistro = !giradoRegistro;
     }
 
-    
+    function generarVectorRegistros(){
+        console.log("OLE");
+        @foreach($listaRegistros as $itemRegistro)
+            listaRegistros.push({
+                idRegistro : "{{$itemRegistro->idRegistro}}",
+                nombrePeriodo : "{{$itemRegistro->nombrePeriodo}}",
+                valor: "{{$itemRegistro->valor}}"
+            }); 
+
+        @endforeach
+        console.log(listaRegistros);
+         
+
+    }
+
+    generarVectorRegistros();
 
 
 
@@ -146,8 +163,17 @@
             alerta(msjError);
             return ;
         }
-        valorNuevoRegistro = document.getElementById('valorNuevoRegistro').value;
-        confirmarConMensaje("Confirmación","¿Desea agregar el nuevo indicador "+valorNuevoRegistro+"?","warning",submitearAgregarRegistro);
+
+        if(document.getElementById('idRegistro').value == "-1"){
+            //nuevo registro
+            mensaje = "agregar el nuevo indicador";
+        }else{
+            mensaje = "actualizar el indicador";
+        }
+
+
+        nombrePeriodo = document.getElementById('nombrePeriodo').value;
+        confirmarConMensaje("Confirmación","¿Desea agregar el nuevo indicador "+nombrePeriodo+"?","warning",submitearAgregarRegistro);
 
     }    
 
@@ -180,23 +206,28 @@
     }
 
     function ejecutarEliminacionRegistro(){
-        location.href="/Indicador/EliminarRegistro/" + registroAEliminar;
+        location.href="/Indicadores/eliminarRegistro/" + registroAEliminar;
     }
 
 
 
     function clickEditarRegistro(idRegistroSeleccionado){
         
-        proceso = listaRegistros.find(elemento => elemento.idRegistro == idRegistroSeleccionado);
-        console.log(proceso);
+        registro = listaRegistros.find(elemento => elemento.idRegistro == idRegistroSeleccionado);
 
-        document.getElementById('valorNuevoRegistro').value = proceso.nombre;
-        document.getElementById('descripcionNuevoProceso').value = proceso.descripcion;
-        document.getElementById('idRegistro').value = proceso.idRegistro;
+        console.log(registro);
+
+        document.getElementById('valorNuevoRegistro').value = registro.valor;
+        document.getElementById('nombrePeriodo').value = registro.nombrePeriodo;
+        document.getElementById('idRegistro').value = registro.idRegistro;
+
+
     }
 
 
     
+    
+
 
 
 
