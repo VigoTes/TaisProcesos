@@ -15,7 +15,7 @@
         <tr>
             <td>{{$itemEmpresa->idEmpresa  }}</td>
             <td>{{$itemEmpresa->nombreEmpresa  }}</td>
-            <td>{{$itemEmpresa->RUC}}</td>
+            <td>{{$itemEmpresa->ruc}}</td>
             <td>{{$itemEmpresa->direccion}}</td>
             
             <td>

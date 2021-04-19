@@ -14,6 +14,20 @@ class Subproceso extends Model
         // le indicamos los campos de la tabla 
         protected $fillable = ['nroEnProceso','nombre','idProceso'];
 
+        public function getListaIndicadores(){
+            return Indicador::where('idSubproceso','=',$this->idSubproceso)->get();
+
+        }
+
+        public function getCantidadIndicadores(){
+            return count($this->getListaIndicadores());
+        }
+
+
+        public function getProceso(){
+            return Proceso::findOrFail($this->idProceso);
+        }
+
         public function proceso(){
             return $this->hasOne('App\Proceso','idProceso','idProceso');
         }

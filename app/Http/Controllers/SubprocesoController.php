@@ -13,11 +13,36 @@ use App\Subproceso;
 use App\CambioEdicion;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Indicador;
 
 class SubprocesoController extends Controller
 {
+
+    public function verIndicadores($idSubproceso){
+        
+        $listaIndicadores = Indicador::where('idSubproceso','=',$idSubproceso)->get();
+        
+        $subproceso = Subproceso::findOrFail($idSubproceso);
+        $proceso = "";
+        $buscarpor ="";
+        $cadenaParaCrear = $subproceso->idSubproceso."*0";
+        $cadenaParaVolverAlEdit = route('empresa.edit',$subproceso->getProceso()->idEmpresa);
+      
+        return view('tablas.Indicadores.listarIndicadores',compact('listaIndicadores','proceso','subproceso','buscarpor'
+        ,'cadenaParaCrear','cadenaParaVolverAlEdit'));
+
+    }
+
+
+
+
+
+
+
+
+
     /**
+     * 
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -43,7 +68,7 @@ class SubprocesoController extends Controller
         $proceso = Proceso::findOrFail($request->idProceso);
         $subproceso = new Subproceso();
         
-        $subproceso->nombre = $request->nombreProcesoNuev;
+        $subproceso->nombre = $request->nombreNuev;
         $subproceso->idProceso = $proceso->idProceso;
         //ahora calculamos el nro en proceso
         

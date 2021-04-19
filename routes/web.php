@@ -124,11 +124,25 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     Route::get('/Empresas/eliminarComoEmpleado/{id}','EmpresaController@eliminarEmpresaComoEmpleado'); //se consume desde JS, retorna al listar de empleado
     Route::get('/Empresas/eliminarComoAdmin/{id}','EmpresaController@eliminarEmpresaComoAdmin'); //se consume desde JS, retorna al listar todas de admin
 
+    Route::post('/Empresas/agregarEditarProceso','EmpresaController@agregarEditarProceso')->name('Empresa.agregarEditarProceso');
+    Route::post('/Empresas/agregarEditarSubproceso','EmpresaController@agregarEditarSubproceso')->name('Empresa.agregarEditarSubproceso');
 
+    Route::get('/Empresa/eliminarProceso/{idProceso}','EmpresaController@eliminarProceso')->name('Empresa.eliminarProceso');
+    Route::get('/Empresa/eliminarSubproceso/{idProceso}','EmpresaController@eliminarSubproceso')->name('Empresa.eliminarSubproceso');
+    
+    Route::get('/Proceso/{idProceso}/verIndicadores/','ProcesoController@verIndicadores')->name('proceso.verIndicadores');
+    Route::get('/Subproceso/{idSubproceso}/verIndicadores/','SubprocesoController@verIndicadores')->name('subproceso.verIndicadores');
+    
+    //LA CADENA CONTIENE el id del proceso/subproceso del que se creará el indicador, y un 1 o 0 si es proceso o subproceso respectivamente, formato: "15*1"
+    Route::get('/Indicadores/crearIndicador/{cadena}','IndicadorController@crearIndicador')->name('Indicadores.crearIndicador');
+    Route::get('/Indicadores/editarIndicador/{idIndicador}','IndicadorController@editarIndicador')->name('Indicadores.editarIndicador');
+    
+    Route::get('/Indicadores/eliminar/{idIndicador}','IndicadorController@eliminar')->name('Indicadores.eliminar');
     
 
-
-
+    Route::post('/Indicadores/store','IndicadorController@store')->name('Indicadores.store');
+    Route::post('/Indicadores/update','IndicadorController@update')->name('Indicadores.update');
+    
 
     Route::resource('objetivo', 'ObjetivoController');  // es resource pq trabajamos con varias rutas
     Route::resource('proceso', 'ProcesoController');  // es resource pq trabajamos con varias rutas

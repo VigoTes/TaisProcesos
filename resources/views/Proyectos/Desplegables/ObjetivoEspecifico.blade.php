@@ -16,22 +16,22 @@
                @csrf
                 <div class="row">
                     
-                    
-                        <div class="col">
-                            <form action="{{route('GestionProyectos.agregarObjetivoEspecifico')}}" method="POST">
-                                @csrf
-                                <input type="hidden" name="codProyecto" value="{{$proyecto->codProyecto}}">
                 
-                                <label for="">Nuevo Obj Esp</label>
-                                <textarea class="form-control" name="descripcionObjetivo" id="descripcionObjetivo" cols="15" rows="1"
-                                ></textarea>
+                    <div class="col">
+                        <form action="{{route('GestionProyectos.agregarObjetivoEspecifico')}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="codProyecto" value="{{$proyecto->codProyecto}}">
+            
+                            <label for="">Nuevo Obj Esp</label>
+                            <textarea class="form-control" name="descripcionObjetivo" id="descripcionObjetivo" cols="15" rows="1"
+                            ></textarea>
 
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-plus">Agregar</i>
-                                </button>
-                            </form>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus">Agregar</i>
+                            </button>
+                        </form>
 
-                        </div>
+                    </div>
                     
        
                     <div class="col">

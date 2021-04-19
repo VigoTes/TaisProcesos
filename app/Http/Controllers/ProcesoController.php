@@ -12,10 +12,43 @@ use App\Proceso;
 use App\Subproceso;
 use App\CambioEdicion;
 use Illuminate\Support\Facades\DB;
-
+use App\Indicador;
 class ProcesoController extends Controller
 {
     
+
+
+    public function verIndicadores($idProceso){
+        $listaIndicadores = Indicador::where('idProceso','=',$idProceso)->get();
+        $proceso = Proceso::findOrFail($idProceso);
+        $subproceso = "";
+        $buscarpor ="";
+        $cadenaParaCrear = $proceso->idProceso."*1";
+
+        $cadenaParaVolverAlEdit = route('empresa.edit',$proceso->idEmpresa);
+      
+        return view('tablas.Indicadores.listarIndicadores',compact('listaIndicadores','subproceso','proceso','buscarpor',
+            'cadenaParaCrear','cadenaParaVolverAlEdit'));
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const PAGINATION = 20; // PARA QUE PAGINEE DE 10 EN 10
     public function index(Request $Request)
     {
@@ -78,8 +111,8 @@ class ProcesoController extends Controller
         $empresaFocus = Empresa::findOrFail($request->idEmpresaFocus);
 
         $nuevo = new Proceso;
-        $nuevo->descripcionProceso = $request->descripcionProceso;
-        $nuevo->nombreProceso = $request->nombreProceso;
+        $nuevo->descripcion = $request->descripcion;
+        $nuevo->nombre = $request->nombre;
         $nuevo->idEmpresa = $empresaFocus->idEmpresa;
         //el idProceso es Auto Increm, no tengo que ponerlo
         // ahora debo calcular el nro en empresa de este proceso
@@ -109,7 +142,7 @@ class ProcesoController extends Controller
         //REGISTRO EN EL HISTORIAL
         $historial = new CambioEdicion();
         $historial->registrarCambio($idEmpresa, "Se creó un proceso.",Auth::id(),
-                    "",$nuevo->nombreProceso);
+                    "",$nuevo->nombre);
         
         
         
@@ -156,14 +189,14 @@ class ProcesoController extends Controller
     public function update(Request $request, $id)
     {
         $proceso = Proceso::findOrFail($id);
-        $antValor = $proceso->nombreProceso." /\ ".$proceso->descripcionProceso;
+        $antValor = $proceso->nombre." /\ ".$proceso->descripcion;
 
-        $proceso->nombreProceso = $request->nombreProceso;
-        $proceso->descripcionProceso = $request->descripcionProceso;
+        $proceso->nombre = $request->nombre;
+        $proceso->descripcion = $request->descripcion;
 
         $proceso->save();
 
-        $nueValor = $proceso->nombreProceso." /\ ".$proceso->descripcionProceso;
+        $nueValor = $proceso->nombre." /\ ".$proceso->descripcion;
 
         $historial = new CambioEdicion();
         $historial->registrarCambio($proceso->idEmpresa, 
@@ -230,7 +263,7 @@ class ProcesoController extends Controller
         $historial = new CambioEdicion();
         $historial->registrarCambio($proceso->idEmpresa, 
                 "Se eliminó un proceso y sus subprocesos.",Auth::id(),
-                    "idProcesoEliminado=".$id." nombre=".$proceso->nombreProceso,
+                    "idProcesoEliminado=".$id." nombre=".$proceso->nombre,
                     "");
 
         return redirect()->route('proceso.listar',$idEmpresa);

@@ -1,23 +1,60 @@
 @extends('Layout.Plantilla')
-@section('contenido')
+@section('estilos')
+    
+    <style>
+        .cuadroCircularPlomo1{
+            background-color: rgb(175, 175, 175);
+            -moz-border-radius: 7px;
+            -webkit-border-radius: 7px;
+            /* margin: 0.5%; */
+        }
 
+        .cuadroCircularPlomo2{
+            background-color: rgba(230, 230, 230, 0.548);
+            -moz-border-radius: 7px;
+            -webkit-border-radius: 7px;
+            /* margin: 0.5%; */
+        }
+        .col{
+            /* background-color: orange; */
+            margin-top: 15px;
+            padding-bottom: 3px;
+            margin: 0.5%;
+        }
+        
+        
+
+    </style>
+
+@endsection
+@section('contenido')
+@if (session('datos'))
+    <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
+        {{session('datos')}}
+        <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true"> &times;</span>
+        </button>
+        
+    </div>
+@endif
 
 <form method = "POST" action = "{{route('empresa.update',$empresa->idEmpresa)}}"  >
     @method('put')
     @csrf   
 
-  <div class="form-group">
 
-   <div class="container">  {{-- Container  --}}
+    <div class="form-group">
+
+
         <div class="row">
                 
 
 
             <div class="col">
                 {{-- CONTENIDO DE LA COLUMNA --}}
-             <label for="nombreEmpresa">Nombre de la Empresa</label>
+                <label for="nombreEmpresa">Nombre de la Empresa</label>
                 <input type="text" class="form-control @error('nombreEmpresa') is-invalid @enderror"
-                         value='{{$empresa->nombreEmpresa}}' 
+                            value='{{$empresa->nombreEmpresa}}' 
                     id="nombreEmpresa" name="nombreEmpresa" placeHolder="Ingrese el nombre de la empresa">
 
                         @error('nombreEmpresa')
@@ -25,7 +62,7 @@
                                 <strong>{{ $message }} </strong>
                             </span>
                         @enderror  
-               
+                
 
 
                 <br>
@@ -74,12 +111,12 @@
                 <div class="input-group">
                     
                     <textarea class="form-control @error('factorDif') is-invalid @enderror" aria-label="With textarea"
-                     style = "resize: none;" id="factorDif" name="factorDif"  >{{$empresa->factorDif}}</textarea>
-                     @error('factorDif')
+                        style = "resize: none;" id="factorDif" name="factorDif"  >{{$empresa->factorDif}}</textarea>
+                        @error('factorDif')
                         <span class = "invalid-feedback" role ="alert">
                             <strong>{{ $message }} </strong>
                         </span>
-                     @enderror 
+                        @enderror 
                 </div>
 
 
@@ -87,12 +124,12 @@
                 <label for="propuestaV">Propuesta de valor</label>
                 <div class="input-group">
                     <textarea class="form-control @error('propuestaV') is-invalid @enderror"
-                         style = "resize: none;" id="propuestaV" name="propuestaV" >{{$empresa->propuestaV}}</textarea>
+                            style = "resize: none;" id="propuestaV" name="propuestaV" >{{$empresa->propuestaV}}</textarea>
                     @error('propuestaV')
                         <span class = "invalid-feedback" role ="alert">
                             <strong>{{ $message }} </strong>
                         </span>
-                     @enderror 
+                        @enderror 
                 </div>
 
 
@@ -105,9 +142,9 @@
             <div class="col">
                 {{-- CONTENIDO COLUMNA DOBLE TAMAÑO--}}
                     
-               <label for="direccion">Dirección</label>
+                <label for="direccion">Dirección</label>
                 <input type="text" class="form-control @error('direccion') is-invalid @enderror"
-                     id="direccion" name="direccion" placeHolder="Ingrese Dirección de la empresa" 
+                        id="direccion" name="direccion" placeHolder="Ingrese Dirección de la empresa" 
                         value='{{$empresa->direccion}}' >
                     @error('direccion')
                         <span class = "invalid-feedback" role ="alert">
@@ -120,23 +157,72 @@
             <div class="w-100"></div>
 
             <div class="col"> 
-                 {{-- CONTENIDO COLUMNA --}}
+                    {{-- CONTENIDO COLUMNA a--}}
                 
                 <div style=         "float: right;">    
 
                 <br>
-                 <button type="submit" class="btn btn-primary">   <i class="fas fa-save"> </i> Grabar </button>
-                    <a href = "{{route('empresa.index')}}" class = "btn btn-danger">
+                    <button type="button" onclick="clickGuardarDatos()" class="btn btn-primary">
+                        <i class="fas fa-save"></i> 
+                        Grabar 
+                    </button>
+                    <a href = "{{route('empresa.listarTodas')}}" class = "btn btn-danger">
                         <i class="fas fa-ban"> </i> Cancelar </a>   {{-- BOTON CANCELARRRRRRRRRRRRRRRRR --}}
                 </div>
 
-                 {{-- FIN CONTENIDO COLUMNA--}}
+                    {{-- FIN CONTENIDO COLUMNA--}}
             </div>
         </div>
+    
     </div>
-   </div>
-
 </form> {{-- FORM GRUP --}}
+
+<div class="row">
+    <div class="col">
+        @include('tablas.empresas.Plantillas.DesplegableProcesos')
+
+    </div>
+
+
+</div>
+
+<script>
+    
+
+    function clickGuardarDatos(){
+        validarFormularioGuardar();
+
+
+    }
+    function validarFormularioGuardar(){
+        nombreEmpresa = document.getElementById('nombreEmpresa').value;  
+        mision = document.getElementById('mision').value;  
+        vision = document.getElementById('vision').value;  
+        RUC = document.getElementById('RUC').value;  
+        factorDif = document.getElementById('factorDif').value;  
+        propuestaV = document.getElementById('propuestaV').value;  
+        direccion = document.getElementById('direccion').value;  
+                
+        msjError="";
+        if(nombreEmpresa=="")
+            msjError="Debe ingresar un nombre válido para al empresa";
+        if(mision=="")
+            msjError="Debe ingresar una misión válida";
+        if(vision=="")
+            msjError="Debe ingresar una visión válida";
+        if(RUC=="")
+            msjError="Debe ingresar un RUC válido";
+        if(factorDif=="")
+            msjError="Debe ingresar un factor diferenciador válido";
+        if(propuestaV=="")
+            msjError="Debe ingresar una propuesta de valor";
+        if(direccion=="")
+            msjError="Debe ingresar una dirección";
+        
+        return msjError;
+        
+    }
+</script>
 
 
 

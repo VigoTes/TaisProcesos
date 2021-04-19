@@ -171,10 +171,10 @@ class EmpresaController extends Controller
             return redirect()->route('empresa.index')->with('msjLlegada','Error: Debe escoger una empresa para editar.');
                 
         $empresa=Empresa::findOrFail($id);
-  
+        $listaProcesos = Proceso::where('idEmpresa','=',$empresa->idEmpresa)->get();
         $empresaFocus = $empresa; 
 
-        return view('tablas.empresas.edit',compact('empresa','empresaFocus'));
+        return view('tablas.empresas.edit',compact('empresa','empresaFocus','listaProcesos'));
 
 
     }
@@ -276,9 +276,69 @@ class EmpresaController extends Controller
 
 
     
-    
- 
+    function agregarEditarProceso(Request $request){
 
+        if($request->idProceso=="-1") //NUEVO PROCESO
+        {
+            $proceso = new Proceso();
+            $proceso->idEmpresa = $request->idEmpresa;
+            $variacionMensaje=" añadido ";
+           
+        }else{//YA EXISTE Y SE ESTÁ ACTUALIZANDO
+            $proceso = Proceso::findOrFail($request->idProceso);
+            $variacionMensaje=" actualizado ";
+            
+        }
+        $proceso->nombre = $request ->nombreNuevoProceso;
+        $proceso->descripcion = $request ->descripcionNuevoProceso;
+        $proceso->save();
+
+
+        return redirect()->route('empresa.edit',$proceso->idEmpresa)->with('datos','Proceso '.$proceso->nombre." ".$variacionMensaje." exitosamente.");
+    
+
+    }
+
+
+    function eliminarProceso($idProceso){
+        $proceso = Proceso::findOrFail($idProceso);
+        $nombre=  $proceso->nombre;
+        $proceso->delete();
+        return redirect()->route('empresa.edit',$proceso->idEmpresa)->with('datos','Proceso '.$nombre." eliminado exitosamente.");
+    
+    }
+ 
+    function agregarEditarSubproceso(Request $request){
+
+
+
+        if($request->idSubproceso=="-1") //NUEVO SUBPROCESO
+        {
+            $subproceso = new Subproceso();
+            $variacionMensaje = " Agregado ";
+        }else{
+            $subproceso = Subproceso::findOrFail($request->idSubproceso);
+            $variacionMensaje = " Actualizado ";
+        }
+        
+        $subproceso->nombre = $request ->nombreNuevoSubproceso;
+        $subproceso->idProceso = $request->ComboBoxProceso;
+        $subproceso->save();
+
+
+        return redirect()->route('empresa.edit',$subproceso->getProceso()->idEmpresa)->with('datos','Subproceso '.$subproceso->nombre." ".$variacionMensaje." exitosamente.");
+    
+
+    }
+ 
+    function eliminarSubproceso($idSubproceso){
+        $subproceso = Subproceso::findOrFail($idSubproceso);
+        $nombre=  $subproceso->nombre;
+        $subproceso->delete();
+
+        return redirect()->route('empresa.edit',$subproceso->getProceso()->idEmpresa)->with('datos','Subproceso '.$nombre." eliminado exitosamente.");
+    
+    }
     
     public function matrizProcOrg($id){ //le pasamos id de la empresa
         

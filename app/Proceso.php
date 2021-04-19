@@ -14,12 +14,31 @@ class Proceso extends Model
         // le indicamos los campos de la tabla 
         protected $fillable = ['nroEnEmpresa','descripcionProceso','idEmpresa','nombreProceso'];
 
+
+        public function getListaIndicadores(){
+            return Indicador::where('idProceso','=',$this->idProceso)->get();
+
+        }
+
+        public function getCantidadIndicadores(){
+
+            return count($this->getListaIndicadores());
+        }
+        public function getEmpresa(){
+
+            return Empresa::findOrFail($this->idEmpresa);
+
+        }
+        public function getListaSubprocesos(){
+            return Subproceso::where('idProceso','=',$this->idProceso)->get();
+
+        }
         public function empresa(){
             return $this->hasOne('App\Empresa','idEmpresa','idEmpresa');
         }
 
         public function nombre(){
-            return $this->nombreProceso;
+            return $this->nombre;
         }
         public function id(){
             return $this->idProceso;
