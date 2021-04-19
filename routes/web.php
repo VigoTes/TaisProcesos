@@ -139,9 +139,20 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     
     Route::get('/Indicadores/eliminar/{idIndicador}','IndicadorController@eliminar')->name('Indicadores.eliminar');
     
+    
 
     Route::post('/Indicadores/store','IndicadorController@store')->name('Indicadores.store');
     Route::post('/Indicadores/update','IndicadorController@update')->name('Indicadores.update');
+    
+
+    //LA CADENA CONTIENE el id del proceso/subproceso del que se verá el mapa. un 1 o 0 si es proceso o subproceso respectivamente, formato: "15*1"
+    Route::get('/MapaEstrategico/ver/{cadena}','MapaEstrategicoController@ver')->name('MapaEstrategico.ver');
+
+    Route::post('/MapaEstrategico/agregarElemento','MapaEstrategicoController@agregarElemento')->name('MapaEstrategico.agregarElemento');
+    Route::get('/MapaEstrategico/eliminarElemento/{idElemento}','MapaEstrategicoController@eliminarElemento')->name('MapaEstrategico.eliminarElemento');
+    
+    Route::get('/MapaEstrategico/crearRelacion/{cadena}','MapaEstrategicoController@crearRelacion')->name('MapaEstrategico.crearRelacion');
+    Route::get('/MapaEstrategico/eliminarRelacion/{idFlecha}','MapaEstrategicoController@eliminarRelacion')->name('MapaEstrategico.eliminarRelacion');
     
 
     Route::resource('objetivo', 'ObjetivoController');  // es resource pq trabajamos con varias rutas

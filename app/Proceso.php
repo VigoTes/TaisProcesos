@@ -12,7 +12,7 @@ class Proceso extends Model
     public $timestamps = false;  //para que no trabaje con los campos fecha 
 
         // le indicamos los campos de la tabla 
-        protected $fillable = ['nroEnEmpresa','descripcionProceso','idEmpresa','nombreProceso'];
+    protected $fillable = ['nroEnEmpresa','descripcionProceso','idEmpresa','nombreProceso'];
 
 
         public function getListaIndicadores(){

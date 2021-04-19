@@ -139,7 +139,9 @@
                                         <i class="fas fa-italic"></i>
 
                                     </a>
-
+                                    <a href="{{route('MapaEstrategico.ver',$itemProceso->idProceso."*1")}}" class="btn-primary">
+                                        Mapa
+                                    </a>
 
                                 </td>
                                 <td>
@@ -164,7 +166,9 @@
                                                         <i class="fas fa-italic"></i>
                 
                                                     </a>
-                
+                                                    <a href="{{route('MapaEstrategico.ver',$itemSubproceso->idSubproceso."*0")}}" class="btn-primary">
+                                                        Mapa
+                                                    </a>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -254,7 +258,7 @@
         if(nombreNuevoProceso==""){
             msjError="Debe ingresar un nombre válido.";
         }
-
+        
         if(descripcionNuevoProceso==""){
             msjError="Debe ingresar una descripción válida para el nuevo proceso";
 
