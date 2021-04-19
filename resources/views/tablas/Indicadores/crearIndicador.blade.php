@@ -6,13 +6,13 @@
     @csrf   
 
   <div class="form-group">
-    <h1>Crear indicador para 
+    <h3>Crear indicador para 
         @if($proceso!="")
             el proceso {{$proceso->nombre}}
         @else 
             el subproceso {{$subproceso->nombre}}
         @endif
-    </h1>
+    </h3>
    <div class="container">  {{-- Container  --}}
         <div class="row">
             
@@ -81,30 +81,101 @@
 
             <input type="{{App\Configuracion::getInputTextOHidden()}}" name="idProceso" id="idProceso" value="{{$idProceso}}">
             <input type="{{App\Configuracion::getInputTextOHidden()}}" name="idSubproceso" id="idSubproceso" value="{{$idSubproceso}}">
+            <input type="{{App\Configuracion::getInputTextOHidden()}}" name="sentidoDelSemaforo" id="sentidoDelSemaforo" value="0">
+
+            
 
             <div class="w-100"></div>
-            <div class="col"> 
-                 {{-- CONTENIDO COLUMNA --}}
-                
-                  
 
-                <br>
+
+            
+        </div>
+
+        
+        <div class="col">
+            <div class="row">
+                <div class="col">
                     
-                <div style=         "float: right;">    
-
-                    <button type="button" onclick="clickGrabar()" class="btn btn-primary">
-                        <i class="fas fa-save"></i>
-                        Grabar
-                    </button>
-                    <a href = "{{$rutaVolverAListar}}" class = "btn btn-danger">
-                        <i class="fas fa-ban"></i>
-                        Cancelar
-                    </a>   {{-- BOTON CANCELARRRRRRRRRRRRRRRRR --}}
+                    <label for="nombre">Frecuencia de Medición</label>
+                    <input type="number" class="form-control"
+                        id="frecuenciaDeMedicion" name="frecuenciaDeMedicion">
+                    
+                </div>
+                   
+                <div class="col">
+                    <label for="unidadDeFrecuencia">Unidad de frecuencia</label>
+                    <select class="form-control" name="unidadDeFrecuencia" id="unidadDeFrecuencia">
+                        <option value="Día">Día</option>
+                        <option value="Mes">Mes</option>
+                        <option value="Año">Año</option>
+                    </select>
                 </div>
 
-                 {{-- FIN CONTENIDO COLUMNA--}}
+               
+                <div class="col">
+                    <label for="lineaBase">Linea Base</label>
+                    <input type="number" class="form-control"
+                        id="lineaBase" name="lineaBase">
+                    
+                </div>
+                <div class="col">
+                    <label for="unidadDeMedida">Unidad de Medida</label>
+                    <input type="text" class="form-control"
+                        id="unidadDeMedida" name="unidadDeMedida">
+
+
+                </div>
+                <div class="w-100"></div>
+                <br>
+                <div id="cuadradoIzquierda" class="col pintadoVerde"></div>
+                <div class="col">
+                        
+                    <label for="limite1">Limite Inferior</label>
+                    <input type="number" class="form-control" step="0.1"
+                        id="limite1" name="limite1">
+                </div>
+
+                
+                <div class="col pintadoAmarillo"></div>
+                
+                <div class="col">
+
+                    <label for="limite2">Limite superior</label>
+                    <input type="number" class="form-control" step="0.1"
+                        id="limite2" name="limite2">
+    
+                </div>
+                <div id="cuadradoDerecha" class="col pintadoRojo"></div>
+                <div class="col-2">
+                    <button class="btn btn-success" type="button" onclick="cambiarSentido()">
+                        Cambiar Sentido del Semáforo
+                    </button>
+
+                </div>
+                <div class="col"></div>
+                <div class="col"></div>
+                
+                <div class="w-100"></div>
+                
             </div>
         </div>
+
+        <div class="col fondoPaVer" > 
+            {{-- CONTENIDO COLUMNA --}}
+           
+               <button type="button" onclick="clickGrabar()" class="btn btn-primary">
+                   <i class="fas fa-save"></i>
+                   Grabar
+               </button>
+               <a href = "{{$rutaVolverAListar}}" class = "btn btn-danger">
+                   <i class="fas fa-ban"></i>
+                   Cancelar
+               </a>   {{-- BOTON CANCELARRRRRRRRRRRRRRRRR --}}
+           
+
+            {{-- FIN CONTENIDO COLUMNA--}}
+       </div>
+
     </div>
    </div>
 
@@ -113,9 +184,32 @@
 
 
 @endsection
+@section('estilos')
+<style>
+    .fondoPaVer{
+
+        background-color: rgb(131, 180, 85);
+    }
+    .pintadoVerde{
+        background-color: rgb(4, 219, 4);
+        border-radius: 100%;
+    }
+    .pintadoRojo{
+        background-color: rgb(255, 0, 0);
+        border-radius: 100%;
+    }
+
+    .pintadoAmarillo{
+        background-color: yellow;
+        border-radius: 100%;
+    }
+    
+</style>
+@endsection
 @section('script')
 <script>
 
+    sentidoDeSemaforo = 0;
 
     function clickGrabar(){
         msjError=validarForm();
@@ -168,6 +262,27 @@
 
 
     }
+
+
+    function cambiarSentido(){
+        const elementoIzquierda = document.getElementById('cuadradoIzquierda');
+        const elementoDerecha = document.getElementById('cuadradoDerecha');
+        
+        if(sentidoDeSemaforo==1){
+            elementoIzquierda.classList= 'pintadoVerde col';
+            elementoDerecha.classList = "pintadoRojo col";
+            sentidoDeSemaforo=0;
+        }else{
+            elementoIzquierda.classList= 'pintadoRojo col';
+            elementoDerecha.classList = "pintadoVerde col";
+            sentidoDeSemaforo=1;
+
+        }
+
+        console.log('Sentido del semaforo: '+ sentidoDeSemaforo);
+       document.getElementById('sentidoDelSemaforo').value = sentidoDeSemaforo;
+    }
+
 
 </script>
 

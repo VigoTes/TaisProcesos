@@ -144,6 +144,8 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     Route::post('/Indicadores/store','IndicadorController@store')->name('Indicadores.store');
     Route::post('/Indicadores/update','IndicadorController@update')->name('Indicadores.update');
     
+    Route::post('/Indicadores/agregarRegistro','IndicadorController@agregarRegistro')->name('Indicadores.agregarRegistro');
+    
 
     //LA CADENA CONTIENE el id del proceso/subproceso del que se verá el mapa. un 1 o 0 si es proceso o subproceso respectivamente, formato: "15*1"
     Route::get('/MapaEstrategico/ver/{cadena}','MapaEstrategicoController@ver')->name('MapaEstrategico.ver');

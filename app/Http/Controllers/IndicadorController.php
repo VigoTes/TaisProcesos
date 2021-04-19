@@ -7,6 +7,7 @@ use App\Indicador;
 use Illuminate\Http\Request;
 
 use App\Proceso;
+use App\RegistroIndicador;
 use App\Subproceso;
 
 class IndicadorController extends Controller
@@ -43,9 +44,11 @@ class IndicadorController extends Controller
 
     public function editarIndicador($idIndicador){
         $indicador = Indicador::findOrFail($idIndicador);
-        return view('tablas.Indicadores.editarIndicador',compact('indicador'));
+        $listaRegistros = RegistroIndicador::where('idIndicador','=',$idIndicador)->get();
+        return view('tablas.Indicadores.editarIndicador',compact('indicador','listaRegistros'));
 
     }
+
 
     public function update(Request $request){
 
@@ -59,6 +62,19 @@ class IndicadorController extends Controller
         $indicador->P_QuienMedira = $request->P_QuienMedira;
         $indicador->P_Tolerancia = $request->P_Tolerancia;
         $indicador->formula = $request->formula;
+
+
+
+        $indicador->frecuenciaDeMedicion = $request->frecuenciaDeMedicion;
+        $indicador->unidadDeFrecuencia = $request->unidadDeFrecuencia;
+        $indicador->lineaBase = $request->lineaBase;
+        $indicador->unidadDeMedida = $request->unidadDeMedida;
+        $indicador->limite1 = $request->limite1;
+        $indicador->limite2 = $request->limite2;
+        $indicador->sentidoDeSemaforo = $request->sentidoDelSemaforo;
+        
+
+
         $indicador ->save();
 
         if($indicador->esDeProceso()){//ES DE PROCESO 
@@ -85,6 +101,22 @@ class IndicadorController extends Controller
         $indicador->P_QuienMedira = $request->P_QuienMedira;
         $indicador->P_Tolerancia = $request->P_Tolerancia;
         $indicador->formula = $request->formula;
+
+
+
+        $indicador->frecuenciaDeMedicion = $request->frecuenciaDeMedicion;
+        $indicador->unidadDeFrecuencia = $request->unidadDeFrecuencia;
+        $indicador->lineaBase = $request->lineaBase;
+        $indicador->unidadDeMedida = $request->unidadDeMedida;
+        $indicador->limite1 = $request->limite1;
+        $indicador->limite2 = $request->limite2;
+        $indicador->sentidoDeSemaforo = $request->sentidoDelSemaforo;
+        
+
+
+
+
+
 
         if($request->idSubproceso==""){//ES DE PROCESO 
             $indicador->idProceso = $request->idProceso;
@@ -126,5 +158,19 @@ class IndicadorController extends Controller
 
     }
 
+
+
+    public function agregarRegistro(Request $request){
+        
+        
+        $registro = new RegistroIndicador();
+        $registro->valor =$request->valorNuevoRegistro;
+        $registro->nombrePeriodo = $request->nombrePeriodo;
+        $registro->idIndicador = $request->idIndicador;
+        $registro->save();
+    
+        return redirect()->route('Indicadores.editarIndicador',$request->idIndicador)->with('datos','Registro añadido.');
+    
+    }
 
 }
