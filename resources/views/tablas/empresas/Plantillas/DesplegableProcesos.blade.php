@@ -13,92 +13,95 @@
         </a>
         <div id="collapseProcesos" class="panel-collapse collapse card-body p-0">
 
-
-            <div class="row">
+               
                 
-                <div class="col">
-                    <form id="formAgregarProceso" name="formAgregarProceso" action="{{route('Empresa.agregarEditarProceso')}}" method="POST">
-                        @csrf
-                        <input type="hidden" name="idEmpresa" value="{{$empresa->idEmpresa}}">
-                        <input type="{{App\Configuracion::getInputTextOHidden()}}" name="idProceso" id="idProceso" value="-1" >
+                <div class="row">
+                    
+                    <div class="col">
+                        @if(App\Empleado::verificarPermiso('proceso.CEE',$empresa->idEmpresa) )
+                
+                            <form id="formAgregarProceso" name="formAgregarProceso" action="{{route('Empresa.agregarEditarProceso')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="idEmpresa" value="{{$empresa->idEmpresa}}">
+                                <input type="{{App\Configuracion::getInputTextOHidden()}}" name="idProceso" id="idProceso" value="-1" >
 
-                        <label for="">Nombre del nuevo Proceso</label>
-                        <input class="form-control" name="nombreNuevoProceso" id="nombreNuevoProceso">
+                                <label for="">Nombre del nuevo Proceso</label>
+                                <input class="form-control" name="nombreNuevoProceso" id="nombreNuevoProceso">
+                                
+                                <label for="">Descripción del nuevo proceso</label>
+                                <textarea class="form-control" name="descripcionNuevoProceso" id="descripcionNuevoProceso" cols="3" rows="2"
+                                ></textarea>
+
+                                <button type="button" onclick="clickAgregarProceso()" class="btn btn-primary">
+                                    <i class="fas fa-plus">Guardar</i>
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                    
+    
+                    <div class="col">
+                        @if(App\Empleado::verificarPermiso('subproceso.CEE',$empresa->idEmpresa) )
+                
+                            <form id="formAgregarSubproceso" name="formAgregarSubproceso" action="{{route('Empresa.agregarEditarSubproceso')}}" method="POST">
+                                <input type="hidden" name="idEmpresa" value="{{$empresa->idEmpresa}}">
+                                <input type="{{App\Configuracion::getInputTextOHidden()}}" name="idSubproceso" id="idSubproceso" value="-1" >
+
+                                @csrf
+                                <div class="row">
+                                    <label for="">Nuevo Subproceso</label>
+
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col">
+
+                                        <label for="">Proceso</label>
+                                        <select class="form-control"  id="ComboBoxProceso" name="ComboBoxProceso" onchange="" >
+                                            <option value="-1"> -- Proceso -- </option>
+                                            @foreach($listaProcesos as $itemProceso)
+                                                <option value="{{$itemProceso->idProceso}}">
+                                                    {{$itemProceso->nombre}}
+                                                </option>
+                                                
+                                            @endforeach
+                                        </select> 
+
+                                    </div>
+                                    <div class="col">
+
+                                        <label for="">Nombre subproceso</label>
+                                        <input type="text" class="form-control" name="nombreNuevoSubproceso" id="nombreNuevoSubproceso">
+
+                                    </div>
+                                    <div class="w-100"></div>
+                                    <div class="col">
+
+
+                                    </div>
+                                    <div class="col">
+
+
+                                    </div>
+
+
+
+                                </div>
+                                
+                                
+                                <button type="button" onclick="clickAgregarSubproceso()" class="btn btn-primary">
+                                    <i class="fas fa-plus">Guardar</i>
+                                </button>
+
+                            </form>
+
+                        @endif
                         
-                        <label for="">Descripción del nuevo proceso</label>
-                        <textarea class="form-control" name="descripcionNuevoProceso" id="descripcionNuevoProceso" cols="3" rows="2"
-                        ></textarea>
-
-                        <button type="button" onclick="clickAgregarProceso()" class="btn btn-primary">
-                            <i class="fas fa-plus">Guardar</i>
-                        </button>
-                    </form>
+                    </div>
 
                 </div>
-                
-   
-                <div class="col">
-                    
-                    <form id="formAgregarSubproceso" name="formAgregarSubproceso" action="{{route('Empresa.agregarEditarSubproceso')}}" method="POST">
-                        <input type="hidden" name="idEmpresa" value="{{$empresa->idEmpresa}}">
-                        <input type="{{App\Configuracion::getInputTextOHidden()}}" name="idSubproceso" id="idSubproceso" value="-1" >
 
-                        @csrf
-                        <div class="row">
-                            <label for="">Nuevo Subproceso</label>
-
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col">
-
-                                <label for="">Proceso</label>
-                                <select class="form-control"  id="ComboBoxProceso" name="ComboBoxProceso" onchange="" >
-                                    <option value="-1"> -- Proceso -- </option>
-                                    @foreach($listaProcesos as $itemProceso)
-                                        <option value="{{$itemProceso->idProceso}}">
-                                            {{$itemProceso->nombre}}
-                                        </option>
-                                        
-                                    @endforeach
-                                </select> 
-
-                            </div>
-                            <div class="col">
-
-                                <label for="">Nombre subproceso</label>
-                                <input type="text" class="form-control" name="nombreNuevoSubproceso" id="nombreNuevoSubproceso">
-
-                            </div>
-                            <div class="w-100"></div>
-                            <div class="col">
-
-
-                            </div>
-                            <div class="col">
-
-
-                            </div>
-
-
-
-                        </div>
-                        
-                        
-                        <button type="button" onclick="clickAgregarSubproceso()" class="btn btn-primary">
-                            <i class="fas fa-plus">Guardar</i>
-                        </button>
-
-                    </form>
-
-                       
-                    
-                </div>
-
-            </div>
-
-
-
+          
 
             {{-- PARA VER LA SOLICITUD ENLAZADA --}}   
             <div class="table-responsive " style="margin: 5px">                           
@@ -127,21 +130,25 @@
                                     {{$itemProceso->getCantidadIndicadores()}}
                                 </td>
                                 <td style="text-align: center;">
-                                    <a href="#" class=" btn-primary" onclick="clickEliminarProceso({{$itemProceso->idProceso}})">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
 
-                                    <a href="#" class=" btn-primary" onclick="clickEditarProceso({{$itemProceso->idProceso}})">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
+                                    @if(App\Empleado::verificarPermiso('proceso.CEE',$empresa->idEmpresa) )
+                    
+                                        <a href="#" class=" btn-primary" onclick="clickEliminarProceso({{$itemProceso->idProceso}})">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
 
-                                    <a href="{{route('proceso.verIndicadores',$itemProceso->idProceso)}}" class="btn-primary">
-                                        <i class="fas fa-italic"></i>
+                                        <a href="#" class=" btn-primary" onclick="clickEditarProceso({{$itemProceso->idProceso}})">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                    @endif
 
-                                    </a>
-                                    <a href="{{route('MapaEstrategico.ver',$itemProceso->idProceso."*1")}}" class="btn-primary">
-                                        Mapa
-                                    </a>
+                                        <a href="{{route('proceso.verIndicadores',$itemProceso->idProceso)}}" class="btn-primary">
+                                            <i class="fas fa-italic"></i>
+
+                                        </a>
+                                        <a href="{{route('MapaEstrategico.ver',$itemProceso->idProceso."*1")}}" class="btn-primary">
+                                            Mapa
+                                        </a>
 
                                 </td>
                                 <td>
@@ -155,20 +162,26 @@
                                                 </td>
                                                 <td>{{$itemSubproceso->getCantidadIndicadores()}}</td>
                                                 <td width="10%">
-                                                    <a onclick="clickEliminarSubproceso({{$itemSubproceso->idSubproceso}})" class="btn btn-alert">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
 
-                                                    <a href="#" onclick="clickEditarSubproceso({{$itemSubproceso->idSubproceso}})">
-                                                        <i class="fas fa-pen"></i>
-                                                    </a>
-                                                    <a href="{{route('subproceso.verIndicadores',$itemSubproceso->idSubproceso)}}" class="btn-primary">
-                                                        <i class="fas fa-italic"></i>
-                
-                                                    </a>
-                                                    <a href="{{route('MapaEstrategico.ver',$itemSubproceso->idSubproceso."*0")}}" class="btn-primary">
-                                                        Mapa
-                                                    </a>
+                                                    @if(App\Empleado::verificarPermiso('subproceso.CEE',$empresa->idEmpresa) )
+                        
+                                                        <a onclick="clickEliminarSubproceso({{$itemSubproceso->idSubproceso}})" class="btn btn-alert">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+
+                                                        <a href="#" onclick="clickEditarSubproceso({{$itemSubproceso->idSubproceso}})">
+                                                            <i class="fas fa-pen"></i>
+                                                        </a>
+                                                    @endif
+                                                        <a href="{{route('subproceso.verIndicadores',$itemSubproceso->idSubproceso)}}" class="btn-primary">
+                                                            <i class="fas fa-italic"></i>
+                    
+                                                        </a>
+                                                        <a href="{{route('MapaEstrategico.ver',$itemSubproceso->idSubproceso."*0")}}" class="btn-primary">
+                                                            Mapa
+                                                        </a>
+
+
                                                 </td>
                                             </tr>
                                             @endforeach

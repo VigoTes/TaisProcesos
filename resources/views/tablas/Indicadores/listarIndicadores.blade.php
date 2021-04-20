@@ -24,13 +24,14 @@
 <div class="card">
         <div class="card-header border-0">         
          
-
+          @if(App\Empleado::verificarPermiso('indicador.CEE',$empresa->idEmpresa) )
+        
            <a href="{{route('Indicadores.crearIndicador',$cadenaParaCrear)}}" class = "btn btn-primary"> 
                 <i class="fas fa-plus"> </i> 
                   Nuevo Indicador
            </a>
 
-
+          @endif
 
           <div class="card-tools">
             <a href="#" class="btn btn-tool btn-sm">
@@ -65,16 +66,25 @@
                     <td>{{$itemIndicador->P_QuienMedira}}</td>
                     
                     <td>
+                      
                             {{-- MODIFICAR RUTAS DE Delete y Edit --}}
                         <a href="{{route('Indicadores.editarIndicador',$itemIndicador->idIndicador)}}" class = "btn btn-warning">  
-                            <i class="fas fa-edit"> </i> 
-                            Editar
-                        </a>
+                          @if(App\Empleado::verificarPermiso('indicador.CEE',$empresa->idEmpresa) )
+                            <i class="fas fa-edit"></i> 
+                                Editar
+                          @else  
+                            <i class="fas fa-eye"></i> 
+                            Ver
+                          @endif
+                          </a>
 
+                      @if(App\Empleado::verificarPermiso('indicador.CEE',$empresa->idEmpresa) )
+        
                         <a href="#" onclick="clickEliminarIndicador({{$itemIndicador->idIndicador}})" class = "btn btn-danger"> 
                             <i class="fas fa-trash-alt"> </i> 
                             Eliminar
                         </a>
+                      @endif
                     </td>
                  
                     

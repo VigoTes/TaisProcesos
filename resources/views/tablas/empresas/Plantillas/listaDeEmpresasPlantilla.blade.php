@@ -20,17 +20,27 @@
             
             <td>
 
+                       
+                        {{-- MODIFICAR RUTAS DE Delete y Edit --}}
+                    <a href="{{route('empresa.edit',$itemEmpresa->idEmpresa)}}" class = "btn btn-warning">  
+                        @if(App\Empleado::verificarAdminSistema() )
+                    
+                            <i class="fas fa-edit"> </i> 
+                            Editar
+                        @else 
+                             <i class="fas fa-eye"> </i> 
+                            Ver
 
-                    {{-- MODIFICAR RUTAS DE Delete y Edit --}}
-                <a href="{{route('empresa.edit',$itemEmpresa->idEmpresa)}}" class = "btn btn-warning">  
-                    <i class="fas fa-edit"> </i> 
-                    Editar
-                </a>
+                        @endif
 
+                    </a>
+               
+                @if(App\Empleado::verificarAdminSistema() )
                 <a href="#" onclick="clickEliminar({{$itemEmpresa->idEmpresa}})" class = "btn btn-danger"> 
                     <i class="fas fa-trash-alt"> </i> 
                     Eliminar
                 </a>
+                @endif
 
 
             </td>

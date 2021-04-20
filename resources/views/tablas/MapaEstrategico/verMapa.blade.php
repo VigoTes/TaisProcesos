@@ -40,36 +40,37 @@ padding: 10px;
 <div class="card">
         <div class="card-header border-0">         
          
+            @if(App\Empleado::verificarPermiso('mapa.CEE',$empresa->idEmpresa) )
+                            
+              <form action="{{route('MapaEstrategico.agregarElemento')}}" id="formAgregarElemento" name="formAgregarElemento" method="post">
+                <input type="{{App\Configuracion::getInputTextOHidden()}}" id="idMapaEstrategico" name="idMapaEstrategico" value="{{$mapaEstrategico->idMapaEstrategico}}">
+                @csrf
+                <div class="row">
+                  <div class="col">
+                    <label for="">Nombre</label>
+                    <input type="text" class="form-control" name="nombreNuevoElemento" id="nombreNuevoElemento" value="">
+                  </div>
+                  <div class="col">
 
-            <form action="{{route('MapaEstrategico.agregarElemento')}}" id="formAgregarElemento" name="formAgregarElemento" method="post">
-              <input type="{{App\Configuracion::getInputTextOHidden()}}" id="idMapaEstrategico" name="idMapaEstrategico" value="{{$mapaEstrategico->idMapaEstrategico}}">
-              @csrf
-              <div class="row">
-                <div class="col">
-                  <label for="">Nombre</label>
-                  <input type="text" class="form-control" name="nombreNuevoElemento" id="nombreNuevoElemento" value="">
+                    <label for="">Nivel</label>
+                    <select class="form-control"  id="ComboBoxNivel" name="ComboBoxNivel" onchange="" >
+                          <option value="-1"> -- Nivel -- </option>
+                          @foreach($listaNiveles as $itemNivel)
+                            <option value="{{$itemNivel->idNivel}}">
+                                {{$itemNivel->nombre}}
+                            </option>
+                            
+                          @endforeach
+                    </select> 
+                  </div>
+
                 </div>
-                <div class="col">
-
-                  <label for="">Nivel</label>
-                  <select class="form-control"  id="ComboBoxNivel" name="ComboBoxNivel" onchange="" >
-                        <option value="-1"> -- Nivel -- </option>
-                        @foreach($listaNiveles as $itemNivel)
-                          <option value="{{$itemNivel->idNivel}}">
-                              {{$itemNivel->nombre}}
-                          </option>
-                          
-                        @endforeach
-                  </select> 
-                </div>
-
-              </div>
-              <button type="button" onclick="clickAgregarElemento()" href="#" class = "btn btn-primary"> 
-                <i class="fas fa-plus"> </i> 
-                  Agregar Elemento
-              </button>
-            </form>
-            
+                <button type="button" onclick="clickAgregarElemento()" href="#" class = "btn btn-primary"> 
+                  <i class="fas fa-plus"> </i> 
+                    Agregar Elemento
+                </button>
+              </form>
+            @endif
             
             
 
@@ -81,7 +82,7 @@ padding: 10px;
             <thead>
             <tr>
                 <th width="10%"  style="text-align: center">Nivel</th>
-                <th>Elementos</th>
+                <th>Estrategias</th>
             </tr>
             </thead>
             <tbody>
@@ -261,11 +262,12 @@ padding: 10px;
 
           </div>
           <div class="col">
-
+            @if(App\Empleado::verificarPermiso('mapa.CEE',$empresa->idEmpresa) )
+             
             <a href="#" onclick="clickCrearRelacion()" class="btn btn-success" style="width: 20%">
               Crear Relación
             </a>
-  
+            @endif
 
           </div>
         </div>

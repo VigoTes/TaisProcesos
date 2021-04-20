@@ -105,7 +105,7 @@
                             
                             <label for="nombre">Frecuencia de Medición</label>
                             <input type="number" class="form-control" value="{{$indicador->frecuenciaDeMedicion}}"
-                                id="frecuenciaDeMedicion" name="frecuenciaDeMedicion">
+                                id="frecuenciaDeMedicion" name="frecuenciaDeMedicion" value="0">
                             
                         </div>
                         
@@ -117,6 +117,8 @@
                                 <option value="Día">Día</option>
                                 <option value="Mes">Mes</option>
                                 <option value="Año">Año</option>
+                                <option value="Año">Proyecto</option>
+                                
                             </select>
                         </div>
 
@@ -139,7 +141,7 @@
                         <div id="cuadradoIzquierda" class="col"></div>
                         <div class="col">
                                 
-                            <label for="limite1">Limite Inferior</label>
+                            <label for="limite1">Lim Inf</label>
                             <input type="number" class="form-control" step="0.1"  value="{{$indicador->limite1}}"
                                 id="limite1" name="limite1">
                         </div>
@@ -149,17 +151,19 @@
                         
                         <div class="col">
 
-                            <label for="limite2">Limite superior</label>
+                            <label for="limite2">Lim Sup</label>
                             <input type="number" class="form-control" step="0.1"  value="{{$indicador->limite2}}"
                                 id="limite2" name="limite2">
             
                         </div>
                         <div id="cuadradoDerecha" class="col"></div>
                         <div class="col-2">
+                            @if(App\Empleado::verificarPermiso('indicador.CEE',$empresa->idEmpresa) )
+                     
                             <button class="btn btn-success" type="button" onclick="cambiarSentido()">
                                 Cambiar Sentido del Semáforo
                             </button>
-
+                            @endif
                         </div>
                         <div class="col"></div>
                         <div class="col"></div>
@@ -172,10 +176,14 @@
                 <div class="col"> 
                     {{-- CONTENIDO COLUMNA --}}
                     <br>
-                    <button type="button" onclick="clickGrabar()" class="btn btn-primary">
-                        <i class="fas fa-save"></i>
-                        Grabar
-                    </button>
+                    @if(App\Empleado::verificarPermiso('indicador.CEE',$empresa->idEmpresa) )
+                            
+                        <button type="button" onclick="clickGrabar()" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Grabar
+                        </button>
+                    @endif
+                    
                     <a href = "{{$indicador->volverAlListar()}}" class = "btn btn-danger">
                         <i class="fas fa-ban"></i>
                         Cancelar
@@ -283,6 +291,15 @@
         P_Tolerancia = document.getElementById('P_Tolerancia').value;  
         formula = document.getElementById('formula').value;  
              
+
+        frecuenciaDeMedicion = document.getElementById('frecuenciaDeMedicion').value;  
+        unidadDeFrecuencia = document.getElementById('unidadDeFrecuencia').value;  
+        lineaBase = document.getElementById('lineaBase').value;  
+        unidadDeMedida = document.getElementById('unidadDeMedida').value;  
+        limite1 = document.getElementById('limite1').value;  
+        limite2 = document.getElementById('limite2').value;  
+          
+
         msjError="";
         if(nombre=="")
             msjError="Debe ingresar un nombre válido para el indicador.";
@@ -300,6 +317,23 @@
         if(formula=="")
             msjError="Debe ingresar una formula";
         
+
+        if(frecuenciaDeMedicion=="")
+            msjError="Debe ingresar una frecuenciaDeMedicion";
+        if(unidadDeFrecuencia=="")
+            msjError="Debe ingresar una unidadDeFrecuencia";
+        if(lineaBase=="")
+            msjError="Debe ingresar una lineaBase";
+        if(unidadDeMedida=="")
+            msjError="Debe ingresar una unidadDeMedida";
+        if(limite1=="")
+            msjError="Debe ingresar un limite inferior";
+        if(limite2=="")
+            msjError="Debe ingresar un limite superior";
+        
+        if(limite1 >= limite2)
+            msjError = "El limite inferior debe ser menor al superior.";
+
         return msjError;
 
 

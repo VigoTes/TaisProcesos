@@ -45,7 +45,8 @@ class IndicadorController extends Controller
     public function editarIndicador($idIndicador){
         $indicador = Indicador::findOrFail($idIndicador);
         $listaRegistros = RegistroIndicador::where('idIndicador','=',$idIndicador)->get();
-        return view('tablas.Indicadores.editarIndicador',compact('indicador','listaRegistros'));
+        $empresa = $indicador->getEmpresa();
+        return view('tablas.Indicadores.editarIndicador',compact('indicador','listaRegistros','empresa'));
 
     }
 

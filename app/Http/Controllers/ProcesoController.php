@@ -24,11 +24,11 @@ class ProcesoController extends Controller
         $subproceso = "";
         $buscarpor ="";
         $cadenaParaCrear = $proceso->idProceso."*1";
-
+        $empresa = $proceso->getEmpresa();
         $cadenaParaVolverAlEdit = route('empresa.edit',$proceso->idEmpresa);
       
         return view('tablas.Indicadores.listarIndicadores',compact('listaIndicadores','subproceso','proceso','buscarpor',
-            'cadenaParaCrear','cadenaParaVolverAlEdit'));
+            'cadenaParaCrear','cadenaParaVolverAlEdit','empresa'));
 
     }
 

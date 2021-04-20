@@ -218,12 +218,9 @@ class Empleado extends Model
     public static function getEmpleadoLogeado(){
         $idUsuario = Auth::id();         
         $empleados = Empleado::where('idUsuario','=',$idUsuario)->get();
-
         if(is_null(Auth::id())){
             return false;
         }
-
-
         if(count($empleados)<0) //si no encontró el empleado de este user 
         {
 
@@ -234,7 +231,27 @@ class Empleado extends Model
         return $empleados[0]; 
     }
 
+    public function obtenerRol($idEmpresa){
 
+        $empresaUsuario = EmpresaUsuario::
+            where('idEmpleado','=',$this->idEmpleado)
+            ->where('idEmpresa','=',$idEmpresa)
+            ->get()[0];
+        return Rol::findOrFail($empresaUsuario->idRol);
+
+    }
+
+    public static function verificarPermiso($permiso,$idEmpresa){
+        
+        $rol = Empleado::getEmpleadoLogeado()->obtenerRol($idEmpresa);
+        return $rol->verificarPermiso($permiso);
+
+
+    }
+
+    public static function verificarAdminSistema(){
+        return Empleado::getEmpleadoLogeado()->esAdminSistema();
+    }
     
     public function usuario(){
 
@@ -264,19 +281,8 @@ class Empleado extends Model
     }
 
     
-    public static function getMesActual(){
-        date_default_timezone_set('America/Lima');
-        return (int)date('m');
-    }
-
-    
-    
+   
     
 
 
-
-    public function reposicion(){
-        $reposiciones=ReposicionGastos::where('idEmpleadoSolicitante','=',$this->idEmpleado)->get();
-        return $reposiciones;
-    }
 }

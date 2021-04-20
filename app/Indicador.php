@@ -48,6 +48,18 @@ class Indicador extends Model
         return Subproceso::findOrFail($this->idSubproceso);
     }
     
+    public function getProcesoSuperior(){
+        if($this->esDeProceso())
+            return $this->getProceso();
+        else 
+            return $this->getSubproceso()->getProceso();
+
+    }
+
+    public function getEmpresa(){
+        return $this->getProcesoSuperior()->getEmpresa();
+
+    }
     public function volverAlListar(){
         if($this->esDeProceso())
             return route('proceso.verIndicadores',$this->idProceso);

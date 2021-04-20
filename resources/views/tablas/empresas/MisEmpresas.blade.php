@@ -1,7 +1,7 @@
 @extends('Layout.Plantilla')
 @section('contenido')
 
-<h1> Bienvenido al Sistema </h1>
+<h1> Mis Empresas </h1>
       @if (session('msjLlegada'))
         <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
             {{session('msjLlegada')}}
@@ -15,12 +15,13 @@
 <div class="card">
         <div class="card-header border-0">         
          
-
-           <a href="{{route('empresa.create')}}" class = "btn btn-primary"> 
-                <i class="fas fa-plus"> </i> 
-                  Nuevo Registro
-           </a>
-
+            @if(App\Empleado::verificarAdminSistema())
+                        
+              <a href="{{route('empresa.create')}}" class = "btn btn-primary"> 
+                    <i class="fas fa-plus"> </i> 
+                      Nuevo Registro
+              </a>
+            @endif
             <nav class = "navbar float-right"> {{-- PARA MANDARLO A LA DERECHA --}}
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search" id="buscarpor" name = "buscarpor" value ="{{($buscarpor)}}" >

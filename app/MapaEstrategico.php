@@ -18,12 +18,13 @@ class MapaEstrategico extends Model
     public function getCadenaParaVerMapa(){
         if($this->esDeProceso()){
             $cad = $this->idProceso."*1";
-
         }else{
             $cad = $this->idSubproceso."*0";
-        return $cad;
+            Debug::mensajeSimple($cad);
+        }
+            return $cad;
             
-    }
+    
     }
     public function esDeProceso(){
         if($this->idSubproceso=="" || is_null($this->idSubproceso=="") )

@@ -4,7 +4,7 @@ use App\DetalleSolicitudFondos;
 use App\SolicitudFondos;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-
+use App\Empleado;
 
 
 Route::get('/login', 'UserController@verLogin')->name('user.verLogin'); //para desplegar la vista del Login
@@ -49,7 +49,14 @@ Route::get('/Error',function(){
 })->name('error');
 
 
+Route::get('/pruebas',function(){
 
+    if(Empleado::verificarPermiso('mapa.CEE','2'))
+        return "si";
+    else
+        return "no";
+
+});
 /* RUTAS SERVICIOS */
 
 

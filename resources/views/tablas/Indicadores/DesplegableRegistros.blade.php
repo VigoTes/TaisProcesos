@@ -13,42 +13,43 @@
         </a>
         <div id="collapseRegistros" class="panel-collapse collapse card-body p-0">
 
-
-            <div class="row">
-                
-                <div class="col">
-                    <form id="formAgregarRegistro" name="formAgregarRegistro" action="{{route('Indicadores.agregarEditarRegistro')}}" method="POST">
-                        @csrf
-                        <input type="{{App\Configuracion::getInputTextOHidden()}}" name="idIndicador" value="{{$indicador->idIndicador}}">
-                        <input type="{{App\Configuracion::getInputTextOHidden()}}" id="idRegistro" name="idRegistro" value="-1"> {{-- Este solo se activa al editar --}}
+            @if(App\Empleado::verificarPermiso('registro.CEE',$empresa->idEmpresa) )
                         
-                        <br>
-                        <div class="row">
-                            <div class="col">
-                                <label for="">Valor del Indicador</label>
-                                <input type="number" class="form-control" name="valorNuevoRegistro" id="valorNuevoRegistro">
-                                
+                <div class="row">
+                    
+                    <div class="col">
+                        <form id="formAgregarRegistro" name="formAgregarRegistro" action="{{route('Indicadores.agregarEditarRegistro')}}" method="POST">
+                            @csrf
+                            <input type="{{App\Configuracion::getInputTextOHidden()}}" name="idIndicador" value="{{$indicador->idIndicador}}">
+                            <input type="{{App\Configuracion::getInputTextOHidden()}}" id="idRegistro" name="idRegistro" value="-1"> {{-- Este solo se activa al editar --}}
+                            
+                            <br>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Valor del Indicador</label>
+                                    <input type="number" class="form-control" name="valorNuevoRegistro" id="valorNuevoRegistro">
+                                    
+                                </div>
+                                <div class="col">
+
+                                    <label for="">Nombre del Periodo</label>
+                                    <input class="form-control" name="nombrePeriodo" id="nombrePeriodo">
+
+                                </div>
                             </div>
-                            <div class="col">
+                            
 
-                                <label for="">Nombre del Periodo</label>
-                                <input class="form-control" name="nombrePeriodo" id="nombrePeriodo">
+                            <button type="button" onclick="clickAgregarRegistro()" class="btn btn-primary">
+                                <i class="fas fa-plus">Guardar</i>
+                            </button>
+                        </form>
 
-                            </div>
-                        </div>
-                        
-
-                        <button type="button" onclick="clickAgregarRegistro()" class="btn btn-primary">
-                            <i class="fas fa-plus">Guardar</i>
-                        </button>
-                    </form>
+                    </div>
+                    
+    
 
                 </div>
-                
-   
-
-            </div>
-
+            @endif
 
 
 
@@ -72,13 +73,17 @@
                                     
                                 </td>
                                 <td style="text-align: center;">
-                                    <a href="#" class=" btn-primary" onclick="clickEliminarRegistro({{$itemRegistro->idRegistro}})">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
+                                    @if(App\Empleado::verificarPermiso('registro.CEE',$empresa->idEmpresa) )
+                
+                                        <a href="#" class=" btn-primary" onclick="clickEliminarRegistro({{$itemRegistro->idRegistro}})">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
 
-                                    <a href="#" class=" btn-primary" onclick="clickEditarRegistro({{$itemRegistro->idRegistro}})">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
+                                        <a href="#" class=" btn-primary" onclick="clickEditarRegistro({{$itemRegistro->idRegistro}})">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                
+                                    @endif
                                 </td>
                              
                                         
@@ -187,7 +192,7 @@
         }
         
         if(nombrePeriodo==""){
-            msjError="Debe ingresar una descripción válida para el nuevo registro";
+            msjError="Debe ingresar un nombre del periodo para el indicador";
 
         }
         return msjError;

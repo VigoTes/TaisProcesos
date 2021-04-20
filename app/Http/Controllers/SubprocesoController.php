@@ -27,9 +27,9 @@ class SubprocesoController extends Controller
         $buscarpor ="";
         $cadenaParaCrear = $subproceso->idSubproceso."*0";
         $cadenaParaVolverAlEdit = route('empresa.edit',$subproceso->getProceso()->idEmpresa);
-      
+        $empresa = $subproceso->getEmpresa();
         return view('tablas.Indicadores.listarIndicadores',compact('listaIndicadores','proceso','subproceso','buscarpor'
-        ,'cadenaParaCrear','cadenaParaVolverAlEdit'));
+        ,'cadenaParaCrear','cadenaParaVolverAlEdit','empresa'));
 
     }
 

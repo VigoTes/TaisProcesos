@@ -184,16 +184,7 @@
 
           @else 
               @include('Layout.MenuLateral.Empleado')
-              @if(App\Empleado::getEmpleadoLogeado()->esGerente())
-                  @include('Layout.MenuLateral.Gerente')
-              @endif
-              @if(App\Empleado::getEmpleadoLogeado()->esJefeAdmin())
-                  @include('Layout.MenuLateral.Administrador')
-              @endif
-
-              @if(App\Empleado::getEmpleadoLogeado()->esContador())
-                @include('Layout.MenuLateral.Contador')
-              @endif
+              
           @endif
 
            

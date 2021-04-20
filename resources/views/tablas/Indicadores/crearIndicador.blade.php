@@ -108,6 +108,8 @@
                         <option value="Día">Día</option>
                         <option value="Mes">Mes</option>
                         <option value="Año">Año</option>
+                        <option value="Año">Proyecto</option>
+                            
                     </select>
                 </div>
 
@@ -160,7 +162,7 @@
             </div>
         </div>
 
-        <div class="col fondoPaVer" > 
+        <div class="col" > 
             {{-- CONTENIDO COLUMNA --}}
            
                <button type="button" onclick="clickGrabar()" class="btn btn-primary">

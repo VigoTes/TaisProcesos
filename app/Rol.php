@@ -15,6 +15,24 @@ class Rol extends Model
         // le indicamos los campos de la tabla 
     protected $fillable = ['idRol','nombre','descripcion'];
 
+    public function verificarPermiso($nombre){
+        $permisos = Permiso::where('nombre','=',$nombre)->get();
+        if(count($permisos) == 0)
+            return false;
+
+        $permiso = $permisos[0];
+        
+
+        $lista = PermisoRol::where('idRol','=',$this->idRol)
+            ->where('idPermiso','=',$permiso->idPermiso)
+            ->get();
+        
+        if(count($lista) == 0 )
+            return false;
+
+        return true;
+
+    }
     
 
 }

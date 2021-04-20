@@ -24,6 +24,9 @@ class Subproceso extends Model
         }
 
 
+        public function getEmpresa(){
+            return $this->getProceso()->getEmpresa();
+        }
         public function getProceso(){
             return Proceso::findOrFail($this->idProceso);
         }

@@ -162,10 +162,15 @@
                 <div style=         "float: right;">    
 
                 <br>
+
+                @if(App\Empleado::verificarPermiso('empresa.editar',$empresa->idEmpresa) )
+                          
                     <button type="button" onclick="clickGuardarDatos()" class="btn btn-primary">
                         <i class="fas fa-save"></i> 
                         Grabar 
                     </button>
+                @endif
+                
                     <a href = "{{route('empresa.listarTodas')}}" class = "btn btn-danger">
                         <i class="fas fa-ban"> </i> Cancelar </a>   {{-- BOTON CANCELARRRRRRRRRRRRRRRRR --}}
                 </div>
@@ -185,14 +190,18 @@
 
 
 </div>
-<div class="row">
-    <div class="col">
 
-        @include('tablas.empresas.Plantillas.DesplegableEmpleados')
+@if(App\Empleado::verificarPermiso('empleadoDeEmpresa.CEE',$empresa->idEmpresa) )
+                            
+    <div class="row">
+        <div class="col">
+
+            @include('tablas.empresas.Plantillas.DesplegableEmpleados')
+        </div>
+
     </div>
 
-</div>
-
+@endif
 <script>
     
 

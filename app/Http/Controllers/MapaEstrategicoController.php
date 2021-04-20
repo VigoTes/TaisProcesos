@@ -10,7 +10,7 @@ use App\NivelMapa;
 use Illuminate\Http\Request;
 use App\Proceso;
 use App\Subproceso;
-
+use App\Debug;
 class MapaEstrategicoController extends Controller
 {
     public function ver($cadena){
@@ -24,14 +24,14 @@ class MapaEstrategicoController extends Controller
             $idProceso =$vector[0];
             $rutaVolverAEditar = route('empresa.edit',$proceso->getEmpresa()->idEmpresa);
             $mapaEstrategico = MapaEstrategico::where('idProceso','=',$idProceso)->get()[0];
-
+            $empresa = $proceso->getEmpresa();
 
         }else{//SUBPROCESO
             $subproceso = Subproceso::findOrFail($vector[0]);
             $idSubproceso = $vector[0];
             $rutaVolverAEditar = route('empresa.edit',$subproceso->getProceso()->getEmpresa()->idEmpresa);
             $mapaEstrategico = MapaEstrategico::where('idSubproceso','=',$idSubproceso)->get()[0];
-
+            $empresa = $subproceso->getEmpresa();
         }
 
         $listaNiveles = NivelMapa::All();
@@ -40,11 +40,11 @@ class MapaEstrategicoController extends Controller
         $listaClientes= ElementoMapa::where('idMapaEstrategico','=',$mapaEstrategico->idMapaEstrategico)->where('idNivel','=',2)->get();
         $listaProcesoInternos= ElementoMapa::where('idMapaEstrategico','=',$mapaEstrategico->idMapaEstrategico)->where('idNivel','=',3)->get();
         $listaAprendizaje= ElementoMapa::where('idMapaEstrategico','=',$mapaEstrategico->idMapaEstrategico)->where('idNivel','=',4)->get();
-
+        
 
 
         return view('tablas.MapaEstrategico.verMapa',compact('mapaEstrategico','rutaVolverAEditar','listaNiveles',
-        'listaFinanciera','listaClientes','listaProcesoInternos','listaAprendizaje','mapaEstrategico'
+        'listaFinanciera','listaClientes','listaProcesoInternos','listaAprendizaje','mapaEstrategico','empresa'
     
     ));
 
@@ -160,8 +160,7 @@ class MapaEstrategicoController extends Controller
         $mapa = MapaEstrategico::findOrFail($elemento->idMapaEstrategico);
         $cad = $mapa->getCadenaParaVerMapa();
         $elemento->delete();
-
-
+        
         return redirect()->route('MapaEstrategico.ver',$cad)
             ->with('datos','Se eliminó el elemento "'.$elemento->nombre.'" exitosamente.');
 
