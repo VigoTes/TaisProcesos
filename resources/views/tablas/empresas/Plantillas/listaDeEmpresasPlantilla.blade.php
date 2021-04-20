@@ -5,6 +5,7 @@
       <th>Nombre de la Empresa</th>
       <th>RUC</th>
       <th>Direccion</th>
+      <th>Rol</th>
       <th>Opciones</th>
     
     </tr>
@@ -17,7 +18,7 @@
             <td>{{$itemEmpresa->nombreEmpresa  }}</td>
             <td>{{$itemEmpresa->ruc}}</td>
             <td>{{$itemEmpresa->direccion}}</td>
-            
+            <td>{{App\Empleado::getEmpleadoLogeado()->obtenerRol($itemEmpresa->idEmpresa)->nombre}}</td>
             <td>
 
                        

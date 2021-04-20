@@ -105,7 +105,7 @@
             <tbody>
               <tr>
                   <td>
-                    FINANCIERA
+                    Financiera
                   </td>
                   <td>
 
@@ -143,7 +143,7 @@
 
               <tr>
                 <td>
-                  CLIENTES
+                  Clientes
                 </td>
                 <td>
 
@@ -189,7 +189,7 @@
 
               <tr>
                 <td>
-                  PROCESO INTERNOS
+                  Procesos Internos
                 </td>
                 <td>
 
