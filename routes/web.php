@@ -133,7 +133,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     Route::get('Empresa/listarTodas/','EmpresaController@listarTodas')->name('empresa.listarTodas');
     Route::get('/Empresas/eliminarComoEmpleado/{id}','EmpresaController@eliminarEmpresaComoEmpleado'); //se consume desde JS, retorna al listar de empleado
     Route::get('/Empresas/eliminarComoAdmin/{id}','EmpresaController@eliminarEmpresaComoAdmin'); //se consume desde JS, retorna al listar todas de admin
-
+    
     Route::post('/Empresas/agregarEditarProceso','EmpresaController@agregarEditarProceso')->name('Empresa.agregarEditarProceso');
     Route::post('/Empresas/agregarEditarSubproceso','EmpresaController@agregarEditarSubproceso')->name('Empresa.agregarEditarSubproceso');
 

@@ -60,29 +60,6 @@ class EmpresaController extends Controller
 
 
 
-    //PARA SELECCIONAR UNA EMPRESA Y QUE ESTÉ EN FOCUS PUES 
-    public function listar(Request $Request, $id) //MTODO PROBANDO BORRAR SI QUIERES
-    {
-        $buscarpor = $Request->buscarpor;
-
-        $usuario = Usuario::findOrFail(Auth::id());
-        $empresa = $usuario->empresasDelUsuario($buscarpor);
-        /* 
-        $empresa = Empresa::where('estadoAct','=','1')
-            ->where('nombreEmpresa','like','%'.$buscarpor.'%')
-            ->where('idUsuario','=',Auth::id())
-            ->paginate($this::PAGINATION);
-         */
-        $empresaFocus = Empresa::findOrFail($id);
-
-        //cuando vaya al index me retorne a la vista
-        return view('tablas.empresas.index',compact('empresa','buscarpor','empresaFocus')); 
-        //el compact es para pasar los datos , para meter mas variables meterle mas comas dentro del compact
-
-
-        // otra forma sería hacer ['categoria'] => $categoria
-    }
-    
 
     public function create()
     {
@@ -336,10 +313,6 @@ class EmpresaController extends Controller
     
     }
     
-    public function matrizProcOrg($id){ //le pasamos id de la empresa
-        
-    }
-
 
 
 }
