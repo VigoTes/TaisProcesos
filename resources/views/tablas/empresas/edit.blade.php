@@ -1,4 +1,9 @@
 @extends('Layout.Plantilla')
+
+@section('titulo')
+  Editar empresa
+@endsection
+
 @section('estilos')
     
     <style>

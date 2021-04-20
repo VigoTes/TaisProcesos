@@ -1,4 +1,10 @@
 @extends('Layout.Plantilla')
+
+@section('titulo')
+  Editar Indicador {{$indicador->nombre}}
+@endsection
+
+
 @section('contenido')
 @if (session('datos'))
     <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
@@ -11,7 +17,7 @@
 @endif
 
    <div class="form-group">
-        <h3>Editar indicador para {{$indicador->getCompletarNombre()}}
+        <h3>Editar indicador {{$indicador->nombre}} para {{$indicador->getCompletarNombre()}}
             
         </h3>
 

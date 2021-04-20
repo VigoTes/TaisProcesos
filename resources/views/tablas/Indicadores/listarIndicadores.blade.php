@@ -1,5 +1,10 @@
 
 @extends('Layout.Plantilla')
+
+@section('titulo')
+  Listar Indicadores
+@endsection
+
 @section('contenido')
 
 <h1> Indicadores del 

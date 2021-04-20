@@ -1,4 +1,10 @@
 @extends('Layout.Plantilla')
+
+@section('titulo')
+  Crear Indicador
+@endsection
+
+
 @section('contenido')
 
 

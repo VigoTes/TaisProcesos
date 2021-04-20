@@ -1,5 +1,10 @@
 
 @extends('Layout.Plantilla')
+
+@section('titulo')
+  Mapa Estratégico {{$mapaEstrategico->getStringTipo()}} "{{$mapaEstrategico->getNombreProSub()}}"
+@endsection
+
 @section('contenido')
 
 

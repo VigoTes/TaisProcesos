@@ -1,4 +1,9 @@
 @extends('Layout.Plantilla')
+
+@section('titulo')
+  Listar Empresas
+@endsection
+
 @section('contenido')
 
 <h1> Mis Empresas</h1>
