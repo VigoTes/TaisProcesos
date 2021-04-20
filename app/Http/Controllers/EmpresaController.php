@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Area;
 use App\EmpresaUsuario;
 use App\Proceso;
+use App\Rol;
 use App\Puesto;
 use App\Subproceso;
 
@@ -174,9 +175,13 @@ class EmpresaController extends Controller
                 
         $empresa=Empresa::findOrFail($id);
         $listaProcesos = Proceso::where('idEmpresa','=',$empresa->idEmpresa)->get();
+        $listaEmpleadosTodos = Empleado::getEmpleadosActivos();
+        $listaEmpleadosEmpresa = $empresa->getListaEmpleados();
+        $listaRoles = Rol::All();
         $empresaFocus = $empresa; 
 
-        return view('tablas.empresas.edit',compact('empresa','empresaFocus','listaProcesos'));
+        return view('tablas.empresas.edit',compact('empresa','empresaFocus','listaProcesos',
+        'listaEmpleadosEmpresa','listaEmpleadosTodos','listaRoles'));
 
 
     }
@@ -274,7 +279,54 @@ class EmpresaController extends Controller
         MANDANDOLE COMO PARAMETRO LA EMPRESA
     */
     
+    public function eliminarEmpleado($idAI){
+        
+        
+        $empresaUsuario = EmpresaUsuario::findOrFail($idAI);
+        $empresaUsuario->delete();
+        $empleado = $empresaUsuario->getEmpleado();
+
+        return redirect()->route('empresa.edit',$empresaUsuario->idEmpresa)
+            ->with('datos','Se eliminó al empleado .'.$empleado->getNombreCompleto().'.');
+
+    }
     
+    //crea un registro en EmpresaUsuario para que el empleado pueda acceder a la empresa
+    public function agregarEditarEmpleado(Request $request){
+        
+        $empresa = Empresa::findOrFail($request->idEmpresa);
+        
+
+        if($request->idAI=="-1") //NUEVO PROCESO
+        {
+
+            if($empresa->tieneEmpleado($request->idEmpleado)){
+                return redirect()->route('empresa.edit',$empresa->idEmpresa)
+                    ->with('datos','El empleado seleccionado ya tiene un rol.');
+            }
+
+            $empresaUsuario = new EmpresaUsuario();
+            $empresaUsuario->idEmpresa = $request->idEmpresa;
+            $variacionMensaje=" añadió ";
+
+        }else{//YA EXISTE Y SE ESTÁ ACTUALIZANDO
+            $empresaUsuario = EmpresaUsuario::findOrFail($request->idAI);
+            $variacionMensaje=" actualizó ";
+
+        }
+
+
+        
+        $empresaUsuario->idEmpleado = $request->idEmpleado;
+        $empleado = Empleado::findOrFail($empresaUsuario->idEmpleado);
+        $empresaUsuario->idRol = $request->idRol;
+        $empresaUsuario->save();
+
+        return redirect()->route('empresa.edit',$empresaUsuario->idEmpresa)
+            ->with('datos','Se '.$variacionMensaje.' al empleado .'.$empleado->getNombreCompleto().'.');
+
+
+    }
 
 
     

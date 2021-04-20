@@ -30,7 +30,16 @@ class Empresa extends Model
           //aqui ya tenemos la lista de matrices de esta empresa
           return $listaEmpresass;
       }
+      
+      //retorna lsita de los empleados que tienen acceso a esa empresa de alguna manera. RETORNA COLLECTION DE MODELO EmpresaUsuario
+      public function getListaEmpleados(){
+        return EmpresaUsuario::where('idEmpresa','=',$this->idEmpresa)->get();
+      }
 
+      public function tieneEmpleado($idEmpleado){
+          $lista = EmpresaUsuario::where('idEmpleado','=',$idEmpleado)->get();
+          return count($lista)>0;
 
+      }
 
 }

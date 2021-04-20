@@ -130,6 +130,11 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     Route::get('/Empresa/eliminarProceso/{idProceso}','EmpresaController@eliminarProceso')->name('Empresa.eliminarProceso');
     Route::get('/Empresa/eliminarSubproceso/{idProceso}','EmpresaController@eliminarSubproceso')->name('Empresa.eliminarSubproceso');
     
+    Route::post('/Empresas/agregarEditarEmpleado','EmpresaController@agregarEditarEmpleado')->name('Empresa.agregarEditarEmpleado');
+    Route::get('/Empresas/eliminarEmpleado/{idAI}','EmpresaController@eliminarEmpleado')->name('Empresa.eliminarEmpleado');
+    
+
+
     Route::get('/Proceso/{idProceso}/verIndicadores/','ProcesoController@verIndicadores')->name('proceso.verIndicadores');
     Route::get('/Subproceso/{idSubproceso}/verIndicadores/','SubprocesoController@verIndicadores')->name('subproceso.verIndicadores');
     

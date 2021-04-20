@@ -185,6 +185,13 @@
 
 
 </div>
+<div class="row">
+    <div class="col">
+
+        @include('tablas.empresas.Plantillas.DesplegableEmpleados')
+    </div>
+
+</div>
 
 <script>
     
