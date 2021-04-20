@@ -36,7 +36,35 @@ class MapaEstrategico extends Model
     public function esDeSubproceso(){
         return !$this->esDeProceso();
 
+
     }
+
+    public function getProcesoSuperior(){
+        if($this->esDeProceso())
+            return $this->getProceso();
+        else 
+            return $this->getSubproceso()->getProceso();
+
+    }
+
+
+    public function getProceso(){
+        return Proceso::findOrFail($this->idProceso);
+    }
+    public function getSubproceso(){
+        return Subproceso::findOrFail($this->idSubproceso);
+    }
+
+    public function getEmpresa(){
+        return $this->getProcesoSuperior()->getEmpresa();
+
+    }
+
+
+
+
+
+
     public function getStringTipo(){
         if( $this->esDeProceso())
             return "Proceso";

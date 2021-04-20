@@ -1,7 +1,14 @@
 @extends('Layout.Plantilla')
+
+@section('titulo')
+
+  Historial
+
+@endsection
+
 @section('contenido')
 
-<h1> Lista de Cambios de la empresa </h1>
+<h1> Lista de Cambios de empresas </h1>
       @if (session('msjLlegada'))
         <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
             {{session('msjLlegada')}}
@@ -13,40 +20,58 @@
       @endif
  
 <div class="card">
-        {{-- <div class="card-header border-0">         
-             <nav class = "navbar float-right">
-                <form class="form-inline my-2 my-lg-0" onsubmit="">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search" id="buscarpor" name = "buscarpor" value ="" >
-                    <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-                </form>
-            </nav>
-        </div> --}}
-        
+        <form action="{{route('cambios.listar')}}">
+          <div class="row">
+            <div class="col"></div>
+            <div class="col">
+
+
+              <label for="">Empresas</label>
+              <select class="form-control"  id="idEmpresa" name="idEmpresa" onchange="" >
+                  <option value="" selected> -- Empresa -- </option>
+                  @foreach($listaEmpresas as $itemEmpresa)
+                      <option value="{{$itemEmpresa->idEmpresa}}">
+                          {{$itemEmpresa->nombreEmpresa}}
+                      </option>
+                      
+                  @endforeach
+              </select>
+
+            </div>
+            <div class="col">
+              <button type="submit" style="margin-top: 30px" class="btn btn-success">
+                <i></i>
+                Buscar
+              </button>
+
+
+            </div>
+            <div class="col"></div>
+
+          </div>
+        </form>
+
         <div class="card-body table-responsive p-0">
           <table class="table table-striped table-valign-middle" style="font-size: 10pt">
             <thead>
             <tr>
               <th>N°</th>
-              <th>Fecha</th>
+              <th>Empresa</th>
+              <th>Fecha Hora</th>
               <th>Descripción</th>
-              <th>Usuario Responsable</th>
-              <th>Anterior Valor </th>
-              <th>Nuevo Valor</th>
-              
-              
+              <th>Responsable</th>
             </tr>
             </thead>
             <tbody>
             
             @foreach($listaEdiciones as $itemEdicion)       
                 <tr>
-                  <td>{{$itemEdicion->nroCambioEnEmpresa  }}</td>
-                  <td>{{$itemEdicion->fechaHoraCambio  }}</td>
-                  <td>{{$itemEdicion->descripcionDelCambio  }}</td>
-                  <td>{{$itemEdicion->usuario()->name  }}</td>
-                  <td>{{$itemEdicion->anteriorValor  }}</td>
-                  <td>{{$itemEdicion->nuevoValor  }}</td>
-
+                  <td>{{$itemEdicion->idCambio  }}</td>
+                  <td>{{$itemEdicion->getEmpresa()->nombreEmpresa  }}</td>
+                  <td>{{$itemEdicion->fechaHora  }}</td>
+                  <td>{{$itemEdicion->descripcion  }}</td>
+                  <td>{{$itemEdicion->getEmpleado()->getNombreCompleto()  }}</td>
+                  
                 </tr>
             @endforeach
             

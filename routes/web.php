@@ -172,6 +172,8 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     Route::get('/MapaEstrategico/crearRelacion/{cadena}','MapaEstrategicoController@crearRelacion')->name('MapaEstrategico.crearRelacion');
     Route::get('/MapaEstrategico/eliminarRelacion/{idFlecha}','MapaEstrategicoController@eliminarRelacion')->name('MapaEstrategico.eliminarRelacion');
     
+    Route::get('/HistorialCambios','CambioController@verHistorialCambios')->name('cambios.listar');
+
 
     Route::resource('objetivo', 'ObjetivoController');  // es resource pq trabajamos con varias rutas
     Route::resource('proceso', 'ProcesoController');  // es resource pq trabajamos con varias rutas

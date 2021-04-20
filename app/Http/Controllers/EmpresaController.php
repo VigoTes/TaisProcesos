@@ -16,6 +16,7 @@ use App\Proceso;
 use App\Rol;
 use App\Puesto;
 use App\Subproceso;
+use App\Cambio;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,7 @@ class EmpresaController extends Controller
         //cuando vaya al index me retorne a la vista
         return view('tablas.empresas.ListarEmpresas',compact('listaEmpresas','buscarpor')); 
        
-
+        
 
     }
 
@@ -103,6 +104,8 @@ class EmpresaController extends Controller
             
             $empresaUsuario->save();
 
+            Cambio::registrarCambio($empresa->idEmpresa,'Se creó la empresa');
+
             /* Regresamos al index con el mensaje de nuevo registro */
             return redirect()->route('empresa.listarMisEmpresas')->with('msjLlegada','Registro nuevo guardado');
                 
@@ -141,7 +144,9 @@ class EmpresaController extends Controller
             $empresa->RUC=$request->RUC;
                           
             $empresa->save(); /* Guardamos el nuevo registro en la BD */
-                
+            
+            Cambio::registrarCambio($empresa->idEmpresa,'Se actualizaron los datos principales de la empresa');
+            
             /* Regresamos al index con el mensaje de nuevo registro */
             return redirect()->route('empresa.edit',$id)->with('msjLlegada','Registro editado Exitosamente');
              
@@ -161,6 +166,10 @@ class EmpresaController extends Controller
         $empresa = Empresa::findOrFail($idEmpresa);
         $empresa->estadoAct = '0';
         $empresa->save ();
+
+        Cambio::registrarCambio($empresa->idEmpresa,'Se desactivó la empresa');
+            
+
         return redirect()->route('empresa.listarTodas')->with('msjLlegada','Registro eliminado!!');
 
 
@@ -170,6 +179,10 @@ class EmpresaController extends Controller
         $empresa = Empresa::findOrFail($idEmpresa);
         $empresa->estadoAct = '0';
         $empresa->save ();
+
+        Cambio::registrarCambio($empresa->idEmpresa,'Se desactivó la empresa');
+            
+
         return redirect()->route('empresa.listarMisEmpresas')->with('msjLlegada','Registro eliminado!!');
 
 
@@ -193,6 +206,10 @@ class EmpresaController extends Controller
         $empresaUsuario = EmpresaUsuario::findOrFail($idAI);
         $empresaUsuario->delete();
         $empleado = $empresaUsuario->getEmpleado();
+        $empresa = $empresaUsuario->getEmpresa();
+
+        Cambio::registrarCambio($empresa->idEmpresa,'Se eliminó al empleado '.$empleado->getNombreCompleto().'de la empresa');
+            
 
         return redirect()->route('empresa.edit',$empresaUsuario->idEmpresa)
             ->with('datos','Se eliminó al empleado .'.$empleado->getNombreCompleto().'.');
@@ -205,7 +222,7 @@ class EmpresaController extends Controller
         $empresa = Empresa::findOrFail($request->idEmpresa);
         
 
-        if($request->idAI=="-1") //NUEVO PROCESO
+        if($request->idAI=="-1") //NUEVO empleado
         {
 
             if($empresa->tieneEmpleado($request->idEmpleado)){
@@ -217,6 +234,7 @@ class EmpresaController extends Controller
             $empresaUsuario->idEmpresa = $request->idEmpresa;
             $variacionMensaje=" añadió ";
 
+            
         }else{//YA EXISTE Y SE ESTÁ ACTUALIZANDO
             $empresaUsuario = EmpresaUsuario::findOrFail($request->idAI);
             $variacionMensaje=" actualizó ";
@@ -229,6 +247,10 @@ class EmpresaController extends Controller
         $empleado = Empleado::findOrFail($empresaUsuario->idEmpleado);
         $empresaUsuario->idRol = $request->idRol;
         $empresaUsuario->save();
+
+
+        Cambio::registrarCambio($empresa->idEmpresa,'Se '.$variacionMensaje.' al empleado '.$empleado->getNombreCompleto().'de la empresa');
+         
 
         return redirect()->route('empresa.edit',$empresaUsuario->idEmpresa)
             ->with('datos','Se '.$variacionMensaje.' al empleado .'.$empleado->getNombreCompleto().'.');
@@ -262,6 +284,8 @@ class EmpresaController extends Controller
         $mapa->idProceso = $proceso->idProceso;
         $mapa->save();
 
+        Cambio::registrarCambio($proceso->getEmpresa()->idEmpresa,'Se ha '.$variacionMensaje.' el proceso '.$proceso->nombre.' de la empresa');
+         
 
         return redirect()->route('empresa.edit',$proceso->idEmpresa)->with('datos','Proceso '.$proceso->nombre." ".$variacionMensaje." exitosamente.");
     
@@ -273,6 +297,10 @@ class EmpresaController extends Controller
         $proceso = Proceso::findOrFail($idProceso);
         $nombre=  $proceso->nombre;
         $proceso->delete();
+
+        Cambio::registrarCambio($proceso->getEmpresa()->idEmpresa,'Se ha eliminado el proceso '.$proceso->nombre.' de la empresa');
+        
+
         return redirect()->route('empresa.edit',$proceso->idEmpresa)->with('datos','Proceso '.$nombre." eliminado exitosamente.");
     
     }
@@ -298,6 +326,8 @@ class EmpresaController extends Controller
         $mapa->idSubproceso = $subproceso->idSubproceso;
         $mapa->save();
 
+        Cambio::registrarCambio($subproceso->getEmpresa()->idEmpresa,'Se ha '.$variacionMensaje.' el proceso '.$subproceso->nombre.' de la empresa');
+         
 
         return redirect()->route('empresa.edit',$subproceso->getProceso()->idEmpresa)->with('datos','Subproceso '.$subproceso->nombre." ".$variacionMensaje." exitosamente.");
     
@@ -308,6 +338,9 @@ class EmpresaController extends Controller
         $subproceso = Subproceso::findOrFail($idSubproceso);
         $nombre=  $subproceso->nombre;
         $subproceso->delete();
+
+        Cambio::registrarCambio($subproceso->getEmpresa()->idEmpresa,'Se ha eliminado el subproceso '.$subproceso->nombre.' de la empresa');
+        
 
         return redirect()->route('empresa.edit',$subproceso->getProceso()->idEmpresa)->with('datos','Subproceso '.$nombre." eliminado exitosamente.");
     

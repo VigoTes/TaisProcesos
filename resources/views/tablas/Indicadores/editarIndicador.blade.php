@@ -337,7 +337,7 @@
         if(limite2=="")
             msjError="Debe ingresar un limite superior";
         
-        if(limite1 >= limite2)
+        if( parseInt(limite1) >= parseInt(limite2) )
             msjError = "El limite inferior debe ser menor al superior.";
 
         return msjError;

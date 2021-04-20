@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Proceso;
 use App\Subproceso;
 use App\Debug;
+use App\Cambio;
 class MapaEstrategicoController extends Controller
 {
     public function ver($cadena){
@@ -80,7 +81,7 @@ class MapaEstrategicoController extends Controller
             $flecha->idElementoOrigen = $elementoOrigen->idElemento;
             $flecha->idElementoDestino = $elementoDestino->idElemento;
             $flecha->save();
-            $mensaje = 'Se agregó la relación elemento "'.$elementoOrigen->nombre.'" hacia "'.$elementoDestino->nombre.'" exitosamente.';
+            $mensaje = 'Se agregó la relación de estrategias desde"'.$elementoOrigen->nombre.'" hacia "'.$elementoDestino->nombre.'" exitosamente.';
         }
 
 
@@ -93,6 +94,11 @@ class MapaEstrategicoController extends Controller
         }else{
             $cad = $mapa->idSubproceso."*0";
         }
+
+        Cambio::registrarCambio($mapa->getEmpresa()->idEmpresa,'Se agregó la relación elemento "'.$elementoOrigen->nombre.'" hacia "'.$elementoDestino->nombre.' en el '.$mapa->getStringTipo(). ' '.$mapa->getNombreProSub());
+
+
+
         return redirect()->route('MapaEstrategico.ver',$cad)
             ->with('datos',$mensaje);
 
@@ -104,17 +110,16 @@ class MapaEstrategicoController extends Controller
 
         $flecha = FlechaElementoMapa::findOrFail($idFlecha);
         $elemento = ElementoMapa::findOrFail($flecha->idElementoOrigen);
-
+        $elementoDestino = ElementoMapa::findOrFail($flecha->idElementoDestino);
         $flecha->delete();
 
 
         $mapa = MapaEstrategico::findOrFail($elemento->idMapaEstrategico);
-        if($mapa->esDeProceso()){
-            $cad = $mapa->idProceso."*1";
+        $cad = $mapa->getCadenaParaVerMapa();
+        
 
-        }else{
-            $cad = $mapa->idSubproceso."*0";
-        }
+        Cambio::registrarCambio($mapa->getEmpresa()->idEmpresa,
+            'Se eliminó la relación entre las estrategias "'.$elemento->nombre.'" hacia "'.$elementoDestino->nombre.' en el '.$mapa->getStringTipo(). ' '.$mapa->getNombreProSub());
 
         
         $mensaje ="Se eliminó la relación.";
@@ -133,13 +138,12 @@ class MapaEstrategicoController extends Controller
         $elemento->save();
 
         $mapa = MapaEstrategico::findOrFail($elemento->idMapaEstrategico);
-        if($mapa->esDeProceso()){
-            $cad = $mapa->idProceso."*1";
+        $cad = $mapa->getCadenaParaVerMapa();
+        
 
-        }else{
-            $cad = $mapa->idSubproceso."*0";
-        }
-
+        Cambio::registrarCambio($mapa->getEmpresa()->idEmpresa,
+            'Se creó la estrategia  "'.$elemento->nombre.'" en el '.$mapa->getStringTipo(). ' '.$mapa->getNombreProSub());
+        
 
         return redirect()->route('MapaEstrategico.ver',$cad)
             ->with('datos','Se agregó el elemento '.$elemento->nombre.' exitosamente.');
@@ -160,6 +164,10 @@ class MapaEstrategicoController extends Controller
         $mapa = MapaEstrategico::findOrFail($elemento->idMapaEstrategico);
         $cad = $mapa->getCadenaParaVerMapa();
         $elemento->delete();
+
+        Cambio::registrarCambio($mapa->getEmpresa()->idEmpresa,
+            'Se eliminó la estrategia  "'.$elemento->nombre.'" en el '.$mapa->getStringTipo(). ' '.$mapa->getNombreProSub());
+        
         
         return redirect()->route('MapaEstrategico.ver',$cad)
             ->with('datos','Se eliminó el elemento "'.$elemento->nombre.'" exitosamente.');

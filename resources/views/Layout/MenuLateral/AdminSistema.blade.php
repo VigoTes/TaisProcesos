@@ -25,11 +25,18 @@
         </a>
       </li>
       
+      <li class="nav-item">
+        <a href="{{route('cambios.listar')}}" class="nav-link">
+          <i class="far fa-address-card nav-icon"></i>
+          <p>Historial</p>
+        </a>
+      </li>
+      
           
     
 
     
-
+      
 
 
 

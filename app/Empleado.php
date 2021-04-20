@@ -253,6 +253,12 @@ class Empleado extends Model
         return Empleado::getEmpleadoLogeado()->esAdminSistema();
     }
     
+    public function getUsuario(){
+        
+        return User::findOrFail($this->idUsuario);
+        
+    }
+
     public function usuario(){
 
         try{

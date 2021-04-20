@@ -83,7 +83,9 @@
             <div class="table-responsive " style="margin: 5px">                           
                 <table  id="tablaProcesos" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th  class="text-center">Empleado</th>                                        
+                        <th  class="text-center">Empleado</th> 
+                        <th  class="text-center">Cod Empleado</th> 
+                                                               
                         <th  class="text-center">Rol</th>    
                         <th></th> 
                         
@@ -96,6 +98,9 @@
                                   
                                 <td>
                                     {{$itemEmp->getEmpleado()->getNombreCompleto()}}
+                                </td>
+                                <td>
+                                    {{$itemEmp->getEmpleado()->getUsuario()->usuario}}
                                 </td>
                                 <td>
                                     {{$itemEmp->getRol()->nombre}}
