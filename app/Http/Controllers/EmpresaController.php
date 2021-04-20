@@ -99,41 +99,7 @@ class EmpresaController extends Controller
     public function store(Request $request)
     {
         
-        $empresa = request()->validate(
-            [
-                'nombreEmpresa'=>'required|max:100',
-                'mision'=>'required|max:1000',
-                'vision'=>'required|max:1000',
-                'factorDif'=>'required|max:1000',
-                'propuestaV'=>'required|max:100',
-                'direccion'=>'required|max:200',
-                'RUC'=>'required|size:13'
-                
-            ],[
-                'nombreEmpresa.required'=>'Ingrese nombre de la Empresa',
-                'nombreEmpresa.max' => 'Maximo 100 caracteres la descripcion',
-                 
-                'mision.required'=>'Ingrese la mision de la Empresa',
-                'mision.max' => 'Maximo 1000 caracteres la descripcion',
-                 
-                'vision.required'=>'Ingrese la mision de la Empresa',
-                'vision.max' => 'Maximo 1000 caracteres la descripcion',
-                 
-                'factorDif.required'=>'Ingrese el factor diferenciador',
-                'factorDif.max' => 'Maximo 1000 caracteres la descripcion',
-                 
-                'propuestaV.required'=>'Ingrese la propuesta de valor',
-                'propuestaV.max' => 'Maximo 100 caracteres la descripcion',
-                 
-                'direccion.required'=>'Ingrese la direccion de la empresa',
-                'direccion.max' => 'Maximo 200 caracteres la descripcion',
-
-                'RUC.required'=>'Ingrese el ruc de la empresa',
-                'RUC.size' => 'Debe tener 13 caracteres'
-
-            ]
-
-            );
+        
 
             
 
@@ -156,10 +122,12 @@ class EmpresaController extends Controller
             $empresaUsuario = new EmpresaUsuario();
             $empresaUsuario->idEmpleado = Empleado::getEmpleadoLogeado()->idEmpleado;
             $empresaUsuario->idEmpresa = $empresa->idEmpresa;
+            $empresaUsuario->idRol = 0;
+            
             $empresaUsuario->save();
 
             /* Regresamos al index con el mensaje de nuevo registro */
-            return redirect()->route('empresa.index')->with('msjLlegada','Registro nuevo guardado');
+            return redirect()->route('empresa.listarMisEmpresas')->with('msjLlegada','Registro nuevo guardado');
                 
         }
 
@@ -169,10 +137,7 @@ class EmpresaController extends Controller
     }
 
     public function edit($id)
-    {
-        if($id==0) //si no ha seleccionado una empresa, lo redirije al index para que escoja una
-            return redirect()->route('empresa.index')->with('msjLlegada','Error: Debe escoger una empresa para editar.');
-                
+    {      
         $empresa=Empresa::findOrFail($id);
         $listaProcesos = Proceso::where('idEmpresa','=',$empresa->idEmpresa)->get();
         $listaEmpleadosTodos = Empleado::getEmpleadosActivos();
@@ -188,41 +153,7 @@ class EmpresaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $empresa = request()->validate(
-            [
-                'nombreEmpresa'=>'required|max:100',
-                'mision'=>'required|max:1000',
-                'vision'=>'required|max:1000',
-                'factorDif'=>'required|max:1000',
-                'propuestaV'=>'required|max:1000',
-                'direccion'=>'required|max:200',
-                'RUC'=>'required|size:13'
-                
-            ],[
-                'nombreEmpresa.required'=>'Ingrese nombre de la Empresa',
-                'nombreEmpresa.max' => 'Maximo 100 caracteres la descripcion',
-                 
-                'mision.required'=>'Ingrese la mision de la Empresa',
-                'mision.max' => 'Maximo 1000 caracteres la descripcion',
-                 
-                'vision.required'=>'Ingrese la mision de la Empresa',
-                'vision.max' => 'Maximo 1000 caracteres la descripcion',
-                 
-                'factorDif.required'=>'Ingrese el factor diferenciador',
-                'factorDif.max' => 'Maximo 1000 caracteres la descripcion',
-                 
-                'propuestaV.required'=>'Ingrese la propuesta de valor',
-                'propuestaV.max' => 'Maximo 100 caracteres la propuesta de valor',
-                 
-                'direccion.required'=>'Ingrese la direccion de la empresa',
-                'direccion.max' => 'Maximo 200 caracteres la descripcion',
-
-                'RUC.required'=>'Ingrese el ruc de la empresa',
-                'RUC.size' => 'El Ruc Debe tener 13 caracteres'
-            ]
-
-            );
-
+            
             $empresa=Empresa::findOrFail($id);
             $empresa->nombreEmpresa=$request->nombreEmpresa;
             $empresa->mision=$request->mision;
@@ -245,7 +176,7 @@ class EmpresaController extends Controller
         $empresa = Empresa::findOrFail($id);
         $empresa->estadoAct = '0';
         $empresa->save ();
-        return redirect() -> route('empresa.index')->with('msjLlegada','Registro eliminado!!');
+        return redirect() -> route('empresa.listarMisEmpresas')->with('msjLlegada','Registro eliminado!!');
 
     }
 
@@ -262,7 +193,7 @@ class EmpresaController extends Controller
         $empresa = Empresa::findOrFail($idEmpresa);
         $empresa->estadoAct = '0';
         $empresa->save ();
-        return redirect()->route('empresa.index')->with('msjLlegada','Registro eliminado!!');
+        return redirect()->route('empresa.listarMisEmpresas')->with('msjLlegada','Registro eliminado!!');
 
 
     }

@@ -12,7 +12,10 @@ Route::post('/ingresar', 'UserController@logearse')->name('user.logearse');
 Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesion');
 
 
-Route::get('/', 'UserController@home')->name('user.home');
+Route::get('/', function(){
+
+    return redirect()->route('empresa.listarMisEmpresas');
+})->name('user.home');
 
 
 Route::get('/encriptarContraseñas', function(){

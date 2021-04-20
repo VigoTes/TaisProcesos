@@ -37,7 +37,9 @@ class Empresa extends Model
       }
 
       public function tieneEmpleado($idEmpleado){
-          $lista = EmpresaUsuario::where('idEmpleado','=',$idEmpleado)->get();
+          $lista = EmpresaUsuario::where('idEmpleado','=',$idEmpleado)
+          ->where('idEmpresa','=',$this->idEmpresa)
+          ->get();
           return count($lista)>0;
 
       }

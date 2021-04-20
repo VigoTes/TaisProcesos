@@ -6,7 +6,7 @@
 
 @section('contenido')
 
-<h1> Mis Empresas</h1>
+<h1> Listar Empresas</h1>
       @if (session('msjLlegada'))
         <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
             {{session('msjLlegada')}}

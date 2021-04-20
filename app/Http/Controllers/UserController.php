@@ -39,11 +39,11 @@ class UserController extends Controller
 
                         //SI INGRESÓ EL ADMIN 
                         if(Auth::attempt($request->only('usuario','password'))) //este attempt es para que el Auth se inicie
-                            return redirect()->route('user.home');
+                            return redirect()->route('empresa.listarMisEmpresas');
                     }//si es user normal
                     else{
                         if(Auth::attempt($request->only('usuario','password')))
-                            return redirect()->route('user.home');
+                            return redirect()->route('empresa.listarMisEmpresas');
     
                     }
                     

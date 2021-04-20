@@ -1,8 +1,12 @@
 @extends('Layout.Plantilla')
+
+@section('titulo')
+    Crear Empresa
+@endsection
 @section('contenido')
 
 
-<form method = "POST" action = "{{route('empresa.store')}}"  >
+<form method = "POST"  id="formCrearEmpresa" name="formCrearEmpresa" action = "{{route('empresa.store')}}"  >
     @csrf   
 
   <div class="form-group">
@@ -130,8 +134,13 @@
                     
                 <div style=         "float: right;">    
 
-                 <button type="submit" class="btn btn-primary">   <i class="fas fa-save"> </i> Grabar </button>
-                    <a href = "{{route('empresa.index')}}" class = "btn btn-danger">
+                    <button type="button" onclick="clickGuardarDatos()" class="btn btn-primary">   
+                        <i class="fas fa-save"></i> 
+                        Grabar 
+                    </button>
+
+
+                    <a href = "{{route('empresa.listarMisEmpresas')}}" class = "btn btn-danger">
                         <i class="fas fa-ban"> </i> Cancelar </a>   {{-- BOTON CANCELARRRRRRRRRRRRRRRRR --}}
                 </div>
 
@@ -143,6 +152,54 @@
 
 </form> {{-- FORM GRUP --}}
 
+<script>
+    
+
+    function clickGuardarDatos(){
+        msjError =validarFormularioGuardar();
+        if(msjError!=""){
+            alerta(msjError);
+            return;
+        }
+
+        confirmarConMensaje("Confirmación","¿Desea crear la empresa?",'warning',submitearCrear);
+
+    }
+
+    function submitearCrear(){
+        document.formCrearEmpresa.submit();
+
+
+    }
+    function validarFormularioGuardar(){
+        nombreEmpresa = document.getElementById('nombreEmpresa').value;  
+        mision = document.getElementById('mision').value;  
+        vision = document.getElementById('vision').value;  
+        RUC = document.getElementById('RUC').value;  
+        factorDif = document.getElementById('factorDif').value;  
+        propuestaV = document.getElementById('propuestaV').value;  
+        direccion = document.getElementById('direccion').value;  
+                
+        msjError="";
+        if(nombreEmpresa=="")
+            msjError="Debe ingresar un nombre válido para al empresa";
+        if(mision=="")
+            msjError="Debe ingresar una misión válida";
+        if(vision=="")
+            msjError="Debe ingresar una visión válida";
+        if(RUC=="")
+            msjError="Debe ingresar un RUC válido";
+        if(factorDif=="")
+            msjError="Debe ingresar un factor diferenciador válido";
+        if(propuestaV=="")
+            msjError="Debe ingresar una propuesta de valor";
+        if(direccion=="")
+            msjError="Debe ingresar una dirección";
+        
+        return msjError;
+        
+    }
+</script>
 
 
 @endsection
