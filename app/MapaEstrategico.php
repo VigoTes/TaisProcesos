@@ -78,7 +78,7 @@ class MapaEstrategico extends Model
         if( $this->esDeProceso())
             return Proceso::findOrFail($this->idProceso)->nombre;
         
-        return Proceso::findOrFail($this->idSubproceso)->nombre;
+        return Subproceso::findOrFail($this->idSubproceso)->nombre;
 
     }
 

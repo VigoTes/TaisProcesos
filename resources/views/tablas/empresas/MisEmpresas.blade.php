@@ -17,33 +17,17 @@
       @endif
  
 <div class="card">
-        <div class="card-header border-0">         
-         
-            @if(App\Empleado::verificarAdminSistema())
+        @if(App\Empleado::verificarAdminSistema())
+              
+          <div class="card-header border-0">         
                         
-              <a href="{{route('empresa.create')}}" class = "btn btn-primary"> 
-                    <i class="fas fa-plus"> </i> 
-                      Nuevo Registro
-              </a>
-            @endif
-            <nav class = "navbar float-right"> {{-- PARA MANDARLO A LA DERECHA --}}
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search" id="buscarpor" name = "buscarpor" value ="{{($buscarpor)}}" >
-                    <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-                </form>
-            </nav>
-
-
-          <div class="card-tools">
-            <a href="#" class="btn btn-tool btn-sm">
-          
-            </a>
-            <a href="#" class="btn btn-tool btn-sm">
-       
-            </a>
+                <a href="{{route('empresa.create')}}" class = "btn btn-primary"> 
+                      <i class="fas fa-plus"> </i> 
+                        Nuevo Registro
+                </a>
+              
           </div>
-        </div>
-        
+        @endif
         <div class="card-body table-responsive p-0">
           @include('tablas.empresas.Plantillas.listaDeEmpresasPlantilla')
         </div>

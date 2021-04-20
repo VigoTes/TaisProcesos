@@ -10,6 +10,8 @@ use App\Proceso;
 use App\RegistroIndicador;
 use App\Subproceso;
 use App\Cambio;
+use App\UnidadFrecuenciaIndicador;
+
 class IndicadorController extends Controller
 {
     public function crearIndicador($cadena){
@@ -37,9 +39,11 @@ class IndicadorController extends Controller
 
         }
 
-           
+        $listaUnidades = UnidadFrecuenciaIndicador::All();
 
-        return view('tablas.Indicadores.crearIndicador',compact('proceso','subproceso','idProceso','idSubproceso','rutaVolverAListar'));
+
+        return view('tablas.Indicadores.crearIndicador',compact('proceso',
+            'subproceso','idProceso','idSubproceso','rutaVolverAListar','listaUnidades'));
 
 
     }
@@ -50,7 +54,9 @@ class IndicadorController extends Controller
         $indicador = Indicador::findOrFail($idIndicador);
         $listaRegistros = RegistroIndicador::where('idIndicador','=',$idIndicador)->get();
         $empresa = $indicador->getEmpresa();
-        return view('tablas.Indicadores.editarIndicador',compact('indicador','listaRegistros','empresa'));
+        $listaUnidades = UnidadFrecuenciaIndicador::All();
+
+        return view('tablas.Indicadores.editarIndicador',compact('indicador','listaRegistros','empresa','listaUnidades'));
 
     }
 

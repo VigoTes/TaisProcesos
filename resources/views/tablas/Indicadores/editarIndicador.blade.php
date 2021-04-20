@@ -117,14 +117,16 @@
                         
                         <div class="col">
                             <label for="unidadDeFrecuencia">Unidad de frecuencia</label>
-                            <select class="form-control" name="unidadDeFrecuencia" id="unidadDeFrecuencia" 
-                            value="{{$indicador->unidadDeFrecuencia}}"
-                            >
-                                <option value="Día">Día</option>
-                                <option value="Mes">Mes</option>
-                                <option value="Año">Año</option>
-                                <option value="Año">Proyecto</option>
-                                
+                            <select class="form-control" name="unidadDeFrecuencia" id="unidadDeFrecuencia">
+                                @foreach ($listaUnidades as $itemUnidad)
+                                    <option value="{{$itemUnidad->nombre}}" 
+                                        @if($indicador->unidadDeFrecuencia == $itemUnidad->nombre)
+                                            selected
+                                        @endif
+                                        >
+                                        {{$itemUnidad->nombre}}
+                                    </option>
+                                @endforeach                                
                             </select>
                         </div>
 
@@ -336,8 +338,10 @@
             msjError="Debe ingresar un limite inferior";
         if(limite2=="")
             msjError="Debe ingresar un limite superior";
+
+
         
-        if( parseInt(limite1) >= parseInt(limite2) )
+        if( parseFloat(limite1) >= parseFloat(limite2) )
             msjError = "El limite inferior debe ser menor al superior.";
 
         return msjError;

@@ -176,7 +176,7 @@
                     </button>
                 @endif
                 
-                    <a href = "{{route('empresa.listarTodas')}}" class = "btn btn-danger">
+                    <a href = "{{route('empresa.listarMisEmpresas')}}" class = "btn btn-danger">
                         <i class="fas fa-ban"> </i> Cancelar </a>   {{-- BOTON CANCELARRRRRRRRRRRRRRRRR --}}
                 </div>
 

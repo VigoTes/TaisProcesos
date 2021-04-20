@@ -111,11 +111,11 @@
                 <div class="col">
                     <label for="unidadDeFrecuencia">Unidad de frecuencia</label>
                     <select class="form-control" name="unidadDeFrecuencia" id="unidadDeFrecuencia">
-                        <option value="Día">Día</option>
-                        <option value="Mes">Mes</option>
-                        <option value="Año">Año</option>
-                        <option value="Año">Proyecto</option>
-                            
+                        @foreach ($listaUnidades as $itemUnidad)
+                            <option value="{{$itemUnidad->nombre}}">
+                                {{$itemUnidad->nombre}}
+                            </option>
+                        @endforeach     
                     </select>
                 </div>
 
@@ -238,7 +238,6 @@
     }
     function validarForm(){
         msjError = "";
-
         nombre = document.getElementById('nombre').value;  
         P_Mecanismos = document.getElementById('P_Mecanismos').value;  
         P_QueSeHara = document.getElementById('P_QueSeHara').value;  
@@ -249,6 +248,15 @@
         P_Tolerancia = document.getElementById('P_Tolerancia').value;  
         formula = document.getElementById('formula').value;  
              
+
+        frecuenciaDeMedicion = document.getElementById('frecuenciaDeMedicion').value;  
+        unidadDeFrecuencia = document.getElementById('unidadDeFrecuencia').value;  
+        lineaBase = document.getElementById('lineaBase').value;  
+        unidadDeMedida = document.getElementById('unidadDeMedida').value;  
+        limite1 = document.getElementById('limite1').value;  
+        limite2 = document.getElementById('limite2').value;  
+          
+
         msjError="";
         if(nombre=="")
             msjError="Debe ingresar un nombre válido para el indicador.";
@@ -266,6 +274,25 @@
         if(formula=="")
             msjError="Debe ingresar una formula";
         
+
+        if(frecuenciaDeMedicion=="")
+            msjError="Debe ingresar una frecuenciaDeMedicion";
+        if(unidadDeFrecuencia=="")
+            msjError="Debe ingresar una unidadDeFrecuencia";
+        if(lineaBase=="")
+            msjError="Debe ingresar una lineaBase";
+        if(unidadDeMedida=="")
+            msjError="Debe ingresar una unidadDeMedida";
+        if(limite1=="")
+            msjError="Debe ingresar un limite inferior";
+        if(limite2=="")
+            msjError="Debe ingresar un limite superior";
+
+            
+        
+        if( parseFloat(limite1) >= parseFloat(limite2) )
+            msjError = "El limite inferior debe ser menor al superior.";
+
         return msjError;
 
 

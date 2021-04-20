@@ -11,9 +11,11 @@ class CambioController extends Controller
     public function verHistorialCambios(Request $request){
 
         if($request->idEmpresa=="")
-            $listaEdiciones = Cambio::All();
+            $listaEdiciones = Cambio::orderBy('fechaHora','DESC')->get();
         else
-            $listaEdiciones = Cambio::where('idEmpresa','=',$request->idEmpresa)->get();
+            $listaEdiciones = Cambio::where('idEmpresa','=',$request->idEmpresa)
+            ->orderBy('fechaHora','DESC')
+            ->get();
 
         $listaEmpresas = Empresa::All();
 

@@ -20,11 +20,23 @@
   height: 15px;
 
   
--moz-border-radius: 15px;
--webkit-border-radius: 15px;
-padding: 10px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  padding: 10px;
 
 }
+
+.divChikito:hover{
+  width: 8px;
+  height: 8px;
+  -moz-border-radius: 5px !important;
+  -webkit-border-radius: 5px !important;
+
+  padding: 10px;
+
+}
+
+
 </style>
 
 
